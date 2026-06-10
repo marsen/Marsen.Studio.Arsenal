@@ -2,18 +2,18 @@
   "nav": {
     "about": "關於我",
     "demos": "作品",
-    "tools": "工具"
+    "tools": "小工具"
   },
   "home": {
     "greeting": "嗨，我是 Marsen",
     "tagline": "開發者。建造者。玩家。",
     "viewDemos": "查看作品",
-    "tools": "工具"
+    "tools": "小工具"
   },
   "about": { "title": "關於我" },
   "demos": { "title": "作品" },
   "tools": {
-    "title": "工具",
+    "title": "小工具",
     "subtitle": "純前端工具，檔案不離開瀏覽器。",
     "backgroundRemoval": "圖片去背",
     "backgroundRemovalDesc": "批次去除圖片背景，支援 PNG / JPG / WebP / HEIC。",
