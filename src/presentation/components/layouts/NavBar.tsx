@@ -11,7 +11,7 @@ export default function NavBar() {
         <Link href="/" className="font-semibold tracking-tight text-foreground">
           Marsen
         </Link>
-        <ul className="flex items-center gap-6 text-sm text-muted">
+        <ul className="flex items-center gap-6 text-sm text-muted-foreground">
           <li>
             <Link href="/about" className="hover:text-accent transition-colors">
               {t('about')}

@@ -12,6 +12,17 @@
   },
   "about": { "title": "About" },
   "demos": { "title": "Demos" },
-  "tools": { "title": "Tools" },
+  "tools": {
+    "title": "Tools",
+    "subtitle": "Pure client-side utilities — your files never leave the browser.",
+    "backgroundRemoval": "Background Removal",
+    "backgroundRemovalDesc": "Remove image backgrounds in batch. Supports PNG / JPG / WebP / HEIC.",
+    "heicToJpg": "HEIC to JPG",
+    "heicToJpgDesc": "Convert HEIC photos to JPG directly in your browser.",
+    "koreanPhonics": "Korean Phonics",
+    "koreanPhonicsDesc": "Learn Korean syllable structure with pronunciation.",
+    "igToken": "IG Token Generator",
+    "igTokenDesc": "Generate a long-lived Instagram access token via OAuth."
+  },
   "common": { "comingSoon": "Coming soon." }
 }

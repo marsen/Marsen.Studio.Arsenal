@@ -16,7 +16,7 @@ export default function LanguageSwitcher() {
   return (
     <button
       onClick={toggle}
-      className="text-sm text-muted hover:text-accent transition-colors"
+      className="text-sm text-muted-foreground hover:text-accent transition-colors"
     >
       {locale === 'en' ? '中文' : 'EN'}
     </button>
