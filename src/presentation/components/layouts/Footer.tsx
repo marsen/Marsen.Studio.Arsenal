@@ -1,0 +1,9 @@
+export default function Footer() {
+  return (
+    <footer className="border-t border-border">
+      <div className="mx-auto flex h-12 max-w-5xl items-center justify-center px-6 text-xs text-muted">
+        © {new Date().getFullYear()} Marsen
+      </div>
+    </footer>
+  );
+}
