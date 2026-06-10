@@ -28,6 +28,7 @@ export default function IgTokenGenerator() {
   const [copied, setCopied] = useState(false);
   const [cachedToken, setCachedToken] = useState<string | null>(null);
   const [cachedDaysLeft, setCachedDaysLeft] = useState<number | null>(null);
+  const [showHelp, setShowHelp] = useState(false);
 
   const token = searchParams.get("token");
   const expiresRaw = searchParams.get("expires");
@@ -155,10 +156,34 @@ export default function IgTokenGenerator() {
   return (
     <div className="min-h-screen bg-background px-4 py-10 text-foreground sm:px-8">
       <div className="mx-auto max-w-xl">
-        <h1 className="mb-2 text-3xl font-bold">IG Token 產生器</h1>
+        <div className="mb-2 flex items-center gap-2">
+          <h1 className="text-3xl font-bold">IG Token 產生器</h1>
+          <button
+            type="button"
+            onClick={() => setShowHelp((v) => !v)}
+            aria-expanded={showHelp}
+            className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full border border-foreground/30 text-xs text-foreground/50 transition hover:border-foreground/60 hover:text-foreground/80"
+          >
+            ?
+          </button>
+        </div>
+
+        {showHelp && (
+          <div className="mb-6 rounded-xl border border-border bg-muted px-4 py-3 text-sm text-foreground/70">
+            <p className="mb-2">使用此工具需要一個 Meta for Developers 上的 Instagram App，步驟如下：</p>
+            <ol className="mb-3 list-decimal pl-4 space-y-1">
+              <li>前往 <a href="https://developers.facebook.com/apps" target="_blank" rel="noopener noreferrer" className="underline hover:text-accent">Meta for Developers → My Apps</a></li>
+              <li>建立（或選擇）一個 App，類型選 <strong>Business</strong></li>
+              <li>左側選單加入 <strong>Instagram Graph API</strong> 產品</li>
+              <li>進入 <strong>設定 → 基本資料</strong>，複製「應用程式編號」（App ID）與「應用程式密鑰」（App Secret）</li>
+              <li>在 App 的有效 OAuth 重新導向 URI 加入此工具的 callback 網址</li>
+            </ol>
+            <p className="text-xs text-foreground/50">App Secret 僅在伺服器端換 token 時使用，不會被記錄或儲存。</p>
+          </div>
+        )}
+
         <p className="mb-8 text-sm text-foreground/60">
           輸入 App ID 與 App Secret，完成 Instagram 授權後自動產出 Long-lived Token（有效期約 60 天）。
-          App Secret 僅在伺服器端使用，不會外洩。
         </p>
 
         {cachedToken !== null && cachedDaysLeft !== null && (
