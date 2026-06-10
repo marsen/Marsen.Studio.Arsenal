@@ -31,11 +31,10 @@ interface Props {
   speak: (text: string) => void;
 }
 
-function GroupLabel({ label, collapsible, expanded, count, expandLabel, collapseLabel, onToggle }: {
+function GroupLabel({ label, collapsible, expanded, expandLabel, collapseLabel, onToggle }: {
   label: string;
   collapsible: boolean;
   expanded: boolean;
-  count: number;
   expandLabel: string;
   collapseLabel: string;
   onToggle: () => void;
@@ -48,7 +47,7 @@ function GroupLabel({ label, collapsible, expanded, count, expandLabel, collapse
           onClick={onToggle}
           className="text-xs text-foreground/30 transition hover:text-foreground"
         >
-          {expanded ? collapseLabel : expandLabel.replace("{n}", String(count))}
+          {expanded ? collapseLabel : expandLabel}
         </button>
       )}
     </div>
@@ -168,7 +167,7 @@ export default function SyllableBuilder({ speak }: Props) {
             ? group.indices
             : group.indices.filter(i => cho === i);
           if (group.collapsible && !expanded && visibleIndices.length === 0 && !visible) return (
-            <GroupLabel key={gi} label={t(group.labelKey)} collapsible count={group.indices.length} expanded={false} expandLabel={t("expand")} collapseLabel={t("collapse")} onToggle={() => setShowHardCho(true)} />
+            <GroupLabel key={gi} label={t(group.labelKey)} collapsible expanded={false} expandLabel={t("expand", { n: group.indices.length })} collapseLabel={t("collapse")} onToggle={() => setShowHardCho(true)} />
           );
           return (
             <div key={gi}>
@@ -176,8 +175,7 @@ export default function SyllableBuilder({ speak }: Props) {
                 label={t(group.labelKey)}
                 collapsible={group.collapsible}
                 expanded={expanded}
-                count={group.indices.length}
-                expandLabel={t("expand")}
+                expandLabel={t("expand", { n: group.indices.length })}
                 collapseLabel={t("collapse")}
                 onToggle={() => setShowHardCho(v => !v)}
               />
@@ -218,8 +216,7 @@ export default function SyllableBuilder({ speak }: Props) {
                 label={t(group.labelKey)}
                 collapsible={group.collapsible}
                 expanded={expanded}
-                count={group.indices.length}
-                expandLabel={t("expand")}
+                expandLabel={t("expand", { n: group.indices.length })}
                 collapseLabel={t("collapse")}
                 onToggle={() => setShowCompoundJung(v => !v)}
               />
@@ -260,8 +257,7 @@ export default function SyllableBuilder({ speak }: Props) {
                 label={t(group.labelKey)}
                 collapsible={group.collapsible}
                 expanded={expanded}
-                count={group.indices.length}
-                expandLabel={t("expand")}
+                expandLabel={t("expand", { n: group.indices.length })}
                 collapseLabel={t("collapse")}
                 onToggle={() => setShowCompoundJong(v => !v)}
               />

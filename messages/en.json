@@ -11,7 +11,25 @@
     "tools": "Tools"
   },
   "about": { "title": "About" },
-  "demos": { "title": "Demos" },
+  "demos": {
+    "title": "Demos",
+    "subtitle": "Things I've shipped.",
+    "projects": [
+      {
+        "name": "Marsen.AI.Did",
+        "description": "A B2C e-commerce platform built with AI as a development partner. Covers the full stack — product management, payment processing, membership, and a multi-theme storefront.",
+        "tags": ["Next.js", "TypeScript", "Clean Architecture", "TapPay", "Drizzle ORM"],
+        "url": "https://marsen-ai-did.vercel.app/"
+      },
+      {
+        "name": "Becca.Surf.App",
+        "description": "A branded website and booking platform for a surf instructor. Covers lesson packages, teaching videos, and overseas trip offerings.",
+        "tags": ["Next.js", "TypeScript", "Tailwind CSS"],
+        "url": "https://becca-surf-app.vercel.app/"
+      }
+    ],
+    "visit": "Visit site →"
+  },
   "tools": {
     "title": "Tools",
     "subtitle": "Small utilities for dev and everyday life.",
