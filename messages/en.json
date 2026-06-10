@@ -14,7 +14,7 @@
   "demos": { "title": "Demos" },
   "tools": {
     "title": "Tools",
-    "subtitle": "Pure client-side utilities — your files never leave the browser.",
+    "subtitle": "Small utilities for dev and everyday life.",
     "backgroundRemoval": "Background Removal",
     "backgroundRemovalDesc": "Remove image backgrounds in batch. Supports PNG / JPG / WebP / HEIC.",
     "heicToJpg": "HEIC to JPG",

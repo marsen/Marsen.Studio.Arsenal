@@ -14,7 +14,7 @@
   "demos": { "title": "作品" },
   "tools": {
     "title": "小工具",
-    "subtitle": "純前端工具，檔案不離開瀏覽器。",
+    "subtitle": "日常開發與生活用的小工具。",
     "backgroundRemoval": "圖片去背",
     "backgroundRemovalDesc": "批次去除圖片背景，支援 PNG / JPG / WebP / HEIC。",
     "heicToJpg": "HEIC 轉 JPG",
