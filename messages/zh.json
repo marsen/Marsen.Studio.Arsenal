@@ -1,0 +1,17 @@
+{
+  "nav": {
+    "about": "關於我",
+    "demos": "作品",
+    "tools": "工具"
+  },
+  "home": {
+    "greeting": "嗨，我是 Marsen",
+    "tagline": "開發者。建造者。玩家。",
+    "viewDemos": "查看作品",
+    "tools": "工具"
+  },
+  "about": { "title": "關於我" },
+  "demos": { "title": "作品" },
+  "tools": { "title": "工具" },
+  "common": { "comingSoon": "敬請期待。" }
+}

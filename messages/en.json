@@ -1,0 +1,17 @@
+{
+  "nav": {
+    "about": "About",
+    "demos": "Demos",
+    "tools": "Tools"
+  },
+  "home": {
+    "greeting": "Hi, I'm Marsen",
+    "tagline": "Developer. Builder. Tinkerer.",
+    "viewDemos": "View Demos",
+    "tools": "Tools"
+  },
+  "about": { "title": "About" },
+  "demos": { "title": "Demos" },
+  "tools": { "title": "Tools" },
+  "common": { "comingSoon": "Coming soon." }
+}

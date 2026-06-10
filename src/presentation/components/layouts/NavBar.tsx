@@ -1,12 +1,10 @@
-import Link from "next/link";
-
-const links = [
-  { href: "/about", label: "About" },
-  { href: "/demos", label: "Demos" },
-  { href: "/tools", label: "Tools" },
-];
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
+import LanguageSwitcher from './LanguageSwitcher';
 
 export default function NavBar() {
+  const t = useTranslations('nav');
+
   return (
     <header className="border-b border-border">
       <nav className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
@@ -14,13 +12,24 @@ export default function NavBar() {
           Marsen
         </Link>
         <ul className="flex items-center gap-6 text-sm text-muted">
-          {links.map(({ href, label }) => (
-            <li key={href}>
-              <Link href={href} className="hover:text-accent transition-colors">
-                {label}
-              </Link>
-            </li>
-          ))}
+          <li>
+            <Link href="/about" className="hover:text-accent transition-colors">
+              {t('about')}
+            </Link>
+          </li>
+          <li>
+            <Link href="/demos" className="hover:text-accent transition-colors">
+              {t('demos')}
+            </Link>
+          </li>
+          <li>
+            <Link href="/tools" className="hover:text-accent transition-colors">
+              {t('tools')}
+            </Link>
+          </li>
+          <li>
+            <LanguageSwitcher />
+          </li>
         </ul>
       </nav>
     </header>
