@@ -1,16 +1,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { useSearchParams, useRouter } from "next/navigation";
 
 type FormState = "idle" | "loading" | "error";
 
-const ERROR_MESSAGES: Record<string, string> = {
-  session_expired: "授權逾時，請重新開始",
-  invalid_session: "Session 無效，請重新開始",
-  no_code: "Instagram 未回傳授權碼",
-  token_exchange_failed: "換取 Token 失敗，請確認 App ID / Secret 正確",
-  long_token_failed: "換取 Long-lived Token 失敗",
+const URL_ERROR_KEY_MAP: Record<string, string> = {
+  session_expired: "errSession",
+  invalid_session: "errInvalidSession",
+  no_code: "errNoCode",
+  token_exchange_failed: "errTokenFailed",
+  long_token_failed: "errLongTokenFailed",
 };
 
 const APP_ID_CACHE_KEY = "ig_app_id";
@@ -19,6 +20,7 @@ const TOKEN_EXPIRY_CACHE_KEY = "ig_token_cache_expiry";
 const TOKEN_CACHE_DAYS = 90;
 
 export default function IgTokenGenerator() {
+  const t = useTranslations("igToken");
   const searchParams = useSearchParams();
   const router = useRouter();
   const [appId, setAppId] = useState("");
@@ -35,26 +37,26 @@ export default function IgTokenGenerator() {
   const urlError = searchParams.get("error");
 
   const expiresInDays = expiresRaw ? Math.floor(Number(expiresRaw) / 86400) : null;
-  const errorMessage =
-    fetchError ??
-    (urlError ? (ERROR_MESSAGES[urlError] ?? `未知錯誤：${urlError}`) : null);
 
-  // 讀取 sessionStorage 快取的 App ID
+  const errorMessage: string | null =
+    fetchError ??
+    (urlError
+      ? t((URL_ERROR_KEY_MAP[urlError] ?? "errSession") as Parameters<typeof t>[0])
+      : null);
+
+  // client-only 初始化：mount 後從 storage 讀一次，刻意用 effect 避免 SSR hydration mismatch
   useEffect(() => {
     const cached = sessionStorage.getItem(APP_ID_CACHE_KEY);
-    // client-only 初始化：mount 後從 storage 讀一次，刻意用 effect 避免 SSR hydration mismatch
     // eslint-disable-next-line react-hooks/set-state-in-effect
     if (cached) setAppId(cached);
   }, []);
 
-  // 讀取 localStorage 快取的 Token
   useEffect(() => {
     const stored = localStorage.getItem(TOKEN_CACHE_KEY);
     const expiry = localStorage.getItem(TOKEN_EXPIRY_CACHE_KEY);
     if (stored && expiry) {
       const expiryMs = Number(expiry);
       if (expiryMs > Date.now()) {
-        // client-only 初始化：mount 後從 storage 讀一次，刻意用 effect 避免 SSR hydration mismatch
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setCachedToken(stored);
         setCachedDaysLeft(Math.floor((expiryMs - Date.now()) / 86400000));
@@ -65,7 +67,6 @@ export default function IgTokenGenerator() {
     }
   }, []);
 
-  // 新 Token 取得後存入 localStorage
   useEffect(() => {
     if (token) {
       const expiry = Date.now() + TOKEN_CACHE_DAYS * 24 * 60 * 60 * 1000;
@@ -114,7 +115,7 @@ export default function IgTokenGenerator() {
 
     if (!res.ok) {
       setFormState("error");
-      setFetchError("無法建立授權請求");
+      setFetchError(t("errStart"));
       return;
     }
 
@@ -126,10 +127,10 @@ export default function IgTokenGenerator() {
     return (
       <div className="min-h-screen bg-background px-4 py-10 text-foreground sm:px-8">
         <div className="mx-auto max-w-xl">
-          <h1 className="mb-2 text-3xl font-bold">IG Token 產生器</h1>
+          <h1 className="mb-2 text-3xl font-bold">{t("title")}</h1>
           <div className="mt-8 rounded-xl border border-green-500/30 bg-green-500/5 p-6">
-            <p className="mb-1 text-sm font-medium text-green-600">Token 取得成功</p>
-            <p className="mb-4 text-xs text-foreground/50">有效期約 {expiresInDays} 天，請妥善保存</p>
+            <p className="mb-1 text-sm font-medium text-green-600">{t("successTitle")}</p>
+            <p className="mb-4 text-xs text-foreground/50">{t("successNote", { days: expiresInDays })}</p>
             <div className="mb-4 break-all rounded-lg bg-muted p-4 font-mono text-xs">
               {token}
             </div>
@@ -138,13 +139,13 @@ export default function IgTokenGenerator() {
                 onClick={() => handleCopy(token)}
                 className="rounded-lg bg-foreground px-4 py-2 text-sm font-medium text-background transition hover:opacity-80"
               >
-                {copied ? "已複製" : "複製 Token"}
+                {copied ? t("copied") : t("copyToken")}
               </button>
               <button
                 onClick={handleReset}
                 className="rounded-lg border border-border px-4 py-2 text-sm transition hover:bg-muted"
               >
-                重新產生
+                {t("regenerate")}
               </button>
             </div>
           </div>
@@ -157,7 +158,7 @@ export default function IgTokenGenerator() {
     <div className="min-h-screen bg-background px-4 py-10 text-foreground sm:px-8">
       <div className="mx-auto max-w-xl">
         <div className="mb-2 flex items-center gap-2">
-          <h1 className="text-3xl font-bold">IG Token 產生器</h1>
+          <h1 className="text-3xl font-bold">{t("title")}</h1>
           <button
             type="button"
             onClick={() => setShowHelp((v) => !v)}
@@ -170,26 +171,34 @@ export default function IgTokenGenerator() {
 
         {showHelp && (
           <div className="mb-6 rounded-xl border border-border bg-muted px-4 py-3 text-sm text-foreground/70">
-            <p className="mb-2">使用此工具需要一個 Meta for Developers 上的 Instagram App，步驟如下：</p>
+            <p className="mb-2">{t("helpIntro")}</p>
             <ol className="mb-3 list-decimal pl-4 space-y-1">
-              <li>前往 <a href="https://developers.facebook.com/apps" target="_blank" rel="noopener noreferrer" className="underline hover:text-accent">Meta for Developers → My Apps</a></li>
-              <li>建立（或選擇）一個 App，類型選 <strong>Business</strong></li>
-              <li>左側選單加入 <strong>Instagram Graph API</strong> 產品</li>
-              <li>進入 <strong>設定 → 基本資料</strong>，複製「應用程式編號」（App ID）與「應用程式密鑰」（App Secret）</li>
-              <li>在 App 的有效 OAuth 重新導向 URI 加入此工具的 callback 網址</li>
+              <li>
+                {t("helpStep1")}{" "}
+                <a
+                  href="https://developers.facebook.com/apps"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-accent"
+                >
+                  {t("helpStep1Link")}
+                </a>
+              </li>
+              <li>{t("helpStep2")}</li>
+              <li>{t("helpStep3")}</li>
+              <li>{t("helpStep4")}</li>
+              <li>{t("helpStep5")}</li>
             </ol>
-            <p className="text-xs text-foreground/50">App Secret 僅在伺服器端換 token 時使用，不會被記錄或儲存。</p>
+            <p className="text-xs text-foreground/50">{t("helpNote")}</p>
           </div>
         )}
 
-        <p className="mb-8 text-sm text-foreground/60">
-          輸入 App ID 與 App Secret，完成 Instagram 授權後自動產出 Long-lived Token（有效期約 60 天）。
-        </p>
+        <p className="mb-8 text-sm text-foreground/60">{t("subtitle")}</p>
 
         {cachedToken !== null && cachedDaysLeft !== null && (
           <div className="mb-6 rounded-xl border border-blue-500/30 bg-blue-500/5 p-5">
             <p className="mb-1 text-sm font-medium text-blue-600">
-              上次取得的 Token（快取剩 {cachedDaysLeft} 天）
+              {t("cachedToken", { days: cachedDaysLeft })}
             </p>
             <div className="mb-3 break-all rounded-lg bg-muted p-3 font-mono text-xs">
               {cachedToken}
@@ -199,13 +208,13 @@ export default function IgTokenGenerator() {
                 onClick={() => handleCopy(cachedToken)}
                 className="rounded-lg bg-foreground px-3 py-1.5 text-xs font-medium text-background transition hover:opacity-80"
               >
-                {copied ? "已複製" : "複製"}
+                {copied ? t("copied") : t("copy")}
               </button>
               <button
                 onClick={handleClearCache}
                 className="rounded-lg border border-border px-3 py-1.5 text-xs transition hover:bg-muted"
               >
-                清除快取
+                {t("clearCache")}
               </button>
             </div>
           </div>
@@ -219,7 +228,7 @@ export default function IgTokenGenerator() {
           )}
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium">Instagram App ID</label>
+            <label className="text-sm font-medium">{t("labelAppId")}</label>
             <input
               type="text"
               value={appId}
@@ -231,7 +240,7 @@ export default function IgTokenGenerator() {
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium">Instagram App Secret</label>
+            <label className="text-sm font-medium">{t("labelAppSecret")}</label>
             <input
               type="password"
               value={appSecret}
@@ -240,7 +249,6 @@ export default function IgTokenGenerator() {
               required
               className="rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-foreground/20"
             />
-            <p className="text-xs text-foreground/50">僅傳至伺服器端，不會記錄或儲存</p>
           </div>
 
           <button
@@ -248,7 +256,7 @@ export default function IgTokenGenerator() {
             disabled={formState === "loading"}
             className="rounded-lg bg-foreground px-4 py-2.5 text-sm font-medium text-background transition hover:opacity-80 disabled:opacity-50"
           >
-            {formState === "loading" ? "跳轉中..." : "開始 Instagram 授權"}
+            {formState === "loading" ? t("submitting") : t("submit")}
           </button>
         </form>
       </div>

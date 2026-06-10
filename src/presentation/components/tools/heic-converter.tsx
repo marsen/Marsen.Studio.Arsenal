@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 
 import { heicToJpegBlob } from "@/presentation/lib/heic";
 
@@ -12,17 +13,20 @@ export const QUALITY_VALUES: Record<Quality, number> = {
   compress: 0.5,
 };
 
-const QUALITY_LABELS: Record<Quality, string> = {
-  high: "高品質",
-  balance: "平衡",
-  compress: "壓縮",
-};
+const QUALITY_KEYS: Quality[] = ["high", "balance", "compress"];
+const QUALITY_LABEL_KEYS = {
+  high: "qualityHigh",
+  balance: "qualityBalance",
+  compress: "qualityCompress",
+} as const;
+
+type ErrorKey = "errFormat" | "errSize" | "errConvert";
 
 type ConversionState =
   | { status: "idle" }
   | { status: "converting"; fileName: string }
   | { status: "preview"; blob: Blob; previewUrl: string; fileName: string }
-  | { status: "error"; message: string };
+  | { status: "error"; errorKey: ErrorKey };
 
 const ACCEPTED_MIME = [
   "image/heic",
@@ -33,12 +37,12 @@ const ACCEPTED_MIME = [
 const ACCEPTED_EXT = [".heic", ".heif"];
 const MAX_SIZE_BYTES = 30 * 1024 * 1024;
 
-export function validateFile(file: File): string | null {
+export function validateFile(file: File): ErrorKey | null {
   const ext = "." + (file.name.split(".").pop()?.toLowerCase() ?? "");
   const mimeOk = ACCEPTED_MIME.includes(file.type);
   const extOk = ACCEPTED_EXT.includes(ext);
-  if (!mimeOk && !extOk) return "請上傳 HEIC 格式的檔案";
-  if (file.size > MAX_SIZE_BYTES) return "檔案大小不可超過 30MB";
+  if (!mimeOk && !extOk) return "errFormat";
+  if (file.size > MAX_SIZE_BYTES) return "errSize";
   return null;
 }
 
@@ -52,6 +56,7 @@ function downloadBlob(blob: Blob, fileName: string) {
 }
 
 export default function HeicConverter() {
+  const t = useTranslations("heic");
   const [state, setState] = useState<ConversionState>({ status: "idle" });
   const [selectedQuality, setSelectedQuality] = useState<Quality>("high");
   const [switchNotice, setSwitchNotice] = useState(false);
@@ -79,13 +84,9 @@ export default function HeicConverter() {
       prevPreviewUrl.current = previewUrl;
       setState({ status: "preview", blob, previewUrl, fileName: file.name });
     } catch (err) {
-      console.error("[HeicConverter] 轉換失敗:", err);
+      console.error("[HeicConverter] conversion failed:", err);
       if (ignoreRef.current) return;
-      const message =
-        err instanceof Error
-          ? err.message
-          : "轉換失敗，請確認為有效的 HEIC 格式";
-      setState({ status: "error", message });
+      setState({ status: "error", errorKey: "errConvert" });
     }
   }
 
@@ -101,12 +102,11 @@ export default function HeicConverter() {
     const file = e.target.files?.[0];
     if (!file) return;
     e.target.value = "";
-    const error = validateFile(file);
-    if (error) {
-      setState({ status: "error", message: error });
+    const errorKey = validateFile(file);
+    if (errorKey) {
+      setState({ status: "error", errorKey });
       return;
     }
-    // 若轉換中，設 ignore flag 並提示切換
     if (state.status === "converting") {
       ignoreRef.current = true;
       setSwitchNotice(true);
@@ -123,9 +123,9 @@ export default function HeicConverter() {
     e.preventDefault();
     const file = e.dataTransfer.files?.[0];
     if (!file) return;
-    const error = validateFile(file);
-    if (error) {
-      setState({ status: "error", message: error });
+    const errorKey = validateFile(file);
+    if (errorKey) {
+      setState({ status: "error", errorKey });
       return;
     }
     if (state.status === "converting") {
@@ -140,16 +140,13 @@ export default function HeicConverter() {
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-12">
-      <h1 className="mb-2 text-2xl font-bold">HEIC 轉 JPG</h1>
-      <p className="mb-8 text-sm text-muted-foreground">
-        在瀏覽器本地完成轉換，檔案不會上傳至任何伺服器
-      </p>
+      <h1 className="mb-2 text-2xl font-bold">{t("title")}</h1>
+      <p className="mb-8 text-sm text-muted-foreground">{t("subtitle")}</p>
 
-      {/* T009: 品質選擇器（永遠顯示） */}
       <div className="mb-6">
-        <p className="mb-2 text-sm font-medium text-foreground">輸出品質</p>
+        <p className="mb-2 text-sm font-medium text-foreground">{t("quality")}</p>
         <div className="flex gap-2">
-          {(["high", "balance", "compress"] as Quality[]).map((q) => (
+          {QUALITY_KEYS.map((q) => (
             <button
               key={q}
               onClick={() => setSelectedQuality(q)}
@@ -159,13 +156,12 @@ export default function HeicConverter() {
                   : "border-border text-muted-foreground hover:bg-card"
               }`}
             >
-              {QUALITY_LABELS[q]}
+              {t(QUALITY_LABEL_KEYS[q])}
             </button>
           ))}
         </div>
       </div>
 
-      {/* 上傳區（idle / error 時顯示） */}
       {(state.status === "idle" || state.status === "error") && (
         <label
           htmlFor={inputId}
@@ -174,8 +170,8 @@ export default function HeicConverter() {
           className="flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-border px-6 py-16 text-center transition hover:border-foreground/40 hover:bg-card"
         >
           <span className="mb-2 text-4xl">📁</span>
-          <span className="font-medium text-foreground">點擊選擇或拖拉 HEIC 檔案</span>
-          <span className="mt-1 text-xs text-muted-foreground">支援 .heic / .heif，最大 30MB</span>
+          <span className="font-medium text-foreground">{t("upload")}</span>
+          <span className="mt-1 text-xs text-muted-foreground">{t("uploadHint")}</span>
           <input
             id={inputId}
             type="file"
@@ -186,21 +182,18 @@ export default function HeicConverter() {
         </label>
       )}
 
-      {/* 錯誤訊息 */}
       {state.status === "error" && (
         <p className="mt-4 rounded-lg bg-destructive/10 px-4 py-3 text-sm text-destructive">
-          {state.message}
+          {t(state.errorKey)}
         </p>
       )}
 
-      {/* 切換新檔案提示 */}
       {switchNotice && (
         <p className="mb-4 rounded-lg bg-primary/10 px-4 py-2 text-sm text-primary">
-          已切換至新檔案
+          {t("switching")}
         </p>
       )}
 
-      {/* 轉換中 */}
       {state.status === "converting" && (
         <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
           <svg
@@ -222,16 +215,15 @@ export default function HeicConverter() {
               d="M4 12a8 8 0 018-8v8H4z"
             />
           </svg>
-          <span>轉換中…</span>
+          <span>{t("converting")}</span>
         </div>
       )}
 
-      {/* 預覽 */}
       {state.status === "preview" && (
         <div className="mt-4">
           <img
             src={state.previewUrl}
-            alt="轉換結果預覽"
+            alt={t("previewAlt")}
             className="mb-4 max-h-96 w-full rounded-lg object-contain"
           />
           <div className="flex gap-3">
@@ -239,13 +231,13 @@ export default function HeicConverter() {
               onClick={() => downloadBlob(state.blob, state.fileName)}
               className="rounded-lg bg-primary px-5 py-2 text-sm font-medium text-primary-foreground transition hover:opacity-80"
             >
-              下載 JPG
+              {t("downloadJpg")}
             </button>
             <label
               htmlFor={inputId}
               className="cursor-pointer rounded-lg border border-border px-5 py-2 text-sm font-medium text-foreground transition hover:bg-card"
             >
-              換一張
+              {t("another")}
               <input
                 id={inputId}
                 type="file"

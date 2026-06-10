@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useSyncExternalStore } from "react";
+import { useTranslations } from "next-intl";
 import SyllableBuilder from "./syllable-builder";
 import TextAnalyzer from "./text-analyzer";
 
@@ -29,12 +30,8 @@ export function speak(text: string) {
   }, 50);
 }
 
-const TABS: { id: Tab; label: string }[] = [
-  { id: "builder", label: "拼音組合" },
-  { id: "analyzer", label: "文字分析" },
-];
-
 export default function KoreanPhonics() {
+  const t = useTranslations("korean");
   const [activeTab, setActiveTab] = useState<Tab>("builder");
   const speechSupported = useSyncExternalStore(
     () => () => {},
@@ -42,23 +39,25 @@ export default function KoreanPhonics() {
     () => true,
   );
 
+  const tabs: { id: Tab; label: string }[] = [
+    { id: "builder", label: t("tabBuilder") },
+    { id: "analyzer", label: t("tabAnalyzer") },
+  ];
+
   return (
     <main className="min-h-screen bg-background px-4 py-10 text-foreground sm:px-8">
       <div className="mx-auto max-w-4xl">
-        <h1 className="mb-2 text-3xl font-bold">韓文注音學習</h1>
-        <p className="mb-2 text-sm text-foreground/60">
-          在瀏覽器本地執行，不上傳任何資料。
-        </p>
+        <h1 className="mb-2 text-3xl font-bold">{t("title")}</h1>
+        <p className="mb-2 text-sm text-foreground/60">{t("subtitle")}</p>
 
         {!speechSupported && (
           <div className="mb-6 rounded-lg border border-yellow-300 bg-yellow-50 px-4 py-3 text-sm text-yellow-800 dark:border-yellow-700 dark:bg-yellow-950 dark:text-yellow-200">
-            您的瀏覽器不支援語音功能，建議使用 Chrome 或 Edge 以啟用發音。
+            {t("noSpeech")}
           </div>
         )}
 
-        {/* Tab 切換 */}
         <div className="mb-8 flex gap-2 border-b border-border">
-          {TABS.map((tab) => (
+          {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
@@ -73,7 +72,6 @@ export default function KoreanPhonics() {
           ))}
         </div>
 
-        {/* Tab 內容 */}
         {activeTab === "builder" && <SyllableBuilder speak={speak} />}
         {activeTab === "analyzer" && <TextAnalyzer speak={speak} />}
       </div>

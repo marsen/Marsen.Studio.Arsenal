@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 
 import type { Config } from "@imgly/background-removal";
 import { downloadZip } from "client-zip";
@@ -18,12 +19,14 @@ const ACCEPTED_EXT = [".png", ".jpg", ".jpeg", ".webp", ".heic", ".heif"];
 const MAX_SIZE_BYTES = 15 * 1024 * 1024;
 const MAX_FILES = 20;
 
-export function validateFile(file: File): string | null {
+type ErrorKey = "errFormat" | "errSize";
+
+export function validateFile(file: File): ErrorKey | null {
   const ext = "." + (file.name.split(".").pop()?.toLowerCase() ?? "");
   const mimeOk = ACCEPTED_MIME.includes(file.type);
   const extOk = ACCEPTED_EXT.includes(ext);
-  if (!mimeOk && !extOk) return "不支援的格式（僅限 PNG / JPG / WebP / HEIC）";
-  if (file.size > MAX_SIZE_BYTES) return "檔案大小不可超過 15MB";
+  if (!mimeOk && !extOk) return "errFormat";
+  if (file.size > MAX_SIZE_BYTES) return "errSize";
   return null;
 }
 
@@ -40,7 +43,7 @@ function isHeic(file: File): boolean {
 function canvasToPngBlob(canvas: HTMLCanvasElement): Promise<Blob> {
   return new Promise((resolve, reject) => {
     canvas.toBlob(
-      (b) => (b ? resolve(b) : reject(new Error("HEIC 轉檔失敗"))),
+      (b) => (b ? resolve(b) : reject(new Error("canvas export failed"))),
       "image/png",
     );
   });
@@ -54,10 +57,11 @@ type Item = {
   status: ItemStatus;
   resultUrl?: string;
   resultBlob?: Blob;
-  error?: string;
+  error?: ErrorKey;
 };
 
 export default function BackgroundRemover() {
+  const t = useTranslations("bgRemoval");
   const [items, setItems] = useState<Item[]>([]);
   const [modelProgress, setModelProgress] = useState<number | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -69,7 +73,6 @@ export default function BackgroundRemover() {
   const itemsRef = useRef<Item[]>([]);
   itemsRef.current = items;
 
-  // 卸載時釋放所有 objectURL、標記取消，避免處理中的項目完成後洩漏
   useEffect(() => {
     return () => {
       cancelledRef.current = true;
@@ -95,8 +98,7 @@ export default function BackgroundRemover() {
           },
         });
       } catch (err) {
-        // 預載失敗不影響功能，首次去背時會再嘗試下載
-        console.error("[BackgroundRemover] 模型預載失敗:", err);
+        console.error("[BackgroundRemover] preload failed:", err);
       } finally {
         if (!cancelled) setModelProgress(null);
       }
@@ -116,14 +118,12 @@ export default function BackgroundRemover() {
     if (runningRef.current) return;
     runningRef.current = true;
     try {
-      // 動態載入，避免 SSR 階段載入 WASM
       const { removeBackground } = await import("@imgly/background-removal");
 
       while (queueRef.current.length > 0) {
         const item = queueRef.current.shift()!;
         updateItem(item.id, { status: "processing" });
         try {
-          // HEIC 先用共用模組解碼成 PNG，再餵給去背套件
           let input: Blob = item.file;
           if (isHeic(item.file)) {
             const canvas = await decodeHeicToCanvas(item.file);
@@ -143,12 +143,10 @@ export default function BackgroundRemover() {
 
           const result = await removeBackground(input, config);
           const url = URL.createObjectURL(result);
-          // 元件已卸載：釋放 url 並停止整個佇列，避免孤兒 objectURL 洩漏
           if (cancelledRef.current) {
             URL.revokeObjectURL(url);
             break;
           }
-          // 該項已被「清空」移除：丟棄此結果但繼續處理佇列其餘項目
           if (!itemsRef.current.some((it) => it.id === item.id)) {
             URL.revokeObjectURL(url);
             continue;
@@ -160,11 +158,8 @@ export default function BackgroundRemover() {
             resultUrl: url,
           });
         } catch (err) {
-          console.error("[BackgroundRemover] 去背失敗:", err);
-          updateItem(item.id, {
-            status: "error",
-            error: err instanceof Error ? err.message : "去背失敗",
-          });
+          console.error("[BackgroundRemover] removal failed:", err);
+          updateItem(item.id, { status: "error", error: "errFormat" });
         }
       }
     } finally {
@@ -180,12 +175,12 @@ export default function BackgroundRemover() {
     const incoming = Array.from(fileList);
     const room = MAX_FILES - itemsRef.current.length;
     if (room <= 0) {
-      setNotice(`一次最多處理 ${MAX_FILES} 張，請先清空再繼續`);
+      setNotice(t("maxReached"));
       return;
     }
     const accepted = incoming.slice(0, room);
     if (incoming.length > room) {
-      setNotice(`一次最多處理 ${MAX_FILES} 張，超出的 ${incoming.length - room} 張已略過`);
+      setNotice(t("maxSkipped", { skipped: incoming.length - room }));
     }
 
     const newItems: Item[] = accepted.map((file) => {
@@ -221,7 +216,7 @@ export default function BackgroundRemover() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "去背結果.zip";
+    a.download = "removed-bg.zip";
     a.click();
     URL.revokeObjectURL(url);
   }
@@ -238,13 +233,9 @@ export default function BackgroundRemover() {
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-12">
-      <h1 className="mb-2 text-2xl font-bold">圖片去背</h1>
-      <p className="mb-8 text-sm text-muted-foreground">
-        在瀏覽器本地批次去除背景，輸出透明 PNG，檔案不會上傳至任何伺服器。支援
-        PNG / JPG / WebP / HEIC，一次最多 {MAX_FILES} 張、單張 15MB。
-      </p>
+      <h1 className="mb-2 text-2xl font-bold">{t("title")}</h1>
+      <p className="mb-8 text-sm text-muted-foreground">{t("subtitle")}</p>
 
-      {/* 上傳區 */}
       <label
         htmlFor={inputId}
         onDragOver={(e) => e.preventDefault()}
@@ -255,12 +246,8 @@ export default function BackgroundRemover() {
         className="flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-border px-6 py-12 text-center transition hover:border-foreground/40 hover:bg-card"
       >
         <span className="mb-2 text-4xl">🪄</span>
-        <span className="font-medium text-foreground">
-          點擊選擇或拖拉圖片（可多張）
-        </span>
-        <span className="mt-1 text-xs text-muted-foreground">
-          首次使用會下載去背模型，請稍候
-        </span>
+        <span className="font-medium text-foreground">{t("upload")}</span>
+        <span className="mt-1 text-xs text-muted-foreground">{t("uploadHint")}</span>
         <input
           id={inputId}
           type="file"
@@ -274,11 +261,10 @@ export default function BackgroundRemover() {
         />
       </label>
 
-      {/* 模型下載進度 */}
       {modelProgress !== null && (
         <div className="mt-4">
           <p className="mb-1 text-xs text-muted-foreground">
-            下載去背模型中… {Math.round(modelProgress * 100)}%
+            {t("modelLoading", { pct: Math.round(modelProgress * 100) })}
           </p>
           <div className="h-1.5 w-full overflow-hidden rounded-full bg-border">
             <div
@@ -289,19 +275,17 @@ export default function BackgroundRemover() {
         </div>
       )}
 
-      {/* 提示訊息 */}
       {notice && (
         <p className="mt-4 rounded-lg bg-primary/10 px-4 py-2 text-sm text-primary">
           {notice}
         </p>
       )}
 
-      {/* 結果清單 */}
       {items.length > 0 && (
         <div className="mt-6">
           <div className="mb-3 flex items-center justify-between">
             <p className="text-sm text-muted-foreground">
-              共 {items.length} 張，已完成 {doneCount} 張
+              {t("count", { total: items.length, done: doneCount })}
             </p>
             <div className="flex gap-2">
               {doneCount > 0 && (
@@ -309,14 +293,14 @@ export default function BackgroundRemover() {
                   onClick={downloadAllZip}
                   className="rounded-lg bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground transition hover:opacity-80"
                 >
-                  打包下載 ZIP（{doneCount}）
+                  {t("downloadZip", { n: doneCount })}
                 </button>
               )}
               <button
                 onClick={clearAll}
                 className="rounded-lg border border-border px-3 py-1.5 text-sm text-foreground transition hover:bg-card"
               >
-                清空
+                {t("clearAll")}
               </button>
             </div>
           </div>
@@ -345,11 +329,11 @@ export default function BackgroundRemover() {
                     />
                   ) : item.status === "error" ? (
                     <span className="px-2 text-center text-xs text-destructive">
-                      {item.error}
+                      {item.error ? t(item.error) : ""}
                     </span>
                   ) : (
                     <span className="text-xs text-muted-foreground">
-                      {item.status === "processing" ? "去背中…" : "等待中…"}
+                      {item.status === "processing" ? t("processing") : t("waiting")}
                     </span>
                   )}
                 </div>
@@ -361,7 +345,7 @@ export default function BackgroundRemover() {
                     onClick={() => download(item)}
                     className="rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition hover:opacity-80"
                   >
-                    下載 PNG
+                    {t("downloadPng")}
                   </button>
                 )}
               </li>
@@ -370,7 +354,6 @@ export default function BackgroundRemover() {
         </div>
       )}
 
-      {/* 放大檢視 lightbox */}
       {lightboxUrl && (
         <div
           onClick={() => setLightboxUrl(null)}
@@ -388,7 +371,7 @@ export default function BackgroundRemover() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={lightboxUrl}
-              alt="放大檢視"
+              alt=""
               className="max-h-[85vh] max-w-[85vw] object-contain"
             />
           </div>
