@@ -13,17 +13,17 @@
   "about": { "title": "About" },
   "demos": {
     "title": "Demos",
-    "subtitle": "Things I've shipped.",
+    "subtitle": "Things actually running in production, not just side projects.",
     "projects": [
       {
         "name": "Marsen.AI.Did",
-        "description": "A B2C e-commerce platform built with AI as a development partner. Covers the full stack — product management, payment processing, membership, and a multi-theme storefront.",
+        "description": "\"Can one person build a complete commercial product?\" — that question drove AI.Did into existence. Built with AI as a co-developer from scratch: a multi-theme storefront with full checkout flow, an admin panel for products, orders, and members, and a real payment integration with TapPay. Clean Architecture underneath so every layer is replaceable. Not built to sell — built to prove a point.",
         "tags": ["Next.js", "TypeScript", "Clean Architecture", "TapPay", "Drizzle ORM"],
         "url": "https://marsen-ai-did.vercel.app/"
       },
       {
         "name": "Becca.Surf.App",
-        "description": "A branded website and booking platform for a surf instructor. Covers lesson packages, teaching videos, and overseas trip offerings.",
+        "description": "Surf instructor Becca didn't need a complex system — she needed something that made you want to paddle out the moment you saw it. A single-page front with lesson packages, teaching videos, and overseas trip listings. An admin panel she can update herself without calling a developer. Simple, and exactly enough.",
         "tags": ["Next.js", "TypeScript", "Tailwind CSS"],
         "url": "https://becca-surf-app.vercel.app/"
       }

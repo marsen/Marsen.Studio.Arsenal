@@ -13,17 +13,17 @@
   "about": { "title": "關於我" },
   "demos": {
     "title": "作品",
-    "subtitle": "做過的東西。",
+    "subtitle": "實際跑起來的東西，不只是 side project。",
     "projects": [
       {
         "name": "Marsen.AI.Did",
-        "description": "以 AI 為開發夥伴打造的 B2C 電商平台，涵蓋商品管理、金流、會員系統，以及支援多種風格切換的前台。",
+        "description": "「一個人能蓋出完整的商業場景嗎？」—— 這個問題催生了 AI.Did。以 AI 為共同開發者，從零打造完整的 B2C 電商：前台支援多主題切換、完整購物流程；後台管理商品、訂單與會員；金流串接 TapPay 信用卡付款。底層採 Clean Architecture，每一層都可以被替換。不是為了賣東西，是為了證明一件事。",
         "tags": ["Next.js", "TypeScript", "Clean Architecture", "TapPay", "Drizzle ORM"],
         "url": "https://marsen-ai-did.vercel.app/"
       },
       {
         "name": "Becca.Surf.App",
-        "description": "為衝浪教練打造的品牌網站，包含課程方案、教學影片與海外出發行程。",
+        "description": "衝浪教練 Becca 不需要複雜的系統，她需要的是讓學員第一眼就想下水的頁面。一頁式前台展示課程方案、教學影片與海外行程；後台讓她自己更新文案與圖片，不用依賴工程師。簡單，但夠用。",
         "tags": ["Next.js", "TypeScript", "Tailwind CSS"],
         "url": "https://becca-surf-app.vercel.app/"
       }
