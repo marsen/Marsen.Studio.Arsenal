@@ -26,6 +26,12 @@
         "description": "衝浪教練 Becca 不需要複雜的系統，她需要的是讓學員第一眼就想下水的頁面。一頁式前台展示課程方案、教學影片與海外行程；後台讓她自己更新文案與圖片，不用依賴工程師。簡單，但夠用。",
         "tags": ["Next.js", "TypeScript", "Tailwind CSS"],
         "url": "https://becca-surf-app.vercel.app/"
+      },
+      {
+        "name": "Amy.Clam.Site",
+        "description": "蛤蜊選物電商 MVP，為實體小農品牌打造的第一個數位門市。以 LIFF 深度整合 LINE 生態系：使用者在 LINE 內完成瀏覽、下單到通知，不需另開 App。前台輕量、後台自助更新，目標是讓品牌主自己能跑，不依賴工程師。",
+        "tags": ["Next.js", "TypeScript", "LIFF", "LINE", "Drizzle ORM"],
+        "url": "https://amy-clam-site.vercel.app/"
       }
     ],
     "visit": "前往網站 →"
