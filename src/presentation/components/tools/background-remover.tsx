@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 
 import type { Config } from "@imgly/background-removal";
@@ -71,7 +71,9 @@ export default function BackgroundRemover() {
   const runningRef = useRef(false);
   const cancelledRef = useRef(false);
   const itemsRef = useRef<Item[]>([]);
-  itemsRef.current = items;
+  useLayoutEffect(() => {
+    itemsRef.current = items;
+  });
 
   useEffect(() => {
     return () => {
