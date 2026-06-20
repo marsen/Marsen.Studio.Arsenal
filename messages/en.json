@@ -10,7 +10,19 @@
     "viewDemos": "View Demos",
     "tools": "Tools"
   },
-  "about": { "title": "About" },
+  "about": {
+    "title": "About",
+    "intro": "I'm Marsen. Software engineer for close to 20 years. This year I left the office to find out: what can one person actually build, with AI as a co-developer?",
+    "storyTitle": "Why this site exists",
+    "story1": "I've seen too many projects with million-dollar budgets deliver nothing but surface polish. Our small team, without AI, would ship the same thing in six months to a year.",
+    "story2": "With AI, the gap is even wider. Ask the right questions, point it in the right direction, and a complete product — backend, admin panel, payment integration — comes together in a day or two. AI.Did was built exactly that way.",
+    "philosophyTitle": "AI is the tool. The thinking is the value.",
+    "philosophy1": "AI isn't magic. It's a highly capable engineer with no long-term memory — give it no direction and it'll build you a skyscraper to house a dog. That direction comes from experience. Close to 20 years of it, for me.",
+    "philosophy2": "What I want to do: be the guide for people who have an idea but don't know where to start. Many people will build only one product in their lifetime. The first one is hard. And it matters.",
+    "connectTitle": "Have an idea?",
+    "connect": "If there's something you've been turning over in your mind — or you just want to talk — reach out.",
+    "github": "GitHub"
+  },
   "demos": {
     "title": "Demos",
     "subtitle": "Things actually running in production, not just side projects.",
