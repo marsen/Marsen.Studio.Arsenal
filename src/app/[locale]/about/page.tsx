@@ -1,4 +1,5 @@
 import { useTranslations } from 'next-intl';
+import { ContactForm } from '@/presentation/contact/ContactForm';
 
 export default function AboutPage() {
   const t = useTranslations('about');
@@ -21,17 +22,23 @@ export default function AboutPage() {
         <p className="text-sm leading-relaxed text-foreground/70">{t('philosophy2')}</p>
       </section>
 
-      <section>
+      <section className="mb-12">
         <h2 className="font-display mb-4 text-xl font-semibold tracking-tight">{t('connectTitle')}</h2>
         <p className="mb-6 text-sm leading-relaxed text-foreground/70">{t('connect')}</p>
         <a
           href="https://github.com/marsen"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm text-muted-foreground underline-offset-4 hover:text-accent hover:underline"
+          className="mb-10 inline-block text-sm text-muted-foreground underline-offset-4 hover:text-accent hover:underline"
         >
           {t('github')} →
         </a>
+      </section>
+
+      <section id="contact" className="scroll-mt-16">
+        <h2 className="font-display mb-4 text-xl font-semibold tracking-tight">{t('formTitle')}</h2>
+        <p className="mb-6 text-sm leading-relaxed text-foreground/70">{t('formDesc')}</p>
+        <ContactForm />
       </section>
     </div>
   );
