@@ -44,24 +44,24 @@ describe("validateFile", () => {
   describe("無效格式", () => {
     it("應拒絕 .jpg 檔案", () => {
       const file = makeFile("photo.jpg", "image/jpeg", MB);
-      expect(validateFile(file)).toBe("請上傳 HEIC 格式的檔案");
+      expect(validateFile(file)).toBe("errFormat");
     });
 
     it("應拒絕 .png 檔案", () => {
       const file = makeFile("photo.png", "image/png", MB);
-      expect(validateFile(file)).toBe("請上傳 HEIC 格式的檔案");
+      expect(validateFile(file)).toBe("errFormat");
     });
 
     it("應拒絕 .pdf 檔案", () => {
       const file = makeFile("doc.pdf", "application/pdf", MB);
-      expect(validateFile(file)).toBe("請上傳 HEIC 格式的檔案");
+      expect(validateFile(file)).toBe("errFormat");
     });
   });
 
   describe("超過大小限制", () => {
     it("應拒絕超過 30MB 的 HEIC 檔案", () => {
       const file = makeFile("large.heic", "image/heic", 30 * MB + 1);
-      expect(validateFile(file)).toBe("檔案大小不可超過 30MB");
+      expect(validateFile(file)).toBe("errSize");
     });
   });
 });
