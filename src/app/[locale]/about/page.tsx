@@ -24,14 +24,22 @@ export default function AboutPage() {
       <section>
         <h2 className="font-display mb-4 text-xl font-semibold tracking-tight">{t('connectTitle')}</h2>
         <p className="mb-6 text-sm leading-relaxed text-foreground/70">{t('connect')}</p>
-        <a
-          href="https://github.com/marsen"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm text-muted-foreground underline-offset-4 hover:text-accent hover:underline"
-        >
-          {t('github')} →
-        </a>
+        <div className="flex flex-col gap-2">
+          <a
+            href="https://github.com/marsen"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-muted-foreground underline-offset-4 hover:text-accent hover:underline"
+          >
+            {t('github')} →
+          </a>
+          <a
+            href="mailto:admin@marsen.me"
+            className="text-sm text-muted-foreground underline-offset-4 hover:text-accent hover:underline"
+          >
+            {t('emailMe')} →
+          </a>
+        </div>
       </section>
     </div>
   );
