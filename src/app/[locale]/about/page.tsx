@@ -13,7 +13,7 @@ export default function AboutPage() {
         <p className="text-lg leading-relaxed text-foreground/80 max-w-2xl">{t('intro')}</p>
       </Block>
 
-      <Block tone="forest">
+      <Block tone="ghost">
         <h2 className="font-display text-2xl font-bold tracking-tight text-foreground mb-4">
           {t('storyTitle')}
         </h2>
@@ -21,7 +21,7 @@ export default function AboutPage() {
         <p className="text-sm leading-relaxed text-foreground/70 max-w-2xl">{t('story2')}</p>
       </Block>
 
-      <Block tone="steel">
+      <Block tone="neutral">
         <h2 className="font-display text-2xl font-bold tracking-tight text-foreground mb-4">
           {t('philosophyTitle')}
         </h2>
