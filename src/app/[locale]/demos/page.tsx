@@ -28,7 +28,8 @@ export default function DemosPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-12">
       <h1 className="font-display mb-2 text-3xl font-bold">{t('title')}</h1>
-      <p className="mb-16 text-sm text-muted-foreground">{t('subtitle')}</p>
+      <p className="mb-2 text-sm text-muted-foreground">{t('subtitle')}</p>
+      <p className="mb-16 text-sm text-foreground/70">{t('intro')}</p>
 
       <div className="flex flex-col gap-20">
         {projects.map((project, index) => {
@@ -51,6 +52,7 @@ export default function DemosPage() {
                     fill
                     className="object-cover object-top transition duration-500 group-hover:scale-[1.03]"
                     unoptimized
+                    priority={index === 0}
                   />
                 </div>
               </div>

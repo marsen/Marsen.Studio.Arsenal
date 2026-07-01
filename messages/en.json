@@ -43,6 +43,7 @@
   "demos": {
     "title": "Demos",
     "subtitle": "Things actually running in production, not just side projects.",
+    "intro": "These are things that actually run. Not built to show off — built because someone uses them.",
     "projects": [
       {
         "name": "Marsen.AI.Did",

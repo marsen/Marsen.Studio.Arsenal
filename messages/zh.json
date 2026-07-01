@@ -43,6 +43,7 @@
   "demos": {
     "title": "作品",
     "subtitle": "實際跑起來的東西，不只是 side project。",
+    "intro": "這些是真實跑起來的東西。不是展示用的，是有人在用的。",
     "projects": [
       {
         "name": "Marsen.AI.Did",
