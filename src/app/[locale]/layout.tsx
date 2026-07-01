@@ -12,8 +12,8 @@ const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin']
 const fraunces = Fraunces({ variable: '--font-fraunces', subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Marsen',
-  description: "Marsen's portfolio, demos, and tools",
+  title: '◆',
+  description: 'AI-assisted co-building — demos, tools, and case studies.',
 };
 
 type Props = {
