@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <div className="flex flex-col overflow-x-hidden">
       {/* Hero */}
-      <Block tone="base">
+      <Block tone="neutral">
         <p className="text-xs font-medium tracking-widest text-accent mb-4">{t('heroEyebrow')}</p>
         <h1 className="font-display text-5xl md:text-6xl font-bold tracking-tight text-foreground leading-[1.1] max-w-2xl mb-6">
           {t('heroHeading')}
@@ -25,7 +25,7 @@ export default function Home() {
       </Block>
 
       {/* Services */}
-      <Block tone="alt">
+      <Block tone="forest">
         <h2 className="font-display text-3xl font-bold tracking-tight text-foreground mb-10">
           {t('servicesTitle')}
         </h2>
@@ -33,7 +33,7 @@ export default function Home() {
           {SERVICES.map((n) => (
             <div
               key={n}
-              className="rounded-2xl border border-border bg-background px-6 py-8 md:px-8 transition-colors hover:border-accent"
+              className="rounded-2xl border border-border px-6 py-8 md:px-8 transition-colors hover:border-accent"
             >
               <p className="text-xs text-muted-foreground mb-2">{String(n).padStart(2, '0')}</p>
               <h3 className="font-display text-xl font-semibold text-foreground mb-2">
@@ -48,14 +48,14 @@ export default function Home() {
       </Block>
 
       {/* Problem */}
-      <Block tone="base">
+      <Block tone="neutral">
         <p className="text-base leading-relaxed text-foreground/70 max-w-2xl">
           {t('problemText')}
         </p>
       </Block>
 
       {/* Solution */}
-      <Block tone="alt">
+      <Block tone="steel">
         <h2 className="font-display text-3xl font-bold tracking-tight text-foreground mb-2">
           {t('solutionTitle')}
         </h2>
@@ -80,7 +80,7 @@ export default function Home() {
       </Block>
 
       {/* Proof */}
-      <Block tone="base">
+      <Block tone="plum">
         <blockquote className="font-display text-3xl font-bold text-foreground mb-4 leading-snug">
           {t('proofQuote')}
         </blockquote>
@@ -95,7 +95,7 @@ export default function Home() {
       </Block>
 
       {/* CTA */}
-      <Block tone="alt">
+      <Block tone="amber">
         <h2 className="font-display text-3xl font-bold tracking-tight text-foreground mb-3">
           {t('ctaTitle')}
         </h2>

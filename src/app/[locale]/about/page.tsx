@@ -6,14 +6,14 @@ export default function AboutPage() {
 
   return (
     <div className="flex flex-col overflow-x-hidden">
-      <Block tone="base">
+      <Block tone="neutral">
         <h1 className="font-display text-5xl font-bold tracking-tight text-foreground mb-6">
           {t('title')}
         </h1>
         <p className="text-lg leading-relaxed text-foreground/80 max-w-2xl">{t('intro')}</p>
       </Block>
 
-      <Block tone="alt">
+      <Block tone="forest">
         <h2 className="font-display text-2xl font-bold tracking-tight text-foreground mb-4">
           {t('storyTitle')}
         </h2>
@@ -21,7 +21,7 @@ export default function AboutPage() {
         <p className="text-sm leading-relaxed text-foreground/70 max-w-2xl">{t('story2')}</p>
       </Block>
 
-      <Block tone="base">
+      <Block tone="steel">
         <h2 className="font-display text-2xl font-bold tracking-tight text-foreground mb-4">
           {t('philosophyTitle')}
         </h2>
@@ -29,7 +29,7 @@ export default function AboutPage() {
         <p className="text-sm leading-relaxed text-foreground/70 max-w-2xl">{t('philosophy2')}</p>
       </Block>
 
-      <Block tone="alt">
+      <Block tone="plum">
         <h2 className="font-display text-2xl font-bold tracking-tight text-foreground mb-4">
           {t('connectTitle')}
         </h2>
