@@ -7,7 +7,7 @@ export default function NavBar() {
 
   return (
     <header className="border-b border-border">
-      <nav className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
+      <nav className="mx-auto flex h-14 max-w-7xl items-center justify-between px-6">
         <Link href="/" className="font-semibold tracking-tight text-foreground">
           ◆
         </Link>
