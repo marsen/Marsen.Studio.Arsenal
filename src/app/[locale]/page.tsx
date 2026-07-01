@@ -14,7 +14,7 @@ export default function Home() {
         <p className="text-lg text-muted-foreground mb-8">{t('heroSub')}</p>
         <a
           href="mailto:admin@marsen.me"
-          className="inline-flex items-center rounded-md bg-accent px-5 py-2.5 text-sm font-medium text-[#F7F4EE] hover:bg-accent-hover transition-colors"
+          className="inline-flex items-center rounded-md bg-accent px-5 py-2.5 text-sm font-medium text-background hover:bg-accent-hover transition-colors"
         >
           {t('heroCta')}
         </a>

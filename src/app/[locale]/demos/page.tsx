@@ -8,19 +8,6 @@ type Project = {
   url: string;
 };
 
-const ACCENTS = [
-  {
-    num: 'text-amber-400',
-    tag: 'bg-amber-50 border-amber-200 text-amber-700',
-    glow: 'from-amber-100/70 via-orange-50/40 to-transparent',
-  },
-  {
-    num: 'text-cyan-500',
-    tag: 'bg-cyan-50 border-cyan-200 text-cyan-700',
-    glow: 'from-cyan-100/70 via-teal-50/40 to-transparent',
-  },
-];
-
 export default function DemosPage() {
   const t = useTranslations('demos');
   const projects = t.raw('projects') as Project[];
@@ -34,7 +21,6 @@ export default function DemosPage() {
       <div className="flex flex-col gap-20">
         {projects.map((project, index) => {
           const isEven = index % 2 === 0;
-          const accent = ACCENTS[index % ACCENTS.length];
           const num = String(index + 1).padStart(2, '0');
 
           return (
@@ -44,13 +30,12 @@ export default function DemosPage() {
             >
               {/* 圖片區 */}
               <div className="relative w-full shrink-0 md:w-1/2">
-                <div className={`absolute inset-0 -z-10 rounded-3xl bg-gradient-to-br ${accent.glow} blur-2xl`} />
-                <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-muted shadow-sm">
+                <div className="relative aspect-video overflow-hidden rounded-xl border border-border bg-muted">
                   <Image
                     src={`https://s.wordpress.com/mshots/v1/${encodeURIComponent(project.url)}?w=1200&h=675`}
                     alt={project.name}
                     fill
-                    className="object-cover object-top transition duration-500 group-hover:scale-[1.03]"
+                    className="object-cover object-top transition duration-300 group-hover:scale-[1.01]"
                     unoptimized
                     priority={index === 0}
                   />
@@ -59,9 +44,7 @@ export default function DemosPage() {
 
               {/* 文字區 */}
               <div className="flex w-full flex-col md:w-1/2">
-                <span className={`font-display mb-1 text-5xl font-bold leading-none ${accent.num} select-none opacity-30`}>
-                  {num}
-                </span>
+                <span className="mb-1 text-xs font-medium tracking-wide text-accent">{num}</span>
                 <h2 className="font-display mb-3 text-xl font-semibold tracking-tight">
                   {project.name}
                 </h2>
@@ -72,7 +55,7 @@ export default function DemosPage() {
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className={`rounded-md border px-2 py-0.5 text-xs ${accent.tag}`}
+                      className="rounded-md border border-border bg-muted px-2 py-0.5 text-xs text-muted-foreground"
                     >
                       {tag}
                     </span>
