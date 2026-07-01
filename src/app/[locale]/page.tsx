@@ -1,15 +1,24 @@
+import type { ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 
 const SERVICES = [1, 2, 3, 4] as const;
 
+function Block({ tone, children }: { tone: 'base' | 'alt'; children: ReactNode }) {
+  return (
+    <div className={`relative left-1/2 w-screen -translate-x-1/2 ${tone === 'alt' ? 'bg-card' : 'bg-background'}`}>
+      <div className="mx-auto max-w-7xl px-6 py-16">{children}</div>
+    </div>
+  );
+}
+
 export default function Home() {
   const t = useTranslations('home');
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col overflow-x-hidden">
       {/* Hero */}
-      <section className="py-20">
+      <Block tone="base">
         <h1 className="font-display text-4xl font-semibold tracking-tight text-foreground leading-snug max-w-xl mb-4">
           {t('heroHeading')}
         </h1>
@@ -20,16 +29,16 @@ export default function Home() {
         >
           {t('heroCta')}
         </a>
-      </section>
+      </Block>
 
       {/* Services */}
-      <section className="py-16 border-t border-border">
+      <Block tone="alt">
         <h2 className="font-display text-2xl font-semibold tracking-tight text-foreground mb-10">
           {t('servicesTitle')}
         </h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {SERVICES.map((n) => (
-            <div key={n} className="rounded-xl border border-border bg-card px-6 py-8 md:px-8">
+            <div key={n} className="rounded-xl border border-border px-6 py-8 md:px-8">
               <p className="text-xs text-muted-foreground mb-2">{String(n).padStart(2, '0')}</p>
               <h3 className="font-display text-xl font-semibold text-foreground mb-2">
                 {t(`service${n}Title`)}
@@ -40,17 +49,17 @@ export default function Home() {
             </div>
           ))}
         </div>
-      </section>
+      </Block>
 
       {/* Problem */}
-      <section className="py-16 border-t border-border">
+      <Block tone="base">
         <p className="text-base leading-relaxed text-foreground/70 max-w-2xl">
           {t('problemText')}
         </p>
-      </section>
+      </Block>
 
       {/* Solution */}
-      <section className="py-16 border-t border-border">
+      <Block tone="alt">
         <h2 className="font-display text-2xl font-semibold tracking-tight text-foreground mb-2">
           {t('solutionTitle')}
         </h2>
@@ -72,10 +81,10 @@ export default function Home() {
             <p className="text-sm text-foreground/60 leading-relaxed">{t('step3Desc')}</p>
           </div>
         </div>
-      </section>
+      </Block>
 
       {/* Proof */}
-      <section className="py-16 border-t border-border">
+      <Block tone="base">
         <blockquote className="font-display text-2xl font-semibold text-foreground mb-4 leading-snug">
           {t('proofQuote')}
         </blockquote>
@@ -87,10 +96,10 @@ export default function Home() {
         >
           {t('proofCta')}
         </Link>
-      </section>
+      </Block>
 
       {/* CTA */}
-      <section className="py-16 border-t border-border">
+      <Block tone="alt">
         <h2 className="font-display text-2xl font-semibold tracking-tight text-foreground mb-3">
           {t('ctaTitle')}
         </h2>
@@ -101,7 +110,7 @@ export default function Home() {
         >
           {t('ctaButton')}
         </a>
-      </section>
+      </Block>
     </div>
   );
 }
