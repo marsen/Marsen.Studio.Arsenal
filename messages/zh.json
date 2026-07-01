@@ -25,7 +25,16 @@
     "ctaDesc": "現在下水的風險太低了。",
     "ctaButton": "聊聊你的卡點 →",
     "viewDemos": "查看作品",
-    "tools": "小工具"
+    "tools": "小工具",
+    "servicesTitle": "我能為你做的事",
+    "service1Title": "AI 輔助開發陪跑",
+    "service1Desc": "從你的卡點開始，兩小時內用 AI 做出第一個能動的版本。你在場，看著它被造出來。",
+    "service2Title": "技術顧問與架構諮詢",
+    "service2Desc": "系統架構設計審查、新創技術顧問、監控與可觀測性建置——近 20 年工程經驗，看你的系統該怎麼長。",
+    "service3Title": "技術工作坊",
+    "service3Desc": "資料分析、敏捷開發、Web 安全、前端效能——針對團隊需求客製的實作型工作坊，不是照本宣科。",
+    "service4Title": "工程師職涯健檢",
+    "service4Desc": "履歷、作品集、面試準備，一次 30 分鐘，講真話。"
   },
   "about": {
     "title": "關於",

@@ -1,6 +1,8 @@
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 
+const SERVICES = [1, 2, 3, 4] as const;
+
 export default function Home() {
   const t = useTranslations('home');
 
@@ -18,6 +20,26 @@ export default function Home() {
         >
           {t('heroCta')}
         </a>
+      </section>
+
+      {/* Services */}
+      <section className="py-16 border-t border-border">
+        <h2 className="font-display text-2xl font-semibold tracking-tight text-foreground mb-10">
+          {t('servicesTitle')}
+        </h2>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          {SERVICES.map((n) => (
+            <div key={n} className="rounded-xl border border-border bg-card px-6 py-8 md:px-8">
+              <p className="text-xs text-muted-foreground mb-2">{String(n).padStart(2, '0')}</p>
+              <h3 className="font-display text-xl font-semibold text-foreground mb-2">
+                {t(`service${n}Title`)}
+              </h3>
+              <p className="text-sm text-foreground/70 leading-relaxed">
+                {t(`service${n}Desc`)}
+              </p>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* Problem */}

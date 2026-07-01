@@ -25,7 +25,16 @@
     "ctaDesc": "The water's not as cold as you think.",
     "ctaButton": "Tell me your blocker →",
     "viewDemos": "View Demos",
-    "tools": "Tools"
+    "tools": "Tools",
+    "servicesTitle": "What I can help with",
+    "service1Title": "AI-Assisted Co-Building",
+    "service1Desc": "Start with your blocker. In two hours, there's a working first version — built with AI, with you in the room.",
+    "service2Title": "Technical & Architecture Consulting",
+    "service2Desc": "Architecture reviews, startup tech advisory, observability setup — close to 20 years of engineering experience, pointed at your system.",
+    "service3Title": "Technical Workshops",
+    "service3Desc": "Data analysis, agile practice, web security, frontend performance — hands-on workshops built around what your team actually needs, not a canned syllabus.",
+    "service4Title": "Engineer Career Check-up",
+    "service4Desc": "Résumé, portfolio, interview prep. 30 minutes, straight talk."
   },
   "about": {
     "title": "About",
