@@ -1,16 +1,8 @@
-import type { ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
+import Block from '@/presentation/components/layouts/Block';
 
 const SERVICES = [1, 2, 3, 4] as const;
-
-function Block({ tone, children }: { tone: 'base' | 'alt'; children: ReactNode }) {
-  return (
-    <div className={`relative left-1/2 w-screen -translate-x-1/2 ${tone === 'alt' ? 'bg-card' : 'bg-background'}`}>
-      <div className="mx-auto max-w-7xl px-6 py-16">{children}</div>
-    </div>
-  );
-}
 
 export default function Home() {
   const t = useTranslations('home');
@@ -19,13 +11,14 @@ export default function Home() {
     <div className="flex flex-col overflow-x-hidden">
       {/* Hero */}
       <Block tone="base">
-        <h1 className="font-display text-4xl font-semibold tracking-tight text-foreground leading-snug max-w-xl mb-4">
+        <p className="text-xs font-medium tracking-widest text-accent mb-4">{t('heroEyebrow')}</p>
+        <h1 className="font-display text-5xl md:text-6xl font-bold tracking-tight text-foreground leading-[1.1] max-w-2xl mb-6">
           {t('heroHeading')}
         </h1>
         <p className="text-lg text-muted-foreground mb-8">{t('heroSub')}</p>
         <a
           href="mailto:admin@marsen.me"
-          className="inline-flex items-center rounded-md bg-accent px-5 py-2.5 text-sm font-medium text-background hover:bg-accent-hover transition-colors"
+          className="inline-flex items-center rounded-full bg-accent px-6 py-3 text-sm font-medium text-background hover:bg-accent-hover transition-colors"
         >
           {t('heroCta')}
         </a>
@@ -33,12 +26,15 @@ export default function Home() {
 
       {/* Services */}
       <Block tone="alt">
-        <h2 className="font-display text-2xl font-semibold tracking-tight text-foreground mb-10">
+        <h2 className="font-display text-3xl font-bold tracking-tight text-foreground mb-10">
           {t('servicesTitle')}
         </h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {SERVICES.map((n) => (
-            <div key={n} className="rounded-xl border border-border px-6 py-8 md:px-8">
+            <div
+              key={n}
+              className="rounded-2xl border border-border bg-background px-6 py-8 md:px-8 transition-colors hover:border-accent"
+            >
               <p className="text-xs text-muted-foreground mb-2">{String(n).padStart(2, '0')}</p>
               <h3 className="font-display text-xl font-semibold text-foreground mb-2">
                 {t(`service${n}Title`)}
@@ -60,7 +56,7 @@ export default function Home() {
 
       {/* Solution */}
       <Block tone="alt">
-        <h2 className="font-display text-2xl font-semibold tracking-tight text-foreground mb-2">
+        <h2 className="font-display text-3xl font-bold tracking-tight text-foreground mb-2">
           {t('solutionTitle')}
         </h2>
         <p className="text-base text-foreground/70 mb-10">{t('solutionDesc')}</p>
@@ -85,7 +81,7 @@ export default function Home() {
 
       {/* Proof */}
       <Block tone="base">
-        <blockquote className="font-display text-2xl font-semibold text-foreground mb-4 leading-snug">
+        <blockquote className="font-display text-3xl font-bold text-foreground mb-4 leading-snug">
           {t('proofQuote')}
         </blockquote>
         <p className="text-sm text-muted-foreground mb-1">{t('proofName')}</p>
@@ -100,13 +96,13 @@ export default function Home() {
 
       {/* CTA */}
       <Block tone="alt">
-        <h2 className="font-display text-2xl font-semibold tracking-tight text-foreground mb-3">
+        <h2 className="font-display text-3xl font-bold tracking-tight text-foreground mb-3">
           {t('ctaTitle')}
         </h2>
         <p className="text-base text-foreground/70 mb-8">{t('ctaDesc')}</p>
         <a
           href="mailto:admin@marsen.me"
-          className="inline-flex items-center rounded-md border border-border px-5 py-2.5 text-sm font-medium text-foreground hover:border-accent hover:text-accent transition-colors"
+          className="inline-flex items-center rounded-full border border-border px-6 py-3 text-sm font-medium text-foreground hover:border-accent hover:text-accent transition-colors"
         >
           {t('ctaButton')}
         </a>

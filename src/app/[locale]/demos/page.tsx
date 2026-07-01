@@ -13,8 +13,8 @@ export default function DemosPage() {
   const projects = t.raw('projects') as Project[];
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-12">
-      <h1 className="font-display mb-2 text-3xl font-bold">{t('title')}</h1>
+    <div className="mx-auto max-w-4xl">
+      <h1 className="font-display mb-3 text-5xl font-bold tracking-tight">{t('title')}</h1>
       <p className="mb-2 text-sm text-muted-foreground">{t('subtitle')}</p>
       <p className="mb-16 text-sm text-foreground/70">{t('intro')}</p>
 
@@ -30,7 +30,7 @@ export default function DemosPage() {
             >
               {/* 圖片區 */}
               <div className="relative w-full shrink-0 md:w-1/2">
-                <div className="relative aspect-video overflow-hidden rounded-xl border border-border bg-muted">
+                <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-muted">
                   <Image
                     src={`https://s.wordpress.com/mshots/v1/${encodeURIComponent(project.url)}?w=1200&h=675`}
                     alt={project.name}
@@ -45,7 +45,7 @@ export default function DemosPage() {
               {/* 文字區 */}
               <div className="flex w-full flex-col md:w-1/2">
                 <span className="mb-1 text-xs font-medium tracking-wide text-accent">{num}</span>
-                <h2 className="font-display mb-3 text-xl font-semibold tracking-tight">
+                <h2 className="font-display mb-3 text-2xl font-bold tracking-tight">
                   {project.name}
                 </h2>
                 <p className="mb-5 text-sm leading-relaxed text-foreground/70">
@@ -55,7 +55,7 @@ export default function DemosPage() {
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-md border border-border bg-muted px-2 py-0.5 text-xs text-muted-foreground"
+                      className="rounded-full border border-border bg-muted px-3 py-1 text-xs text-muted-foreground"
                     >
                       {tag}
                     </span>
@@ -65,7 +65,7 @@ export default function DemosPage() {
                   href={project.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="self-start text-sm text-muted-foreground underline-offset-4 hover:text-accent hover:underline"
+                  className="inline-flex self-start items-center rounded-full border border-border px-5 py-2.5 text-sm font-medium text-foreground hover:border-accent hover:text-accent transition-colors"
                 >
                   {t('visit')}
                 </a>
