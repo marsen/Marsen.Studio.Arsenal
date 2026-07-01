@@ -5,7 +5,7 @@ export default function AboutPage() {
   const t = useTranslations('about');
 
   return (
-    <div className="flex flex-col overflow-x-hidden">
+    <div className="flex flex-col">
       <Block tone="neutral">
         <h1 className="font-display text-5xl font-bold tracking-tight text-foreground mb-6">
           {t('title')}

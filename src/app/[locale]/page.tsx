@@ -8,7 +8,7 @@ export default function Home() {
   const t = useTranslations('home');
 
   return (
-    <div className="flex flex-col overflow-x-hidden">
+    <div className="flex flex-col">
       {/* Hero */}
       <Block tone="neutral">
         <p className="text-xs font-medium tracking-widest text-accent mb-4">{t('heroEyebrow')}</p>
