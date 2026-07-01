@@ -5,14 +5,31 @@
     "tools": "Tools"
   },
   "home": {
-    "greeting": "Hi, I'm Marsen",
-    "tagline": "Developer. Builder. Tinkerer.",
-    "viewDemos": "View Demos",
-    "tools": "Tools"
+    "heroEyebrow": "AI-ASSISTED CO-BUILDING",
+    "heroHeading": "You already know what you want to build.",
+    "heroSub": "You just don't know how to get there.",
+    "heroCta": "Let me give you a push →",
+    "wantTitle": "Ever wondered?",
+    "want1Title": "Building your own website?",
+    "want2Title": "Automating the repetitive stuff?",
+    "want3Title": "Catching the AI wave?",
+    "want4Title": "Building your own software tool?",
+    "step1": "Tell me what you need",
+    "step2": "Two hours — give yourself a shot",
+    "step3": "Full ownership of your system",
+    "servicesTitle": "Our services",
+    "service1Title": "AI-Assisted Co-Building",
+    "service1Desc": "Start with your blocker. In two hours, there's a working first version — built with AI, with you in the room.",
+    "service2Title": "Technical & Architecture Consulting",
+    "service2Desc": "Architecture reviews, startup tech advisory, observability setup — close to 20 years of engineering experience, pointed at your system.",
+    "service3Title": "Technical Workshops",
+    "service3Desc": "Data analysis, agile practice, web security, frontend performance — hands-on workshops built around what your team actually needs, not a canned syllabus.",
+    "service4Title": "Engineer Career Check-up",
+    "service4Desc": "Résumé, portfolio, interview prep. 30 minutes, straight talk."
   },
   "about": {
     "title": "About",
-    "intro": "I'm Marsen. Software engineer for close to 20 years. This year I left the office to find out: what can one person actually build, with AI as a co-developer?",
+    "intro": "Software engineer for close to 20 years. This year I left the office to find out: what can one person actually build, with AI as a co-developer?",
     "storyTitle": "Why this site exists",
     "story1": "I've seen too many projects with million-dollar budgets deliver nothing but surface polish. Our small team, without AI, would ship the same thing in six months to a year.",
     "story2": "With AI, the gap is even wider. Ask the right questions, point it in the right direction, and a complete product — backend, admin panel, payment integration — comes together in a day or two. AI.Did was built exactly that way.",
@@ -21,11 +38,13 @@
     "philosophy2": "What I want to do: be the guide for people who have an idea but don't know where to start. Many people will build only one product in their lifetime. The first one is hard. And it matters.",
     "connectTitle": "Have an idea?",
     "connect": "If there's something you've been turning over in your mind — or you just want to talk — reach out.",
-    "github": "GitHub"
+    "github": "GitHub",
+    "emailMe": "Email me"
   },
   "demos": {
     "title": "Demos",
     "subtitle": "Things actually running in production, not just side projects.",
+    "intro": "These are things that actually run. Not built to show off — built because someone uses them.",
     "projects": [
       {
         "name": "Marsen.AI.Did",

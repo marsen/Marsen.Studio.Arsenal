@@ -13,17 +13,17 @@ export default function ToolsPage() {
 
   return (
     <div>
-      <h1 className="font-display text-2xl font-semibold tracking-tight">{t("title")}</h1>
-      <p className="mt-2 text-muted-foreground">{t("subtitle")}</p>
-      <ul className="mt-8 grid gap-4 sm:grid-cols-2">
+      <h1 className="font-display text-5xl font-bold tracking-tight">{t("title")}</h1>
+      <p className="mt-3 text-muted-foreground">{t("subtitle")}</p>
+      <ul className="mt-10 grid gap-4 sm:grid-cols-2">
         {tools.map(({ slug, emoji, titleKey, descKey }) => (
           <li key={slug}>
             <Link
               href={`/tools/${slug}`}
-              className="flex flex-col gap-2 rounded-xl border border-border bg-card p-5 transition hover:border-accent"
+              className="flex flex-col gap-2 rounded-2xl border border-border bg-card p-6 transition-colors hover:border-accent"
             >
               <span className="text-2xl">{emoji}</span>
-              <span className="font-medium text-foreground">{t(titleKey)}</span>
+              <span className="font-semibold text-foreground">{t(titleKey)}</span>
               <span className="text-sm text-muted-foreground">{t(descKey)}</span>
             </Link>
           </li>
