@@ -26,8 +26,8 @@
   --color-border: var(--border);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-  --color-accent: var(--accent);
-  --color-accent-hover: var(--accent-hover);
+  --color-accent: #4F46E5;
+  --color-accent-hover: #6366F1;
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --font-sans: var(--font-geist-sans);

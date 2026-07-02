@@ -1,6 +1,15 @@
 import { Fragment } from 'react';
 import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 import Block from '@/presentation/components/layouts/Block';
+import HeroCta from '@/presentation/components/landing/HeroCta';
+
+type Project = {
+  name: string;
+  description: string;
+  tags: string[];
+  url: string;
+};
 
 const SERVICES = [1, 2, 3, 4] as const;
 
@@ -13,6 +22,7 @@ const WANT_IMAGES = [
 
 export default function Home() {
   const t = useTranslations('home');
+  const tDemos = useTranslations('demos');
 
   return (
     <div className="flex flex-col">
@@ -46,12 +56,7 @@ export default function Home() {
             {t('heroHeading')}
           </h1>
           <p className="mb-10 text-xl text-white/55">{t('heroSub')}</p>
-          <a
-            href="mailto:admin@marsen.me"
-            className="inline-flex items-center rounded-full bg-accent px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
-          >
-            {t('heroCta')}
-          </a>
+          <HeroCta />
         </div>
       </div>
 
@@ -158,6 +163,58 @@ export default function Home() {
               <p className="text-sm text-foreground/70 leading-relaxed">
                 {t(`service${n}Desc`)}
               </p>
+            </div>
+          ))}
+        </div>
+      </Block>
+
+      {/* Case Studies */}
+      <Block tone="ghost">
+        <div className="mb-10 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h2 className="font-display text-3xl font-bold tracking-tight text-foreground">
+              {t('casesTitle')}
+            </h2>
+            <p className="mt-2 text-sm text-muted-foreground">{tDemos('subtitle')}</p>
+          </div>
+          <Link
+            href="/demos"
+            className="shrink-0 text-sm font-medium text-accent hover:underline"
+          >
+            {tDemos('title')} →
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          {(tDemos.raw('projects') as Project[]).map((p) => (
+            <div
+              key={p.name}
+              className="flex flex-col rounded-2xl border border-border bg-background px-6 py-7 transition-colors hover:border-accent"
+            >
+              <h3 className="font-display mb-3 text-lg font-semibold leading-snug text-foreground">
+                {p.name}
+              </h3>
+              <p className="mb-4 flex-1 line-clamp-4 text-sm leading-relaxed text-muted-foreground">
+                {p.description}
+              </p>
+              <div className="mb-5 flex flex-wrap gap-1.5">
+                {p.tags.slice(0, 3).map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <a
+                href={p.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-medium text-accent hover:underline"
+              >
+                {tDemos('visit')}
+              </a>
             </div>
           ))}
         </div>
