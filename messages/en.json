@@ -6,8 +6,11 @@
   },
   "home": {
     "heroEyebrow": "AI-ASSISTED CO-BUILDING",
-    "heroHeading": "You already know what you want to build.",
-    "heroSub": "You just don't know how to get there.",
+    "heroSlides": [
+      { "heading": "You already know what you want to build.", "sub": "You just don't know how to start." },
+      { "heading": "How long have you been sitting on that idea?", "sub": "Time to make it real." },
+      { "heading": "The water isn't cold.", "sub": "You just haven't jumped in yet." }
+    ],
     "heroCta": "Let me give you a push →",
     "contactNameLabel": "Your name",
     "contactEmailLabel": "Your email",
@@ -18,9 +21,9 @@
     "contactError": "Something went wrong. Email me at admin@marsen.me",
     "contactClose": "Cancel",
     "wantTitle": "Ever wondered?",
-    "want1Title": "Building your own website?",
+    "want1Title": "Putting yourself online, on your own terms?",
     "want2Title": "Automating the repetitive stuff?",
-    "want3Title": "Catching the AI wave?",
+    "want3Title": "Wondering what AI can really do for you?",
     "want4Title": "Building your own tool?",
     "step1": "Tell me what you need",
     "step2": "Two hours. Just try it.",
