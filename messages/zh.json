@@ -6,8 +6,11 @@
   },
   "home": {
     "heroEyebrow": "AI 開發陪跑",
-    "heroHeading": "你早就知道要做什麼了。",
-    "heroSub": "只是不知道怎麼開始。",
+    "heroSlides": [
+      { "heading": "你早就知道要做什麼了。", "sub": "只是不知道怎麼開始。" },
+      { "heading": "那個想法你放心裡多久了？", "sub": "是時候讓它變成真的了。" },
+      { "heading": "水不冷。", "sub": "你只是還沒跳進去。" }
+    ],
     "heroCta": "讓我推你一把 →",
     "contactNameLabel": "怎麼稱呼你",
     "contactEmailLabel": "你的 Email",

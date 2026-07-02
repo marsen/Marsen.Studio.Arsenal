@@ -3,6 +3,7 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import Block from '@/presentation/components/layouts/Block';
 import HeroCta from '@/presentation/components/landing/HeroCta';
+import HeroCarousel from '@/presentation/components/landing/HeroCarousel';
 
 type Project = {
   name: string;
@@ -52,10 +53,7 @@ export default function Home() {
           <p className="mb-6 text-xs font-medium uppercase tracking-widest text-accent">
             {t('heroEyebrow')}
           </p>
-          <h1 className="font-display mb-6 text-6xl font-bold leading-[1.05] tracking-tight text-white md:text-7xl">
-            {t('heroHeading')}
-          </h1>
-          <p className="mb-10 text-xl text-white/55">{t('heroSub')}</p>
+          <HeroCarousel />
           <HeroCta />
         </div>
       </div>
