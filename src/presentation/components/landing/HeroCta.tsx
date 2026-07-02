@@ -9,12 +9,14 @@ export default function HeroCta() {
   const t = useTranslations('home');
   const [open, setOpen] = useState(false);
   const [state, setState] = useState<State>('idle');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
   function reset() {
     setOpen(false);
     setState('idle');
+    setName('');
     setEmail('');
     setMessage('');
   }
@@ -26,7 +28,7 @@ export default function HeroCta() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, message }),
+        body: JSON.stringify({ name, email, message }),
       });
       if (!res.ok) throw new Error();
       setState('success');
@@ -54,6 +56,14 @@ export default function HeroCta() {
 
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-md space-y-3">
+      <input
+        type="text"
+        required
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder={t('contactNameLabel')}
+        className="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none focus:ring-2 focus:ring-accent"
+      />
       <input
         type="email"
         required
