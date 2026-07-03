@@ -22,3 +22,17 @@ export const env = {
   resendApiKey: _env.RESEND_API_KEY,
   resendFromEmail: _env.RESEND_FROM_EMAIL ?? 'onboarding@resend.dev',
 } as const
+
+/**
+ * SEO 相關功能（sitemap、robots、canonical URL）需要明確設定的網站網址。
+ * 不提供程式碼內建預設值——沒設定就 fail fast，避免用錯網址被默默蓋掉。
+ */
+export function requireBaseUrl(): string {
+  if (!env.baseUrl) {
+    throw new Error(
+      '[env] NEXT_PUBLIC_BASE_URL is required for SEO metadata (sitemap/robots/canonical URLs). ' +
+        'Set it in .env.local for local dev, or in Vercel project settings for deployments.'
+    )
+  }
+  return env.baseUrl
+}

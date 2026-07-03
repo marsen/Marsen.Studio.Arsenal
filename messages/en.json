@@ -5,6 +5,10 @@
     "tools": "Tools"
   },
   "home": {
+    "meta": {
+      "title": "AI-Assisted Co-Building | Marsen",
+      "description": "A software engineer with close to 20 years of experience, building real products with AI as a co-developer. See live demos and free developer tools."
+    },
     "heroEyebrow": "AI-ASSISTED CO-BUILDING",
     "heroSlides": [
       { "heading": "You already know what you want to build.", "sub": "You just don't know how to start." },
@@ -40,6 +44,10 @@
     "service4Desc": "Résumé, portfolio, interview prep. 30 minutes, straight talk."
   },
   "about": {
+    "meta": {
+      "title": "About — AI is the Tool, the Thinking is the Value | Marsen",
+      "description": "A software engineer with close to 20 years of experience exploring what one person can build with AI as a co-developer."
+    },
     "title": "About",
     "intro": "Software engineer for close to 20 years. This year I left the office to find out: what can one person actually build, with AI as a co-developer?",
     "storyTitle": "Why this site exists",
@@ -54,6 +62,10 @@
     "emailMe": "Email me"
   },
   "demos": {
+    "meta": {
+      "title": "Demos — Real Products Built with AI | Marsen",
+      "description": "AI.Did e-commerce platform, Becca's surf coaching site, Amy's clam shop — real products, co-built with AI, actually running in production."
+    },
     "title": "Demos",
     "subtitle": "Things actually running in production, not just side projects.",
     "intro": "These are things that actually run. Not built to show off — built because someone uses them.",
@@ -80,6 +92,10 @@
     "visit": "Visit site →"
   },
   "tools": {
+    "meta": {
+      "title": "Free Online Tools | Marsen",
+      "description": "Free browser-based utilities: batch background removal, HEIC to JPG conversion, Korean phonics practice, and an Instagram token generator. Nothing gets uploaded."
+    },
     "title": "Tools",
     "subtitle": "Small utilities for dev and everyday life.",
     "backgroundRemoval": "Background Removal",

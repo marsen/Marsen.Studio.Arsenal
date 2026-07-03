@@ -1,5 +1,8 @@
+import type { Metadata } from "next";
 import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { buildPageMetadata } from "@/lib/metadata";
 
 const tools = [
   { slug: "background-removal", emoji: "🪄", titleKey: "backgroundRemoval", descKey: "backgroundRemovalDesc" },
@@ -7,6 +10,20 @@ const tools = [
   { slug: "korean-phonics", emoji: "🇰🇷", titleKey: "koreanPhonics", descKey: "koreanPhonicsDesc" },
   { slug: "ig-token", emoji: "📸", titleKey: "igToken", descKey: "igTokenDesc" },
 ];
+
+type Props = { params: Promise<{ locale: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "tools.meta" });
+
+  return buildPageMetadata({
+    locale,
+    path: "/tools",
+    title: t("title"),
+    description: t("description"),
+  });
+}
 
 export default function ToolsPage() {
   const t = useTranslations("tools");
