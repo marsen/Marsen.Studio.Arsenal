@@ -1,6 +1,9 @@
 import { Fragment } from 'react';
+import type { Metadata } from 'next';
 import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
+import { buildPageMetadata } from '@/lib/metadata';
 import Block from '@/presentation/components/layouts/Block';
 import HeroCta from '@/presentation/components/landing/HeroCta';
 import HeroCarousel from '@/presentation/components/landing/HeroCarousel';
@@ -20,6 +23,20 @@ const WANT_IMAGES = [
   'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=300&h=300&fit=crop&auto=format',
   'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=300&h=300&fit=crop&auto=format',
 ];
+
+type Props = { params: Promise<{ locale: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'home.meta' });
+
+  return buildPageMetadata({
+    locale,
+    path: '',
+    title: t('title'),
+    description: t('description'),
+  });
+}
 
 export default function Home() {
   const t = useTranslations('home');

@@ -5,6 +5,10 @@
     "tools": "小工具"
   },
   "home": {
+    "meta": {
+      "title": "AI 輔助共同開發 | Marsen",
+      "description": "近 20 年工程經驗的軟體工程師，以 AI 為共同開發者陪你打造產品。查看實際上線的作品與免費開發者工具。"
+    },
     "heroEyebrow": "AI 開發陪跑",
     "heroSlides": [
       { "heading": "你早就知道要做什麼了。", "sub": "只是不知道怎麼開始。" },
@@ -40,6 +44,10 @@
     "service4Desc": "履歷、作品集、面試準備，一次 30 分鐘，講真話。"
   },
   "about": {
+    "meta": {
+      "title": "關於 — AI 是工具，思路才是值錢的 | Marsen",
+      "description": "寫了將近 20 年程式碼的軟體工程師，離開辦公室後開始探索一個人加上 AI 能做到什麼。這裡是背後的想法與經歷。"
+    },
     "title": "關於",
     "intro": "寫了將近 20 年的程式碼。今年離開辦公室，開始探索：一個人加上 AI，究竟能做到什麼。",
     "storyTitle": "為什麼有這個網站",
@@ -54,6 +62,10 @@
     "emailMe": "寫信給我"
   },
   "demos": {
+    "meta": {
+      "title": "作品集 — 用 AI 打造的實際上線產品 | Marsen",
+      "description": "AI.Did 電商平台、Becca 衝浪教練官網、Amy 蛤蜊選物網站——都是以 AI 為共同開發者、實際上線在跑的產品。"
+    },
     "title": "作品",
     "subtitle": "實際跑起來的東西，不只是 side project。",
     "intro": "這些是真實跑起來的東西。不是展示用的，是有人在用的。",
@@ -80,6 +92,10 @@
     "visit": "前往網站 →"
   },
   "tools": {
+    "meta": {
+      "title": "免費線上工具 | Marsen",
+      "description": "在瀏覽器本地執行的免費小工具：批次圖片去背、HEIC 轉 JPG、韓文發音學習、Instagram Token 產生器。檔案不會上傳。"
+    },
     "title": "小工具",
     "subtitle": "日常開發與生活用的小工具。",
     "backgroundRemoval": "圖片去背",

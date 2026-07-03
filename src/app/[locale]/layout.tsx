@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
+import { requireBaseUrl } from '@/lib/env';
 import NavBar from '@/presentation/components/layouts/NavBar';
 import Footer from '@/presentation/components/layouts/Footer';
 import '../globals.css';
@@ -11,7 +12,8 @@ const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
 const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: '◆',
+  metadataBase: new URL(requireBaseUrl()),
+  title: 'Marsen — AI-Assisted Co-Building',
   description: 'AI-assisted co-building — demos, tools, and case studies.',
 };
 
