@@ -32,7 +32,8 @@ export function buildPageMetadata({ locale, path, title, description }: PageMeta
       type: 'website',
     },
     twitter: {
-      card: 'summary',
+      // 'summary_large_image' matches the 1200x630 shared OG image from opengraph-image.tsx
+      card: 'summary_large_image',
       title,
       description,
     },
