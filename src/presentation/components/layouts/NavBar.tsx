@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Link } from '@/i18n/navigation';
+import BrandMark from './BrandMark';
 import LanguageSwitcher from './LanguageSwitcher';
 
 export default function NavBar() {
@@ -27,8 +28,8 @@ export default function NavBar() {
       } ${scrolled ? 'bg-background/80 backdrop-blur-md border-b border-border/40' : ''}`}
     >
       <nav className="mx-auto flex h-8 max-w-7xl items-center justify-between px-6">
-        <Link href="/" className="text-sm font-bold tracking-tight text-foreground">
-          ◆
+        <Link href="/" aria-label="Marsen">
+          <BrandMark />
         </Link>
         <LanguageSwitcher />
       </nav>

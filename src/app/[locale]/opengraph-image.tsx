@@ -1,6 +1,7 @@
 import { ImageResponse } from 'next/og';
 import { getTranslations } from 'next-intl/server';
 import { loadGoogleFont } from '@/lib/og-font';
+import { ArcMark } from '@/lib/brand-mark';
 
 export const alt = 'Marsen';
 export const size = { width: 1200, height: 630 };
@@ -30,15 +31,10 @@ export default async function Image({ params }: Props) {
           ...(fontFamily ? { fontFamily } : {}),
         }}
       >
-        <div
-          style={{
-            width: 56,
-            height: 56,
-            background: '#818CF8',
-            transform: 'rotate(45deg)',
-            marginBottom: 40,
-          }}
-        />
+        <div style={{ display: 'flex', marginBottom: 40 }}>
+          {/* holeColor approximates the gradient's color in the top-left corner, where the mark sits */}
+          <ArcMark size={68} thickness={14} color="#818CF8" holeColor="#0D0D0F" />
+        </div>
         <div style={{ display: 'flex', fontSize: 80, fontWeight: 700, color: '#FAFAFA' }}>
           Marsen
         </div>
