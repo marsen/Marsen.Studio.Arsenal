@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 
 type State = 'idle' | 'submitting' | 'success' | 'error';
 
-export default function HeroCta() {
+export default function ContactForm() {
   const t = useTranslations('home');
   const [open, setOpen] = useState(false);
   const [state, setState] = useState<State>('idle');

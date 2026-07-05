@@ -5,7 +5,7 @@ import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { buildPageMetadata } from '@/lib/metadata';
 import Block from '@/presentation/components/layouts/Block';
-import HeroCta from '@/presentation/components/landing/HeroCta';
+import ContactForm from '@/presentation/components/ContactForm';
 import HeroCarousel from '@/presentation/components/landing/HeroCarousel';
 
 type Project = {
@@ -71,7 +71,7 @@ export default function Home() {
             {t('heroEyebrow')}
           </p>
           <HeroCarousel />
-          <HeroCta />
+          <ContactForm />
         </div>
       </div>
 
