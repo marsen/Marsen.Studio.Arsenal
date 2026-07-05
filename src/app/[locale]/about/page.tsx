@@ -3,6 +3,7 @@ import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { buildPageMetadata } from '@/lib/metadata';
 import Block from '@/presentation/components/layouts/Block';
+import ContactForm from '@/presentation/components/ContactForm';
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -51,7 +52,7 @@ export default function AboutPage() {
           {t('connectTitle')}
         </h2>
         <p className="mb-8 text-sm leading-relaxed text-foreground/70 max-w-2xl">{t('connect')}</p>
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap items-start gap-3">
           <a
             href="https://github.com/marsen"
             target="_blank"
@@ -60,12 +61,7 @@ export default function AboutPage() {
           >
             {t('github')} →
           </a>
-          <a
-            href="mailto:admin@marsen.me"
-            className="inline-flex items-center rounded-full bg-accent px-6 py-3 text-sm font-medium text-background hover:bg-accent-hover transition-colors"
-          >
-            {t('emailMe')} →
-          </a>
+          <ContactForm />
         </div>
       </Block>
     </div>
