@@ -23,8 +23,8 @@ const DARK_VARS: CSSProperties = {
 type Ripple = { id: number; x: number; y: number };
 
 const RIPPLE_INTERVAL_MS = 70;
-const RIPPLE_LIFETIME_MS = 2200;
-const MAX_RIPPLES = 14;
+const RIPPLE_LIFETIME_MS = 4400;
+const MAX_RIPPLES = 40;
 
 let nextRippleId = 0;
 
