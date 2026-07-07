@@ -84,7 +84,7 @@ function PreviewCta({ label }: { label: string }) {
  */
 function PreviewPane({ content, staticText }: { content: LandingContent; staticText: LandingStaticText }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-border">
+    <div className="overflow-hidden border border-border">
       <div className="max-h-[80vh] overflow-y-auto overflow-x-hidden">
         <LandingPageView
           content={content}
