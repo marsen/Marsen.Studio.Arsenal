@@ -5,6 +5,9 @@ const schema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).optional(),
   RESEND_API_KEY: z.string().min(1).optional(),
   RESEND_FROM_EMAIL: z.string().email().optional(),
+  DATABASE_URL: z.string().min(1).optional(),
+  AUTH_SECRET: z.string().min(1).optional(),
+  AUTH_TOKEN_TTL: z.string().min(1).optional(),
 })
 
 const parsed = schema.safeParse(process.env)
@@ -21,6 +24,9 @@ export const env = {
   isProduction: _env.NODE_ENV === 'production',
   resendApiKey: _env.RESEND_API_KEY,
   resendFromEmail: _env.RESEND_FROM_EMAIL ?? 'onboarding@resend.dev',
+  databaseUrl: _env.DATABASE_URL,
+  authSecret: _env.AUTH_SECRET,
+  authTokenTtl: _env.AUTH_TOKEN_TTL ?? '7d',
 } as const
 
 /**
@@ -35,4 +41,31 @@ export function requireBaseUrl(): string {
     )
   }
   return env.baseUrl
+}
+
+/**
+ * 後台功能（登入、內容管理）需要資料庫連線。
+ * 不提供預設值——沒設定就 fail fast，公開頁面不受影響（不需要資料庫）。
+ */
+export function requireDatabaseUrl(): string {
+  if (!env.databaseUrl) {
+    throw new Error(
+      '[env] DATABASE_URL is required for admin features (login/content management). ' +
+        'Set it in .env.local for local dev, or in Vercel project settings for deployments.'
+    )
+  }
+  return env.databaseUrl
+}
+
+/**
+ * 後台 session 簽章金鑰。同樣只在後台功能被實際呼叫時才要求存在。
+ */
+export function requireAuthSecret(): string {
+  if (!env.authSecret) {
+    throw new Error(
+      '[env] AUTH_SECRET is required for admin session signing. ' +
+        'Set it in .env.local for local dev, or in Vercel project settings for deployments.'
+    )
+  }
+  return env.authSecret
 }

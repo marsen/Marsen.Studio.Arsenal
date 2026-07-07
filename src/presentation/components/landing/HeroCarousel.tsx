@@ -1,17 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useTranslations } from 'next-intl';
 
 type Slide = { heading: string; sub: string };
 
 const INTERVAL = 4500;
 const FADE_DURATION = 500;
 
-export default function HeroCarousel() {
-  const t = useTranslations('home');
-  const slides = t.raw('heroSlides') as Slide[];
-
+export default function HeroCarousel({ slides }: { slides: Slide[] }) {
   const [index, setIndex] = useState(0);
   const [visible, setVisible] = useState(true);
 

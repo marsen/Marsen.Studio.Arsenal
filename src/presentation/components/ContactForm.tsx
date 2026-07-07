@@ -5,7 +5,12 @@ import { useTranslations } from 'next-intl';
 
 type State = 'idle' | 'submitting' | 'success' | 'error';
 
-export default function ContactForm() {
+type Props = {
+  /** 覆寫預設的 CTA 按鈕文字（首頁由後台內容管理提供，其餘頁面沿用既有翻譯字串） */
+  ctaLabel?: string;
+};
+
+export default function ContactForm({ ctaLabel }: Props) {
   const t = useTranslations('home');
   const [open, setOpen] = useState(false);
   const [state, setState] = useState<State>('idle');
@@ -43,7 +48,7 @@ export default function ContactForm() {
         onClick={() => setOpen(true)}
         className="inline-flex items-center rounded-full bg-accent px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
       >
-        {t('heroCta')}
+        {ctaLabel ?? t('heroCta')}
       </button>
     );
   }

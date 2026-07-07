@@ -46,9 +46,15 @@ type Tone = keyof typeof TONES;
 type Props = {
   tone?: Tone;
   children: ReactNode;
+  /**
+   * 滿版斷裂背景（撐出視窗寬度）依賴 100vw，計算基準是「真實瀏覽器視窗」，
+   * 塞進較窄的容器（例如後台即時預覽面板）裡會裁到內容看不到。
+   * 設 false 改用 w-full，背景只填滿目前容器寬度，不做斷裂延伸。
+   */
+  fullBleed?: boolean;
 };
 
-export default function Block({ tone = 'neutral', children }: Props) {
+export default function Block({ tone = 'neutral', children, fullBleed = true }: Props) {
   const { bg, vars } = TONES[tone] ?? TONES.neutral;
   const style: CSSProperties = {
     background: bg,
@@ -56,7 +62,10 @@ export default function Block({ tone = 'neutral', children }: Props) {
   };
 
   return (
-    <div className="relative left-1/2 w-screen -translate-x-1/2" style={style}>
+    <div
+      className={fullBleed ? 'relative left-1/2 w-screen -translate-x-1/2' : 'w-full'}
+      style={style}
+    >
       <div className="mx-auto max-w-7xl px-6 py-20 md:py-28">{children}</div>
     </div>
   );
