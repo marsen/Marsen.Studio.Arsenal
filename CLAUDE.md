@@ -20,16 +20,23 @@
 
 ## 架構
 
-精簡版分層，依賴方向：`app → presentation → lib`
+雙軌並存，依實際需求選擇：
 
+**展示頁面（多數頁面適用）**：精簡版分層，依賴方向 `app → presentation → lib`
 - `app/[locale]/` — Next.js 路由（頁面）
-- `app/api/` — API Routes（外部回調，如 Instagram OAuth）
+- `app/api/` — API Routes（外部回調，如 Instagram OAuth、聯絡表單）
 - `presentation/components/` — React 元件
 - `presentation/lib/` — 前端工具函式
 - `lib/` — 純工具函式（hangul、env）
 - `messages/` — i18n 翻譯文字（en.json、zh.json）
 
-> **不需要** domain / application / infrastructure 層，目前沒有資料庫或複雜業務邏輯。
+**後台管理（/admin，含帳號登入、內容編輯）**：完整 Clean Architecture 分層，跟隨 `Becca.Surf.App` 的既有模式
+- `domain/` — 純資料型別、repository port（零外部依賴）
+- `application/` — use case（協調流程，例如帳密驗證、內容讀寫）
+- `infrastructure/` — DB（Neon + Drizzle）、auth（jose session）、DI container
+- `app/admin/` — 後台頁面（不吃 next-intl，純中文介面）
+
+> 2026-07 起隨 #221（Landing Page CMS 後台）引入。此前因為沒有資料庫、沒有複雜業務邏輯，全站只用精簡分層；後台功能因為有帳密驗證與持久化資料，比照姊妹專案（Becca、AI.Did）改用完整分層，避免安全/資料邏輯散落在 presentation 層。前台展示頁面維持精簡分層不變，不用為了統一而過度分層。
 
 ## 開發流程
 

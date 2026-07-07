@@ -1,15 +1,9 @@
 import Image from 'next/image';
 import type { Metadata } from 'next';
-import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { buildPageMetadata } from '@/lib/metadata';
-
-type Project = {
-  name: string;
-  description: string;
-  tags: string[];
-  url: string;
-};
+import { GetLandingContent } from '@/application/landingContent/getLandingContent';
+import { getLandingContentRepository } from '@/infrastructure/di/landingContentContainer';
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -25,9 +19,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
-export default function DemosPage() {
-  const t = useTranslations('demos');
-  const projects = t.raw('projects') as Project[];
+export default async function DemosPage({ params }: Props) {
+  const { locale } = await params;
+  const localeKey = locale === 'zh' ? 'zh' : 'en';
+  const t = await getTranslations({ locale, namespace: 'demos' });
+  const { projects } = await new GetLandingContent(getLandingContentRepository()).execute(localeKey);
 
   return (
     <div className="mx-auto max-w-4xl">
