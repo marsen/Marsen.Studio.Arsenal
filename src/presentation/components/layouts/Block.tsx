@@ -9,7 +9,7 @@ const TONES: Record<string, ToneConfig> = {
   // Light sections
   neutral: { bg: 'var(--background)' },
   ghost: { bg: '#F4F4F5' },
-  tint: { bg: '#EEF2FF' },
+  tint: { bg: '#C7D2FE' },
 
   // Dark sections — override CSS vars so child components stay readable
   ink: {
@@ -69,7 +69,7 @@ export default function Block({ tone = 'neutral', children, fullBleed = true, co
       className={fullBleed ? 'relative left-1/2 w-screen -translate-x-1/2' : 'w-full'}
       style={style}
     >
-      <div className={`mx-auto max-w-7xl px-6 ${compact ? 'py-10 md:py-14' : 'py-20 md:py-28'}`}>
+      <div className={`mx-auto max-w-7xl px-6 ${compact ? 'py-5 md:py-7' : 'py-20 md:py-28'}`}>
         {children}
       </div>
     </div>
