@@ -5,6 +5,7 @@ import { buildPageMetadata } from '@/lib/metadata';
 import { GetLandingContent } from '@/application/landingContent/getLandingContent';
 import { getLandingContentRepository } from '@/infrastructure/di/landingContentContainer';
 import Block from '@/presentation/components/layouts/Block';
+import GlossyHeroBanner from '@/presentation/components/layouts/GlossyHeroBanner';
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -28,13 +29,13 @@ export default async function DemosPage({ params }: Props) {
 
   return (
     <div className="flex flex-col">
-      <Block tone="tint" compact>
+      <GlossyHeroBanner compact>
         <div className="mx-auto max-w-4xl">
           <h1 className="font-display mb-3 text-5xl font-bold tracking-tight">{t('title')}</h1>
           <p className="mb-2 text-sm text-muted-foreground">{t('subtitle')}</p>
           <p className="text-sm text-foreground/70">{t('intro')}</p>
         </div>
-      </Block>
+      </GlossyHeroBanner>
 
       <Block tone="ghost">
         <div className="mx-auto flex max-w-4xl flex-col gap-20">

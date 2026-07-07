@@ -51,7 +51,7 @@ export default function LandingPageView({ content, staticText: s, demosHref, cta
     <div className="flex flex-col">
       {/* Hero — full viewport */}
       <div
-        className={`relative min-h-[70svh] flex items-end ${fullBleed ? 'left-1/2 w-screen -translate-x-1/2' : 'w-full'}`}
+        className={`relative min-h-[42svh] flex items-end ${fullBleed ? 'left-1/2 w-screen -translate-x-1/2' : 'w-full'}`}
         style={{
           background: 'linear-gradient(45deg, #0D0D0F 0%, #1a1040 50%, #0D0D0F 100%)',
         }}

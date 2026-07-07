@@ -9,7 +9,6 @@ const TONES: Record<string, ToneConfig> = {
   // Light sections
   neutral: { bg: 'var(--background)' },
   ghost: { bg: '#F4F4F5' },
-  tint: { bg: '#C7D2FE' },
 
   // Dark sections — override CSS vars so child components stay readable
   ink: {
