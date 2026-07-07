@@ -5,10 +5,10 @@ import { Link } from "@/i18n/navigation";
 import { buildPageMetadata } from "@/lib/metadata";
 
 const tools = [
-  { slug: "background-removal", emoji: "🪄", titleKey: "backgroundRemoval", descKey: "backgroundRemovalDesc" },
-  { slug: "heic-to-jpg", emoji: "📁", titleKey: "heicToJpg", descKey: "heicToJpgDesc" },
-  { slug: "korean-phonics", emoji: "🇰🇷", titleKey: "koreanPhonics", descKey: "koreanPhonicsDesc" },
-  { slug: "ig-token", emoji: "📸", titleKey: "igToken", descKey: "igTokenDesc" },
+  { slug: "background-removal", titleKey: "backgroundRemoval", descKey: "backgroundRemovalDesc" },
+  { slug: "heic-to-jpg", titleKey: "heicToJpg", descKey: "heicToJpgDesc" },
+  { slug: "korean-phonics", titleKey: "koreanPhonics", descKey: "koreanPhonicsDesc" },
+  { slug: "ig-token", titleKey: "igToken", descKey: "igTokenDesc" },
 ];
 
 type Props = { params: Promise<{ locale: string }> };
@@ -33,15 +33,15 @@ export default function ToolsPage() {
       <h1 className="font-display text-5xl font-bold tracking-tight">{t("title")}</h1>
       <p className="mt-3 text-muted-foreground">{t("subtitle")}</p>
       <ul className="mt-10 grid gap-4 sm:grid-cols-2">
-        {tools.map(({ slug, emoji, titleKey, descKey }) => (
+        {tools.map(({ slug, titleKey, descKey }, i) => (
           <li key={slug}>
             <Link
               href={`/tools/${slug}`}
-              className="flex flex-col gap-2 rounded-2xl border border-border bg-card p-6 transition-colors hover:border-accent"
+              className="flex flex-col rounded-2xl border border-border px-6 py-8 transition-colors hover:border-accent"
             >
-              <span className="text-2xl">{emoji}</span>
-              <span className="font-semibold text-foreground">{t(titleKey)}</span>
-              <span className="text-sm text-muted-foreground">{t(descKey)}</span>
+              <p className="mb-2 text-xs text-muted-foreground">{String(i + 1).padStart(2, "0")}</p>
+              <span className="font-display mb-2 text-xl font-semibold text-foreground">{t(titleKey)}</span>
+              <span className="text-sm leading-relaxed text-foreground/70">{t(descKey)}</span>
             </Link>
           </li>
         ))}
