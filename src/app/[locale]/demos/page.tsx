@@ -57,7 +57,7 @@ export default async function DemosPage({ params }: Props) {
 
               {/* 文字區 */}
               <div className="flex w-full flex-col md:w-1/2">
-                <span className="mb-1 text-xs font-medium tracking-wide text-accent">{num}</span>
+                <span className="mb-1 font-mono text-xs text-accent">{num}</span>
                 <h2 className="font-display mb-3 text-2xl font-bold tracking-tight">
                   {project.name}
                 </h2>
@@ -68,7 +68,7 @@ export default async function DemosPage({ params }: Props) {
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-full border border-border bg-muted px-3 py-1 text-xs text-muted-foreground"
+                      className="rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground"
                     >
                       {tag}
                     </span>
@@ -78,7 +78,7 @@ export default async function DemosPage({ params }: Props) {
                   href={project.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex self-start items-center rounded-full border border-border px-5 py-2.5 text-sm font-medium text-foreground hover:border-accent hover:text-accent transition-colors"
+                  className="inline-flex self-start items-center rounded-full bg-accent px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
                 >
                   {t('visit')}
                 </a>
