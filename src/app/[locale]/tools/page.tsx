@@ -29,7 +29,7 @@ export default function ToolsPage() {
   const t = useTranslations("tools");
 
   return (
-    <div>
+    <div className="pt-20 md:pt-28">
       <h1 className="font-display text-5xl font-bold tracking-tight">{t("title")}</h1>
       <p className="mt-3 text-muted-foreground">{t("subtitle")}</p>
       <ul className="mt-10 grid gap-4 sm:grid-cols-2">

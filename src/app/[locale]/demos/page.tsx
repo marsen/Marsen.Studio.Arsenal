@@ -26,7 +26,7 @@ export default async function DemosPage({ params }: Props) {
   const { projects } = await new GetLandingContent(getLandingContentRepository()).execute(localeKey);
 
   return (
-    <div className="mx-auto max-w-4xl">
+    <div className="mx-auto max-w-4xl pt-20 md:pt-28">
       <h1 className="font-display mb-3 text-5xl font-bold tracking-tight">{t('title')}</h1>
       <p className="mb-2 text-sm text-muted-foreground">{t('subtitle')}</p>
       <p className="mb-16 text-sm text-foreground/70">{t('intro')}</p>
