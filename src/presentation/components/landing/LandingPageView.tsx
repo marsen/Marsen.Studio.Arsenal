@@ -1,6 +1,7 @@
 import { Fragment, type ReactNode } from 'react';
 import type { LandingContent } from '@/domain/landingContent/landingContent';
 import Block from '@/presentation/components/layouts/Block';
+import GlossyHeroBanner from '@/presentation/components/layouts/GlossyHeroBanner';
 import HeroCarousel from '@/presentation/components/landing/HeroCarousel';
 
 const WANT_IMAGES = [
@@ -50,21 +51,17 @@ export default function LandingPageView({ content, staticText: s, demosHref, cta
   return (
     <div className="flex flex-col">
       {/* Hero — full viewport */}
-      <div
-        className={`relative min-h-[42svh] flex items-end ${fullBleed ? 'left-1/2 w-screen -translate-x-1/2' : 'w-full'}`}
-        style={{
-          background: 'linear-gradient(45deg, #0D0D0F 0%, #1a1040 50%, #0D0D0F 100%)',
-        }}
+      <GlossyHeroBanner
+        fullBleed={fullBleed}
+        className="min-h-[42svh] flex items-end"
+        contentClassName="relative mx-auto w-full max-w-7xl px-6 pb-14 pt-0 md:pb-16"
       >
-        {/* 內容：貼底 */}
-        <div className="relative mx-auto w-full max-w-7xl px-6 pb-14 pt-0 md:pb-16">
-          <p className="mb-6 text-xs font-medium uppercase tracking-widest text-accent">
-            {content.heroEyebrow}
-          </p>
-          <HeroCarousel slides={content.heroSlides} />
-          {ctaSlot}
-        </div>
-      </div>
+        <p className="mb-6 text-xs font-medium uppercase tracking-widest text-accent">
+          {content.heroEyebrow}
+        </p>
+        <HeroCarousel slides={content.heroSlides} />
+        {ctaSlot}
+      </GlossyHeroBanner>
 
       {/* 你有沒有想過？+ 流程 — 斜角疊入 Hero */}
       <div

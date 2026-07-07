@@ -33,7 +33,7 @@ export default function ToolsPage() {
   return (
     <div className="flex flex-col">
       <GlossyHeroBanner compact>
-        <h1 className="font-display text-5xl font-bold tracking-tight">{t("title")}</h1>
+        <h1 className="font-display text-5xl font-bold tracking-tight text-foreground">{t("title")}</h1>
         <p className="mt-3 text-muted-foreground">{t("subtitle")}</p>
       </GlossyHeroBanner>
 
