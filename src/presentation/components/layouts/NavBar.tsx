@@ -1,11 +1,13 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Link } from '@/i18n/navigation';
+import { Link, usePathname } from '@/i18n/navigation';
 import BrandMark from './BrandMark';
 import LanguageSwitcher from './LanguageSwitcher';
 
 export default function NavBar() {
+  const pathname = usePathname();
+  const isHome = pathname === '/';
   const [visible, setVisible] = useState(true);
   const [scrolled, setScrolled] = useState(false);
   const lastY = useRef(0);
@@ -13,13 +15,13 @@ export default function NavBar() {
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
-      setVisible(y < lastY.current || y < 60);
+      setVisible(isHome ? y < lastY.current || y < 60 : true);
       setScrolled(y > 60);
       lastY.current = y;
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  }, [isHome]);
 
   return (
     <header

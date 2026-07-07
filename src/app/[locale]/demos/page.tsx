@@ -4,6 +4,8 @@ import { getTranslations } from 'next-intl/server';
 import { buildPageMetadata } from '@/lib/metadata';
 import { GetLandingContent } from '@/application/landingContent/getLandingContent';
 import { getLandingContentRepository } from '@/infrastructure/di/landingContentContainer';
+import Block from '@/presentation/components/layouts/Block';
+import GlossyHeroBanner from '@/presentation/components/layouts/GlossyHeroBanner';
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -26,67 +28,73 @@ export default async function DemosPage({ params }: Props) {
   const { projects } = await new GetLandingContent(getLandingContentRepository()).execute(localeKey);
 
   return (
-    <div className="mx-auto max-w-4xl">
-      <h1 className="font-display mb-3 text-5xl font-bold tracking-tight">{t('title')}</h1>
-      <p className="mb-2 text-sm text-muted-foreground">{t('subtitle')}</p>
-      <p className="mb-16 text-sm text-foreground/70">{t('intro')}</p>
+    <div className="flex flex-col">
+      <GlossyHeroBanner compact>
+        <div className="mx-auto max-w-4xl">
+          <h1 className="font-display mb-3 text-5xl font-bold tracking-tight text-foreground">{t('title')}</h1>
+          <p className="mb-2 text-sm text-muted-foreground">{t('subtitle')}</p>
+          <p className="text-sm text-foreground/70">{t('intro')}</p>
+        </div>
+      </GlossyHeroBanner>
 
-      <div className="flex flex-col gap-20">
-        {projects.map((project, index) => {
-          const isEven = index % 2 === 0;
-          const num = String(index + 1).padStart(2, '0');
+      <Block tone="ghost">
+        <div className="mx-auto flex max-w-4xl flex-col gap-20">
+          {projects.map((project, index) => {
+            const isEven = index % 2 === 0;
+            const num = String(index + 1).padStart(2, '0');
 
-          return (
-            <article
-              key={project.name}
-              className={`group flex flex-col items-start gap-8 md:flex-row ${isEven ? '' : 'md:flex-row-reverse'}`}
-            >
-              {/* 圖片區 */}
-              <div className="relative w-full shrink-0 md:w-1/2">
-                <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-muted">
-                  <Image
-                    src={`https://s.wordpress.com/mshots/v1/${encodeURIComponent(project.url)}?w=1200&h=675`}
-                    alt={project.name}
-                    fill
-                    className="object-cover object-top transition duration-300 group-hover:scale-[1.01]"
-                    unoptimized
-                    priority={index === 0}
-                  />
+            return (
+              <article
+                key={project.name}
+                className={`group flex flex-col items-start gap-8 md:flex-row ${isEven ? '' : 'md:flex-row-reverse'}`}
+              >
+                {/* 圖片區 */}
+                <div className="relative w-full shrink-0 md:w-1/2">
+                  <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-background">
+                    <Image
+                      src={`https://s.wordpress.com/mshots/v1/${encodeURIComponent(project.url)}?w=1200&h=675`}
+                      alt={project.name}
+                      fill
+                      className="object-cover object-top transition duration-300 group-hover:scale-[1.01]"
+                      unoptimized
+                      priority={index === 0}
+                    />
+                  </div>
                 </div>
-              </div>
 
-              {/* 文字區 */}
-              <div className="flex w-full flex-col md:w-1/2">
-                <span className="mb-1 font-mono text-xs text-accent">{num}</span>
-                <h2 className="font-display mb-3 text-2xl font-bold tracking-tight">
-                  {project.name}
-                </h2>
-                <p className="mb-5 text-sm leading-relaxed text-foreground/70">
-                  {project.description}
-                </p>
-                <div className="mb-6 flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                {/* 文字區 */}
+                <div className="flex w-full flex-col md:w-1/2">
+                  <span className="mb-1 font-mono text-xs text-accent">{num}</span>
+                  <h2 className="font-display mb-3 text-2xl font-bold tracking-tight">
+                    {project.name}
+                  </h2>
+                  <p className="mb-5 text-sm leading-relaxed text-foreground/70">
+                    {project.description}
+                  </p>
+                  <div className="mb-6 flex flex-wrap gap-2">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <a
+                    href={project.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex self-start items-center rounded-full bg-accent px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
+                  >
+                    {t('visit')}
+                  </a>
                 </div>
-                <a
-                  href={project.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex self-start items-center rounded-full bg-accent px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
-                >
-                  {t('visit')}
-                </a>
-              </div>
-            </article>
-          );
-        })}
-      </div>
+              </article>
+            );
+          })}
+        </div>
+      </Block>
     </div>
   );
 }

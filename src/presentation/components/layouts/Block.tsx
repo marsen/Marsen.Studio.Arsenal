@@ -52,9 +52,11 @@ type Props = {
    * 設 false 改用 w-full，背景只填滿目前容器寬度，不做斷裂延伸。
    */
   fullBleed?: boolean;
+  /** 內容較短的區塊（例如頁面標題列）不需要 hero 等級的上下留白。 */
+  compact?: boolean;
 };
 
-export default function Block({ tone = 'neutral', children, fullBleed = true }: Props) {
+export default function Block({ tone = 'neutral', children, fullBleed = true, compact = false }: Props) {
   const { bg, vars } = TONES[tone] ?? TONES.neutral;
   const style: CSSProperties = {
     background: bg,
@@ -66,7 +68,9 @@ export default function Block({ tone = 'neutral', children, fullBleed = true }: 
       className={fullBleed ? 'relative left-1/2 w-screen -translate-x-1/2' : 'w-full'}
       style={style}
     >
-      <div className="mx-auto max-w-7xl px-6 py-20 md:py-28">{children}</div>
+      <div className={`mx-auto max-w-7xl px-6 ${compact ? 'py-5 md:py-7' : 'py-20 md:py-28'}`}>
+        {children}
+      </div>
     </div>
   );
 }

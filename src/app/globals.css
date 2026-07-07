@@ -39,3 +39,16 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
+
+@keyframes ripple-expand {
+  from {
+    width: 0px;
+    height: 0px;
+    opacity: 0.5;
+  }
+  to {
+    width: 760px;
+    height: 760px;
+    opacity: 0;
+  }
+}
