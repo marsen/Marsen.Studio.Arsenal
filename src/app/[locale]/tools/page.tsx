@@ -37,7 +37,7 @@ export default function ToolsPage() {
         <p className="mt-3 text-muted-foreground">{t("subtitle")}</p>
       </GlossyHeroBanner>
 
-      <Block tone="ghost">
+      <Block tone="ghost" compact>
         <ul className="grid gap-4 sm:grid-cols-2">
           {tools.map(({ slug, titleKey, descKey }, i) => (
             <li key={slug}>
