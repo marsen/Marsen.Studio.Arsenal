@@ -28,7 +28,7 @@ export default async function DemosPage({ params }: Props) {
 
   return (
     <div className="flex flex-col">
-      <Block tone="neutral">
+      <Block tone="tint" compact>
         <div className="mx-auto max-w-4xl">
           <h1 className="font-display mb-3 text-5xl font-bold tracking-tight">{t('title')}</h1>
           <p className="mb-2 text-sm text-muted-foreground">{t('subtitle')}</p>

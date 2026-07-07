@@ -31,7 +31,7 @@ export default function ToolsPage() {
 
   return (
     <div className="flex flex-col">
-      <Block tone="neutral">
+      <Block tone="tint" compact>
         <h1 className="font-display text-5xl font-bold tracking-tight">{t("title")}</h1>
         <p className="mt-3 text-muted-foreground">{t("subtitle")}</p>
       </Block>
