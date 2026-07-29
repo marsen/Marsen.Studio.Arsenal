@@ -11,9 +11,18 @@
     },
     "heroEyebrow": "AI-ASSISTED CO-BUILDING",
     "heroSlides": [
-      { "heading": "You already know what you want to build.", "sub": "You just don't know how to start." },
-      { "heading": "How long have you been sitting on that idea?", "sub": "Time to make it real." },
-      { "heading": "The water isn't cold.", "sub": "You just haven't jumped in yet." }
+      {
+        "heading": "You already know what you want to build.",
+        "sub": "You just don't know how to start."
+      },
+      {
+        "heading": "How long have you been sitting on that idea?",
+        "sub": "Time to make it real."
+      },
+      {
+        "heading": "The water isn't cold.",
+        "sub": "You just haven't jumped in yet."
+      }
     ],
     "heroCta": "Let me give you a push →",
     "contactNameLabel": "Your name",
@@ -73,19 +82,35 @@
       {
         "name": "An Engineer's Brand Store",
         "description": "\"Can one person build a complete commercial product?\" — that question drove AI.Did into existence. Built with AI as a co-developer from scratch: a multi-theme storefront with full checkout flow, an admin panel for products, orders, and members, and a real payment integration with TapPay. Clean Architecture underneath so every layer is replaceable. Not built to sell — built to prove a point.",
-        "tags": ["Next.js", "TypeScript", "Clean Architecture", "TapPay", "Drizzle ORM"],
+        "tags": [
+          "Next.js",
+          "TypeScript",
+          "Clean Architecture",
+          "TapPay",
+          "Drizzle ORM"
+        ],
         "url": "https://marsen-ai-did.vercel.app/"
       },
       {
         "name": "A Surf Coach's Teaching Site",
         "description": "Surf instructor Becca didn't need a complex system — she needed something that made you want to paddle out the moment you saw it. A single-page front with lesson packages, teaching videos, and overseas trip listings. An admin panel she can update herself without calling a developer. Simple, and exactly enough.",
-        "tags": ["Next.js", "TypeScript", "Tailwind CSS"],
+        "tags": [
+          "Next.js",
+          "TypeScript",
+          "Tailwind CSS"
+        ],
         "url": "https://becca-surf-app.vercel.app/"
       },
       {
         "name": "A Clam Vendor's Order Tool",
         "description": "An e-commerce MVP for a small-farm clam brand — their first digital storefront. Deep LINE integration via LIFF: users browse, order, and receive notifications entirely inside LINE, no extra app needed. Lightweight storefront, self-serve admin, built so the owner can run it independently without a developer on call.",
-        "tags": ["Next.js", "TypeScript", "LIFF", "LINE", "Drizzle ORM"],
+        "tags": [
+          "Next.js",
+          "TypeScript",
+          "LIFF",
+          "LINE",
+          "Drizzle ORM"
+        ],
         "url": "https://amy-clam-site.vercel.app/"
       }
     ],
@@ -94,7 +119,7 @@
   "tools": {
     "meta": {
       "title": "Free Online Tools | Marsen",
-      "description": "Free browser-based utilities: batch background removal, HEIC to JPG conversion, Korean phonics practice, and an Instagram token generator. Nothing gets uploaded."
+      "description": "Free browser-based utilities: batch background removal, HEIC to JPG conversion, Korean phonics practice, an Instagram token generator, and an itinerary gap planner. Nothing gets uploaded."
     },
     "title": "Tools",
     "subtitle": "Small utilities for dev and everyday life.",
@@ -105,9 +130,13 @@
     "koreanPhonics": "Korean Phonics",
     "koreanPhonicsDesc": "Learn Korean syllable structure with pronunciation.",
     "igToken": "IG Token Generator",
-    "igTokenDesc": "Generate a long-lived Instagram access token via OAuth."
+    "igTokenDesc": "Generate a long-lived Instagram access token via OAuth.",
+    "itinerary": "Itinerary Gap Planner",
+    "itineraryDesc": "Paste an itinerary as JSON and see the free time left on each day."
   },
-  "common": { "comingSoon": "Coming soon." },
+  "common": {
+    "comingSoon": "Coming soon."
+  },
   "bgRemoval": {
     "title": "Background Removal",
     "subtitle": "Removes backgrounds locally in your browser — files are never uploaded. Supports PNG / JPG / WebP / HEIC, up to 20 images, 15 MB each.",
@@ -199,5 +228,39 @@
     "errTokenFailed": "Token exchange failed — double-check your App ID and Secret",
     "errLongTokenFailed": "Failed to get a long-lived token",
     "errStart": "Couldn't start the authorization flow"
+  },
+  "itinerary": {
+    "title": "Itinerary Gap Planner",
+    "subtitle": "Paste your itinerary and see what free time is left once fixed plans are subtracted.",
+    "privacy": "Data stays in your own browser (localStorage). Nothing is uploaded.",
+    "summaryTitle": "Free time overview",
+    "summaryDays": "{count, plural, one {# day} other {# days}}",
+    "summaryFree": "{duration} free",
+    "warnCount": "{count, plural, one {# item needs} other {# items need}} confirmation",
+    "filter": {
+      "all": "All",
+      "free": "Free time only",
+      "fixed": "Fixed plans only"
+    },
+    "freeSlot": "{duration} free",
+    "freeTotal": "{duration} free",
+    "allDay": "All day",
+    "nothingHere": "Nothing planned for this day.",
+    "openEditor": "Edit data",
+    "closeEditor": "Close editor",
+    "loadSample": "Load sample",
+    "apply": "Apply",
+    "editorHint": "Edit the JSON below and hit apply. Items without a start are treated as all-day and take no time; an end earlier than start means it crosses midnight.",
+    "errJson": "Invalid JSON — check the brackets and quotes.",
+    "errShape": "Some fields are not in the expected shape.",
+    "weekday": {
+      "sun": "Sun",
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat"
+    }
   }
 }

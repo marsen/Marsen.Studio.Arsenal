@@ -11,6 +11,7 @@ const tools = [
   { slug: "heic-to-jpg", titleKey: "heicToJpg", descKey: "heicToJpgDesc" },
   { slug: "korean-phonics", titleKey: "koreanPhonics", descKey: "koreanPhonicsDesc" },
   { slug: "ig-token", titleKey: "igToken", descKey: "igTokenDesc" },
+  { slug: "itinerary", titleKey: "itinerary", descKey: "itineraryDesc" },
 ];
 
 type Props = { params: Promise<{ locale: string }> };
