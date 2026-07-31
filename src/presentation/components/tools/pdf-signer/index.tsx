@@ -27,7 +27,9 @@ function downloadBytes(bytes: Uint8Array, fileName: string) {
 
 export default function PdfSigner() {
   const t = useTranslations("pdfSigner");
-  const signature = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const signatures = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const [selectedSignatureId, setSelectedSignatureId] = useState<string | null>(null);
+  const selectedSignature = signatures.find((s) => s.id === selectedSignatureId) ?? null;
 
   // canvas 一律掛載（用 CSS 隱藏，不做條件渲染），確保上傳當下 canvasRef 就已經可用，
   // 不用額外的 useEffect 去等待 canvas 掛載完成。
@@ -88,7 +90,7 @@ export default function PdfSigner() {
   }
 
   function addPlacement() {
-    if (!signature) return;
+    if (!selectedSignature) return;
     const canvas = canvasRef.current;
     const centerX = canvas ? Math.max((canvas.width - DEFAULT_PLACEMENT_WIDTH) / 2, 0) : 40;
     const centerY = canvas ? Math.max((canvas.height - DEFAULT_PLACEMENT_HEIGHT) / 2, 0) : 40;
@@ -100,7 +102,7 @@ export default function PdfSigner() {
       yPx: centerY,
       widthPx: DEFAULT_PLACEMENT_WIDTH,
       heightPx: DEFAULT_PLACEMENT_HEIGHT,
-      signatureDataUrl: signature,
+      signatureDataUrl: selectedSignature.dataUrl,
     };
     setPlacements((prev) => [...prev, next]);
   }
@@ -154,7 +156,7 @@ export default function PdfSigner() {
 
       <div className="mb-8">
         <p className="mb-2 text-sm font-medium text-foreground">{t("signatureStep")}</p>
-        <SignaturePad />
+        <SignaturePad selectedId={selectedSignatureId} onSelect={setSelectedSignatureId} />
       </div>
 
       <input
@@ -214,13 +216,15 @@ export default function PdfSigner() {
           </button>
         </div>
 
-        <p className="mb-3 text-xs text-muted-foreground">{signature ? t("placeHint") : t("needSignatureHint")}</p>
+        <p className="mb-3 text-xs text-muted-foreground">
+          {selectedSignature ? t("placeHint") : t("needSignatureHint")}
+        </p>
 
         <div className="mb-4">
           <button
             type="button"
             onClick={addPlacement}
-            disabled={!signature}
+            disabled={!selectedSignature}
             className="rounded-lg bg-primary px-4 py-1.5 text-sm font-medium text-primary-foreground transition hover:opacity-80 disabled:opacity-40"
           >
             {t("addPlacement")}
