@@ -12,6 +12,7 @@ const tools = [
   { slug: "korean-phonics", titleKey: "koreanPhonics", descKey: "koreanPhonicsDesc" },
   { slug: "ig-token", titleKey: "igToken", descKey: "igTokenDesc" },
   { slug: "itinerary", titleKey: "itinerary", descKey: "itineraryDesc" },
+  { slug: "pdf-signer", titleKey: "pdfSigner", descKey: "pdfSignerDesc" },
 ];
 
 type Props = { params: Promise<{ locale: string }> };

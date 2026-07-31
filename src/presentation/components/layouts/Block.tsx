@@ -54,9 +54,23 @@ type Props = {
   fullBleed?: boolean;
   /** 內容較短的區塊（例如頁面標題列）不需要 hero 等級的上下留白。 */
   compact?: boolean;
+  /**
+   * 附加在最外層 div 的 className（例如 `min-h-screen`）。
+   * 用於整頁只有單一 Block 的情境：根版面的 `<main>` 只用 `flex-1` 撐高、沒有明確 height，
+   * 子層用 `min-h-full`（百分比高度）無法對齊撐開的高度，內容較短時底下會露出網站原本的淺色背景。
+   * 這時可傳 `min-h-screen`（視窗高度單位，不依賴父層高度解析）讓背景撐滿。
+   * 多個 Block 堆疊的頁面（如首頁、關於）不需要這個。
+   */
+  className?: string;
 };
 
-export default function Block({ tone = 'neutral', children, fullBleed = true, compact = false }: Props) {
+export default function Block({
+  tone = 'neutral',
+  children,
+  fullBleed = true,
+  compact = false,
+  className = '',
+}: Props) {
   const { bg, vars } = TONES[tone] ?? TONES.neutral;
   const style: CSSProperties = {
     background: bg,
@@ -65,7 +79,7 @@ export default function Block({ tone = 'neutral', children, fullBleed = true, co
 
   return (
     <div
-      className={fullBleed ? 'relative left-1/2 w-screen -translate-x-1/2' : 'w-full'}
+      className={`${fullBleed ? 'relative left-1/2 w-screen -translate-x-1/2' : 'w-full'} ${className}`}
       style={style}
     >
       <div className={`mx-auto max-w-7xl px-6 ${compact ? 'py-5 md:py-7' : 'py-20 md:py-28'}`}>
