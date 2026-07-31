@@ -1,0 +1,510 @@
+import type { Itinerary } from "./types";
+
+/**
+ * 內建範例行程（2026 中歐 swing 營隊）。
+ * 班機代號、車次、住宿名稱等個資已打碼為 ●，僅保留公開的活動與交通時刻。
+ */
+const zh: Itinerary = {
+  title: "中歐 Swing 營隊 2026",
+  dayStart: "08:00",
+  dayEnd: "22:00",
+  minGapMinutes: 60,
+  riskLog: [
+    {
+      text: "Pre-Party 20:00–23:30（15 €）無法參加，原擔心已付費要退費",
+      resolved: true,
+      note: "已知，沒付費不是問題",
+    },
+    {
+      text: "8/17 取行李、前往中央車站，時間是否足夠",
+      resolved: true,
+      note: "沒問題",
+    },
+    {
+      text: "8/17 退房後行李是否寄放中央車站置物櫃",
+      resolved: false,
+      note: "改成 After Party 前備妥行李、跳到 23:00 離場前往車站（很近）；是否先寄放車站置物櫃仍待討論",
+    },
+    {
+      text: "Keep Swinging BP Social — 時間、地點待補",
+      resolved: false,
+      note: "收到，再查",
+    },
+    {
+      text: "資料衝突：另一份表寫 8/20 17:00 離開布達佩斯，請確認車票",
+      resolved: true,
+      note: "已用真實車票確認：8/21 09:30 布達佩斯 → 布拉提斯拉瓦",
+    },
+    {
+      text: "維也納 Party（7 €）— 時間、地點待補",
+      resolved: false,
+      note: "收到，再查",
+    },
+    {
+      text: "維也納住宿尚未訂（8/21–8/24 共 3 晚）",
+      resolved: true,
+      note: "已訂：Adina Serviced Apartments Vienna ●●●●；近地鐵 Wien Quartier Belvedere，步行約 250 公尺",
+    },
+  ],
+  days: [
+    {
+      date: "2026-08-13",
+      country: "台灣",
+      city: "台北",
+      timezone: "Asia/Taipei",
+      items: [
+        { start: "20:50", end: "23:50", title: "桃園機場 T1 報到、候機", kind: "travel" },
+        {
+          start: "23:50",
+          end: "23:59",
+          title: "航班 CI ●● 台北 → 布拉格",
+          note: "次日 06:45 抵達 Prague Vaclav Havel T1",
+          kind: "travel",
+        },
+        {
+          title: "Pre-Party 20:00–23:30（15 €）不參加",
+          note: "班機當晚起飛；未付費，無須退費",
+          kind: "note",
+        },
+      ],
+    },
+    {
+      date: "2026-08-14",
+      country: "捷克",
+      city: "布拉格",
+      timezone: "Europe/Prague",
+      items: [
+        { start: "06:45", title: "抵達布拉格 T1", kind: "travel" },
+        { start: "14:00", end: "15:00", title: "活動報到", note: "Autoclub of the Czech Republic" },
+        { start: "15:00", end: "18:15", title: "Extension Class" },
+        {
+          start: "20:00",
+          end: "03:00",
+          title: "Party",
+          note: "20:30 Taster ｜ 21:30 Live Band ｜ 22:00 Competition ｜ 23:30–01:30 Slow Bal",
+        },
+        { title: "剛下長途機，白天空檔建議留一半補眠", kind: "note" },
+      ],
+    },
+    {
+      date: "2026-08-15",
+      country: "捷克",
+      city: "布拉格",
+      timezone: "Europe/Prague",
+      items: [
+        { start: "09:45", end: "10:15", title: "報到" },
+        { start: "10:15", end: "11:00", title: "Audition" },
+        { start: "11:00", end: "16:40", title: "上課" },
+        {
+          start: "20:00",
+          end: "04:00",
+          title: "Party（最長的一晚）",
+          note: "20:00 Taster ｜ 21:30 Live Band ｜ 22:00 Competition ｜ 23:30–01:30 Slow Bal",
+        },
+      ],
+    },
+    {
+      date: "2026-08-16",
+      country: "捷克",
+      city: "布拉格",
+      timezone: "Europe/Prague",
+      items: [
+        { start: "11:00", end: "16:40", title: "上課" },
+        {
+          start: "20:00",
+          end: "02:00",
+          title: "Party",
+          note: "20:00 Taster ｜ 22:00 Competition ｜ 23:30–01:00 Slow Bal",
+        },
+        { title: "前一晚跳到 04:00，早上空檔建議補眠", kind: "note" },
+      ],
+    },
+    {
+      date: "2026-08-17",
+      country: "捷克",
+      city: "布拉格 → 夜車",
+      timezone: "Europe/Prague",
+      items: [
+        {
+          start: "20:00",
+          end: "23:00",
+          title: "After Party（15 €）",
+          note: "Jazz & Cocktail Club U Staré paní ｜ Live Band；行李先收好隨身帶著，不寄放",
+        },
+        {
+          start: "23:00",
+          end: "23:59",
+          title: "離場、前往中央車站",
+          note: "場地離車站很近；是否改成先把行李寄放車站置物櫃，待討論",
+          kind: "travel",
+          warn: true,
+        },
+        { title: "次日 00:36 夜車 EN ●●●● 布拉格 → 布達佩斯", kind: "travel" },
+        { title: "布拉格唯一完整的一整天，適合排城堡區或近郊", kind: "note" },
+      ],
+    },
+    {
+      date: "2026-08-18",
+      country: "匈牙利",
+      city: "布達佩斯",
+      timezone: "Europe/Budapest",
+      items: [
+        { start: "08:29", title: "抵達 Budapest-Nyugati", kind: "travel" },
+        { title: "入住 布達佩斯住宿 ●●●●", note: "一般 check-in 15:00，可先寄放行李" },
+        { title: "Keep Swinging BP Social — 時間、地點待補", warn: true },
+        { title: "夜車睡眠品質不佳，建議排輕鬆行程", kind: "note" },
+      ],
+    },
+    {
+      date: "2026-08-19",
+      country: "匈牙利",
+      city: "布達佩斯",
+      timezone: "Europe/Budapest",
+      items: [{ title: "完全沒有固定行程，最適合排大行程或近郊", kind: "note" }],
+    },
+    {
+      date: "2026-08-20",
+      country: "匈牙利",
+      city: "布達佩斯",
+      timezone: "Europe/Budapest",
+      items: [
+        {
+          title: "匈牙利國慶日（聖伊斯特萬日）",
+          note: "市區整天活動、多瑙河煙火（往年約 21:00）。人潮極多、部分店家公休",
+        },
+      ],
+    },
+    {
+      date: "2026-08-21",
+      country: "斯洛伐克",
+      city: "布拉提斯拉瓦",
+      timezone: "Europe/Bratislava",
+      items: [
+        { start: "08:30", end: "09:15", title: "退房、前往 Budapest-Nyugati", kind: "travel" },
+        {
+          start: "09:30",
+          end: "12:00",
+          title: "火車 布達佩斯 → 布拉提斯拉瓦",
+          note: "已依真實車票確認 09:30 發車；抵達時間為預估，請以實際車票為準",
+          kind: "travel",
+        },
+        {
+          start: "18:20",
+          end: "19:50",
+          title: "火車 布拉提斯拉瓦 → 維也納",
+          note: "約 19:50 抵達 Wien Hauptbahnhof",
+          kind: "travel",
+        },
+        { title: "半日遊：行李先寄放車站置物櫃，舊城區步行可繞完", kind: "note" },
+        {
+          title: "入住 維也納住宿 ●●●●",
+          note: "8/21–8/24 共 3 晚；近地鐵 Wien Quartier Belvedere，步行約 250 公尺",
+        },
+      ],
+    },
+    {
+      date: "2026-08-22",
+      country: "奧地利",
+      city: "維也納",
+      timezone: "Europe/Vienna",
+      items: [{ title: "維也納唯一完整的一天，可排宮殿、美術館或音樂會", kind: "note" }],
+    },
+    {
+      date: "2026-08-23",
+      country: "奧地利",
+      city: "維也納",
+      timezone: "Europe/Vienna",
+      items: [
+        { title: "維也納 Party（7 €）— 時間、地點待補", warn: true },
+        { title: "晚上有活動，白天行程建議留在市區", kind: "note" },
+      ],
+    },
+    {
+      date: "2026-08-24",
+      country: "奧地利",
+      city: "維也納 → 台北",
+      timezone: "Europe/Vienna",
+      items: [
+        {
+          start: "07:00",
+          end: "08:15",
+          title: "退房、前往機場",
+          note: "Wien Hbf → VIE 約 16–25 分鐘",
+          kind: "travel",
+        },
+        { start: "08:15", end: "11:15", title: "Vienna Schwechat T1A 報到、候機", kind: "travel" },
+        {
+          start: "11:15",
+          end: "23:59",
+          title: "航班 CI ●● 維也納 → 台北",
+          note: "次日 05:30 抵達桃園機場 T1",
+          kind: "travel",
+        },
+      ],
+    },
+  ],
+};
+
+const en: Itinerary = {
+  title: "Central Europe Swing Camp 2026",
+  dayStart: "08:00",
+  dayEnd: "22:00",
+  minGapMinutes: 60,
+  riskLog: [
+    {
+      text: "Pre-Party 20:00–23:30 (€15) — cannot attend; worried a refund would be needed",
+      resolved: true,
+      note: "Confirmed — wasn't paid, so no refund needed",
+    },
+    {
+      text: "8/17 collect luggage, head to the main station — is there enough time?",
+      resolved: true,
+      note: "No problem",
+    },
+    {
+      text: "8/17 check out and store luggage at the station?",
+      resolved: false,
+      note: "Changed plan: bags packed before the After Party, leave at 23:00 (venue is close to the station); whether to drop bags at the station first is still undecided",
+    },
+    {
+      text: "Keep Swinging BP Social — time and venue still missing",
+      resolved: false,
+      note: "Noted, will check later",
+    },
+    {
+      text: "Conflict: another sheet says departure 8/20 17:00 — verify the ticket",
+      resolved: true,
+      note: "Confirmed with the real ticket: 8/21 09:30 Budapest → Bratislava",
+    },
+    {
+      text: "Vienna party (€7) — time and venue still missing",
+      resolved: false,
+      note: "Noted, will check later",
+    },
+    {
+      text: "Vienna accommodation not booked (8/21–8/24, 3 nights)",
+      resolved: true,
+      note: "Booked: Adina Serviced Apartments Vienna ●●●●; ~250m walk to Wien Quartier Belvedere station",
+    },
+  ],
+  days: [
+    {
+      date: "2026-08-13",
+      country: "Taiwan",
+      city: "Taipei",
+      timezone: "Asia/Taipei",
+      items: [
+        { start: "20:50", end: "23:50", title: "Check-in at TPE Terminal 1", kind: "travel" },
+        {
+          start: "23:50",
+          end: "23:59",
+          title: "Flight CI ●● Taipei → Prague",
+          note: "Arrives 06:45 next day, Prague Vaclav Havel T1",
+          kind: "travel",
+        },
+        {
+          title: "Pre-Party 20:00–23:30 (€15) — skipping it",
+          note: "Flight departs the same night; wasn't paid, so no refund needed",
+          kind: "note",
+        },
+      ],
+    },
+    {
+      date: "2026-08-14",
+      country: "Czechia",
+      city: "Prague",
+      timezone: "Europe/Prague",
+      items: [
+        { start: "06:45", title: "Land in Prague T1", kind: "travel" },
+        {
+          start: "14:00",
+          end: "15:00",
+          title: "Event check-in",
+          note: "Autoclub of the Czech Republic",
+        },
+        { start: "15:00", end: "18:15", title: "Extension Class" },
+        {
+          start: "20:00",
+          end: "03:00",
+          title: "Party",
+          note: "20:30 Taster | 21:30 Live Band | 22:00 Competition | 23:30–01:30 Slow Bal",
+        },
+        { title: "Straight off a long-haul flight — use half the free block to sleep", kind: "note" },
+      ],
+    },
+    {
+      date: "2026-08-15",
+      country: "Czechia",
+      city: "Prague",
+      timezone: "Europe/Prague",
+      items: [
+        { start: "09:45", end: "10:15", title: "Check-in" },
+        { start: "10:15", end: "11:00", title: "Audition" },
+        { start: "11:00", end: "16:40", title: "Classes" },
+        {
+          start: "20:00",
+          end: "04:00",
+          title: "Party (longest night)",
+          note: "20:00 Taster | 21:30 Live Band | 22:00 Competition | 23:30–01:30 Slow Bal",
+        },
+      ],
+    },
+    {
+      date: "2026-08-16",
+      country: "Czechia",
+      city: "Prague",
+      timezone: "Europe/Prague",
+      items: [
+        { start: "11:00", end: "16:40", title: "Classes" },
+        {
+          start: "20:00",
+          end: "02:00",
+          title: "Party",
+          note: "20:00 Taster | 22:00 Competition | 23:30–01:00 Slow Bal",
+        },
+        { title: "Previous night ran to 04:00 — sleep in", kind: "note" },
+      ],
+    },
+    {
+      date: "2026-08-17",
+      country: "Czechia",
+      city: "Prague → night train",
+      timezone: "Europe/Prague",
+      items: [
+        {
+          start: "20:00",
+          end: "23:00",
+          title: "After Party (€15)",
+          note: "Jazz & Cocktail Club U Staré paní | Live Band; bags packed and carried, not checked",
+        },
+        {
+          start: "23:00",
+          end: "23:59",
+          title: "Leave, head to the main station",
+          note: "Venue is very close to the station; still deciding whether to drop bags there beforehand instead",
+          kind: "travel",
+          warn: true,
+        },
+        { title: "00:36 next day: night train EN ●●●● Prague → Budapest", kind: "travel" },
+        { title: "The only full free day in Prague — castle district or a day trip", kind: "note" },
+      ],
+    },
+    {
+      date: "2026-08-18",
+      country: "Hungary",
+      city: "Budapest",
+      timezone: "Europe/Budapest",
+      items: [
+        { start: "08:29", title: "Arrive Budapest-Nyugati", kind: "travel" },
+        { title: "Check in to Budapest stay ●●●●", note: "Check-in usually 15:00; drop bags early" },
+        { title: "Keep Swinging BP Social — time and venue still missing", warn: true },
+        { title: "Poor sleep on the night train — keep the day light", kind: "note" },
+      ],
+    },
+    {
+      date: "2026-08-19",
+      country: "Hungary",
+      city: "Budapest",
+      timezone: "Europe/Budapest",
+      items: [{ title: "Nothing scheduled — best day for a big outing or day trip", kind: "note" }],
+    },
+    {
+      date: "2026-08-20",
+      country: "Hungary",
+      city: "Budapest",
+      timezone: "Europe/Budapest",
+      items: [
+        {
+          title: "Hungarian National Day (St. Stephen's Day)",
+          note: "City-wide events and Danube fireworks (usually ~21:00). Very crowded; some shops closed",
+        },
+      ],
+    },
+    {
+      date: "2026-08-21",
+      country: "Slovakia",
+      city: "Bratislava",
+      timezone: "Europe/Bratislava",
+      items: [
+        {
+          start: "08:30",
+          end: "09:15",
+          title: "Check out, head to Budapest-Nyugati",
+          kind: "travel",
+        },
+        {
+          start: "09:30",
+          end: "12:00",
+          title: "Train Budapest → Bratislava",
+          note: "Confirmed 09:30 departure from the real ticket; arrival time is estimated — check the actual ticket",
+          kind: "travel",
+        },
+        {
+          start: "18:20",
+          end: "19:50",
+          title: "Train Bratislava → Vienna",
+          note: "Arrives Wien Hauptbahnhof around 19:50",
+          kind: "travel",
+        },
+        { title: "Half day: store bags at the station; old town is walkable", kind: "note" },
+        {
+          title: "Check in to Vienna stay ●●●●",
+          note: "8/21–8/24, 3 nights; ~250m walk to Wien Quartier Belvedere station",
+        },
+      ],
+    },
+    {
+      date: "2026-08-22",
+      country: "Austria",
+      city: "Vienna",
+      timezone: "Europe/Vienna",
+      items: [
+        { title: "The only full day in Vienna — palaces, museums or a concert", kind: "note" },
+      ],
+    },
+    {
+      date: "2026-08-23",
+      country: "Austria",
+      city: "Vienna",
+      timezone: "Europe/Vienna",
+      items: [
+        { title: "Vienna party (€7) — time and venue still missing", warn: true },
+        { title: "Evening event — keep the daytime plan inside the city", kind: "note" },
+      ],
+    },
+    {
+      date: "2026-08-24",
+      country: "Austria",
+      city: "Vienna → Taipei",
+      timezone: "Europe/Vienna",
+      items: [
+        {
+          start: "07:00",
+          end: "08:15",
+          title: "Check out, head to the airport",
+          note: "Wien Hbf → VIE takes 16–25 minutes",
+          kind: "travel",
+        },
+        {
+          start: "08:15",
+          end: "11:15",
+          title: "Vienna Schwechat T1A check-in and boarding",
+          kind: "travel",
+        },
+        {
+          start: "11:15",
+          end: "23:59",
+          title: "Flight CI ●● Vienna → Taipei",
+          note: "Arrives TPE Terminal 1 at 05:30 the next day",
+          kind: "travel",
+        },
+      ],
+    },
+  ],
+};
+
+export const SAMPLE_ITINERARIES: Record<string, Itinerary> = { zh, en };
+
+export function getSampleItinerary(locale: string): Itinerary {
+  return SAMPLE_ITINERARIES[locale] ?? SAMPLE_ITINERARIES.en;
+}
