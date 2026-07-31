@@ -105,7 +105,9 @@
     "koreanPhonics": "韓文注音",
     "koreanPhonicsDesc": "學習韓文音節結構與發音。",
     "igToken": "IG Token 產生器",
-    "igTokenDesc": "透過 OAuth 產生長效 Instagram 存取金鑰。"
+    "igTokenDesc": "透過 OAuth 產生長效 Instagram 存取金鑰。",
+    "pdfSigner": "PDF 線上簽名器",
+    "pdfSignerDesc": "在瀏覽器直接簽署 PDF 文件，檔案不會上傳。"
   },
   "common": { "comingSoon": "敬請期待。" },
   "bgRemoval": {
@@ -199,5 +201,29 @@
     "errTokenFailed": "換取 Token 失敗，請確認 App ID / Secret 正確",
     "errLongTokenFailed": "換取 Long-lived Token 失敗",
     "errStart": "無法建立授權請求"
+  },
+  "pdfSigner": {
+    "title": "PDF 線上簽名器",
+    "subtitle": "上傳 PDF、放上你的簽名，下載簽署後的檔案。全程只在瀏覽器端處理，不會上傳到任何伺服器。",
+    "signatureStep": "第一步：準備簽名",
+    "drawHint": "用滑鼠或觸控在下方畫布手寫簽名",
+    "clearDraw": "清除畫布",
+    "useDrawn": "使用這個簽名",
+    "or": "或",
+    "uploadSignature": "上傳簽名圖片",
+    "currentSignature": "目前的簽名",
+    "currentSignatureAlt": "目前使用的簽名",
+    "clearSignature": "清除簽名，重新建立",
+    "upload": "點擊選擇或拖拉 PDF 檔案",
+    "uploadHint": "檔案只在瀏覽器本地處理，不會上傳",
+    "changeFile": "換一份檔案",
+    "pageIndicator": "第 {current} / {total} 頁",
+    "needSignatureHint": "請先在上方建立簽名，才能加入簽名位置",
+    "placeHint": "點擊「新增簽名位置」後，可拖曳移動、拉右下角調整大小",
+    "addPlacement": "新增簽名位置",
+    "downloadSigned": "下載簽署後的 PDF",
+    "signing": "處理中…",
+    "errFormat": "不是有效的 PDF 檔案，請確認格式或檔案是否損毀",
+    "errSign": "簽署失敗，請重新嘗試"
   }
 }
