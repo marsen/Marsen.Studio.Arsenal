@@ -7,13 +7,12 @@ const MIN_SIZE = 24;
 
 type Props = {
   placement: SignaturePlacement;
-  signatureSrc: string;
   onChange: (next: SignaturePlacement) => void;
   onRemove: () => void;
 };
 
 /** 畫布上單一個可拖曳、可縮放、可移除的簽名位置方框。 */
-export default function PlacementBox({ placement, signatureSrc, onChange, onRemove }: Props) {
+export default function PlacementBox({ placement, onChange, onRemove }: Props) {
   const dragRef = useRef<{ startX: number; startY: number; originX: number; originY: number } | null>(null);
   const resizeRef = useRef<{ startX: number; startY: number; originWidth: number; originHeight: number } | null>(
     null,
@@ -72,7 +71,12 @@ export default function PlacementBox({ placement, signatureSrc, onChange, onRemo
       style={{ left: placement.xPx, top: placement.yPx, width: placement.widthPx, height: placement.heightPx }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element -- 使用者自己的簽名 dataURL，非遠端圖片 */}
-      <img src={signatureSrc} alt="" className="pointer-events-none h-full w-full object-contain" draggable={false} />
+      <img
+        src={placement.signatureDataUrl}
+        alt=""
+        className="pointer-events-none h-full w-full object-contain"
+        draggable={false}
+      />
       <button
         type="button"
         onPointerDown={(event) => event.stopPropagation()}

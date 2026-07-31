@@ -100,6 +100,7 @@ export default function PdfSigner() {
       yPx: centerY,
       widthPx: DEFAULT_PLACEMENT_WIDTH,
       heightPx: DEFAULT_PLACEMENT_HEIGHT,
+      signatureDataUrl: signature,
     };
     setPlacements((prev) => [...prev, next]);
   }
@@ -113,21 +114,28 @@ export default function PdfSigner() {
   }
 
   async function handleDownload() {
-    if (!pdfBytes || !signature || placements.length === 0) return;
+    if (!pdfBytes || placements.length === 0) return;
     setSigning(true);
     setError(null);
     try {
-      const signatureResponse = await fetch(signature);
-      const imageBytes = new Uint8Array(await signatureResponse.arrayBuffer());
+      const imageBytesCache = new Map<string, Uint8Array>();
+      async function getImageBytes(dataUrl: string): Promise<Uint8Array> {
+        const cached = imageBytesCache.get(dataUrl);
+        if (cached) return cached;
+        const response = await fetch(dataUrl);
+        const bytes = new Uint8Array(await response.arrayBuffer());
+        imageBytesCache.set(dataUrl, bytes);
+        return bytes;
+      }
 
-      const embeds = placements
-        .map((placement) => {
-          const pageSize = pageSizes.get(placement.pageIndex);
-          if (!pageSize) return null;
-          const pt = toPdfPoint(placement, pageSize, SCALE);
-          return { pageIndex: placement.pageIndex, ...pt, imageBytes };
-        })
-        .filter((embed): embed is NonNullable<typeof embed> => embed !== null);
+      const embeds = [];
+      for (const placement of placements) {
+        const pageSize = pageSizes.get(placement.pageIndex);
+        if (!pageSize) continue;
+        const pt = toPdfPoint(placement, pageSize, SCALE);
+        const imageBytes = await getImageBytes(placement.signatureDataUrl);
+        embeds.push({ pageIndex: placement.pageIndex, ...pt, imageBytes });
+      }
 
       const signedBytes = await embedSignatures(pdfBytes, embeds);
       downloadBytes(signedBytes, fileName ? `signed-${fileName}` : "signed.pdf");
@@ -226,7 +234,6 @@ export default function PdfSigner() {
               <PlacementBox
                 key={placement.id}
                 placement={placement}
-                signatureSrc={signature ?? ""}
                 onChange={updatePlacement}
                 onRemove={() => removePlacement(placement.id)}
               />
