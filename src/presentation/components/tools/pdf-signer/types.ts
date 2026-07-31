@@ -7,6 +7,8 @@ export type SignaturePlacement = {
   yPx: number;
   widthPx: number;
   heightPx: number;
+  /** 新增這個位置當下所使用的簽名快照（dataURL），之後更換簽名不會影響已放置的位置。 */
+  signatureDataUrl: string;
 };
 
 /** PDF 頁面的原生尺寸（point，PDF 座標系用，左下角原點）。 */
