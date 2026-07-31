@@ -1,12 +1,13 @@
 import { describe, expect, it } from "vitest";
 import {
+  computeTimelineWindow,
   findFreeSlots,
   formatDuration,
   formatMinutes,
   toMinutes,
   totalFreeMinutes,
 } from "../freeSlots";
-import type { ItineraryItem } from "../types";
+import type { Itinerary, ItineraryItem } from "../types";
 
 const WINDOW = { dayStart: "09:00", dayEnd: "22:00" };
 
@@ -148,5 +149,67 @@ describe("totalFreeMinutes", () => {
 
   it("沒有空檔時應為 0", () => {
     expect(totalFreeMinutes([])).toBe(0);
+  });
+});
+
+describe("computeTimelineWindow", () => {
+  function itinerary(overrides: Partial<Itinerary>): Itinerary {
+    return { days: [], ...overrides };
+  }
+
+  it("沒有任何行程項目時，應採用行程層級的 dayStart/dayEnd", () => {
+    expect(
+      computeTimelineWindow(
+        itinerary({ dayStart: "09:00", dayEnd: "22:00", days: [{ date: "2026-01-01", items: [] }] }),
+      ),
+    ).toEqual({ start: 540, end: 1320 });
+  });
+
+  it("未指定時應套用預設值 09:00–22:00", () => {
+    expect(computeTimelineWindow(itinerary({ days: [{ date: "2026-01-01", items: [] }] }))).toEqual({
+      start: 540,
+      end: 1320,
+    });
+  });
+
+  it("行程項目超出活動時窗時應擴大範圍並對齊整點", () => {
+    const result = computeTimelineWindow(
+      itinerary({
+        dayStart: "09:00",
+        dayEnd: "22:00",
+        days: [
+          {
+            date: "2026-01-01",
+            items: [{ title: "早班機", start: "06:45" }, { title: "深夜活動", start: "23:00", end: "23:50" }],
+          },
+        ],
+      }),
+    );
+
+    expect(result).toEqual({ start: 360, end: 1440 });
+  });
+
+  it("跨午夜項目應視為延伸到 24:00", () => {
+    const result = computeTimelineWindow(
+      itinerary({
+        dayStart: "09:00",
+        dayEnd: "22:00",
+        days: [{ date: "2026-01-01", items: [{ title: "派對", start: "20:00", end: "03:00" }] }],
+      }),
+    );
+
+    expect(result.end).toBe(1440);
+  });
+
+  it("個別日期覆寫 dayStart/dayEnd 時應納入計算", () => {
+    const result = computeTimelineWindow(
+      itinerary({
+        dayStart: "09:00",
+        dayEnd: "22:00",
+        days: [{ date: "2026-01-01", dayStart: "07:00", dayEnd: "23:00", items: [] }],
+      }),
+    );
+
+    expect(result).toEqual({ start: 420, end: 1380 });
   });
 });

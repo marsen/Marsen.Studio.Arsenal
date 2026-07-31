@@ -1,4 +1,4 @@
-import type { FreeSlot, ItineraryItem } from "./types";
+import type { FreeSlot, Itinerary, ItineraryItem } from "./types";
 
 export const DEFAULT_DAY_START = "09:00";
 export const DEFAULT_DAY_END = "22:00";
@@ -123,4 +123,37 @@ export function findFreeSlots(items: ItineraryItem[], options: FreeSlotOptions =
 /** 加總一組空檔的總分鐘數。 */
 export function totalFreeMinutes(slots: FreeSlot[]): number {
   return slots.reduce((sum, slot) => sum + slot.minutes, 0);
+}
+
+export type TimelineWindow = { start: number; end: number };
+
+/**
+ * 計算整份行程時間軸視圖要顯示的範圍（分鐘，整點對齊），涵蓋每日的活動時窗與所有行程項目的時間，
+ * 讓所有天共用同一把尺，方便互相比較。跨午夜項目視為延伸到當天 24:00。
+ */
+export function computeTimelineWindow(itinerary: Itinerary): TimelineWindow {
+  const fallbackStart = toMinutes(itinerary.dayStart) ?? toMinutes(DEFAULT_DAY_START)!;
+  const fallbackEnd = toMinutes(itinerary.dayEnd) ?? toMinutes(DEFAULT_DAY_END)!;
+  let min = fallbackStart;
+  let max = fallbackEnd;
+
+  for (const day of itinerary.days) {
+    min = Math.min(min, toMinutes(day.dayStart) ?? fallbackStart);
+    max = Math.max(max, toMinutes(day.dayEnd) ?? fallbackEnd);
+
+    for (const item of day.items) {
+      const start = toMinutes(item.start);
+      if (start === null) continue;
+      min = Math.min(min, start);
+
+      const rawEnd = toMinutes(item.end);
+      if (rawEnd === null) continue;
+      max = Math.max(max, rawEnd < start ? 24 * 60 : rawEnd);
+    }
+  }
+
+  return {
+    start: Math.floor(min / 60) * 60,
+    end: Math.min(24 * 60, Math.ceil(max / 60) * 60),
+  };
 }

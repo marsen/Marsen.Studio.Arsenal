@@ -18,11 +18,23 @@ export type ItineraryDay = {
   date: string;
   country?: string;
   city?: string;
+  /** IANA 時區識別碼（例如 "Asia/Taipei"）。省略則不顯示時差資訊。 */
+  timezone?: string;
   /** 覆寫該日的活動起始時間，預設取行程層級設定。 */
   dayStart?: string;
   /** 覆寫該日的活動結束時間，預設取行程層級設定。 */
   dayEnd?: string;
   items: ItineraryItem[];
+};
+
+/** 待確認／風險事項的追蹤紀錄，獨立於每日行程項目，即使已解決也保留歷史記錄。 */
+export type RiskItem = {
+  /** 原本的疑慮描述。 */
+  text: string;
+  /** 是否已解決；true 時清單會打勾、灰化、加上刪除線。 */
+  resolved?: boolean;
+  /** 解決結果或最新進度說明。 */
+  note?: string;
 };
 
 export type Itinerary = {
@@ -33,6 +45,8 @@ export type Itinerary = {
   dayEnd?: string;
   /** 小於此長度的空檔不列出，單位為分鐘，預設 60。 */
   minGapMinutes?: number;
+  /** 待確認／風險事項清單，省略則沿用各天項目上的 warn 標記統計。 */
+  riskLog?: RiskItem[];
   days: ItineraryDay[];
 };
 

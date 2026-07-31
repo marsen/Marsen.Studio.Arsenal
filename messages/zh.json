@@ -233,15 +233,19 @@
     "title": "行程空檔規劃",
     "subtitle": "貼上行程資料，自動算出每天扣掉固定行程後還剩哪些空檔。",
     "privacy": "資料只存在你自己的瀏覽器（localStorage），不會上傳。",
-    "summaryTitle": "空檔總覽",
-    "summaryDays": "{count} 天",
-    "summaryFree": "空檔 {duration}",
     "warnCount": "有 {count} 項待確認或有風險的資料",
+    "riskLogSummary": "風險追蹤（共 {total} 項，{open} 項待確認）",
     "filter": {
       "all": "全部",
       "free": "只看空檔",
       "fixed": "只看固定行程"
     },
+    "view": {
+      "day": "逐日",
+      "week": "週",
+      "biweek": "兩週"
+    },
+    "timezoneDiff": "與上一天時差 {diff}",
     "freeSlot": "空檔 {duration}",
     "freeTotal": "空檔 {duration}",
     "allDay": "全天",

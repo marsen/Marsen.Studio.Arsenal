@@ -237,11 +237,18 @@
     "summaryDays": "{count, plural, one {# day} other {# days}}",
     "summaryFree": "{duration} free",
     "warnCount": "{count, plural, one {# item needs} other {# items need}} confirmation",
+    "riskLogSummary": "Risk log ({total} total, {open} open)",
     "filter": {
       "all": "All",
       "free": "Free time only",
       "fixed": "Fixed plans only"
     },
+    "view": {
+      "day": "Day",
+      "week": "Week",
+      "biweek": "2 weeks"
+    },
+    "timezoneDiff": "{diff} vs. previous day",
     "freeSlot": "{duration} free",
     "freeTotal": "{duration} free",
     "allDay": "All day",

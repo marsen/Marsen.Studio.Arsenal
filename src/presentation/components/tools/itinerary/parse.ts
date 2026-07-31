@@ -19,9 +19,16 @@ const daySchema = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "date must be YYYY-MM-DD"),
   country: z.string().optional(),
   city: z.string().optional(),
+  timezone: z.string().optional(),
   dayStart: timeSchema,
   dayEnd: timeSchema,
   items: z.array(itemSchema).default([]),
+});
+
+const riskItemSchema = z.object({
+  text: z.string().min(1),
+  resolved: z.boolean().optional(),
+  note: z.string().optional(),
 });
 
 export const itinerarySchema = z.object({
@@ -29,6 +36,7 @@ export const itinerarySchema = z.object({
   dayStart: timeSchema,
   dayEnd: timeSchema,
   minGapMinutes: z.number().int().positive().optional(),
+  riskLog: z.array(riskItemSchema).optional(),
   days: z.array(daySchema).min(1, "days must not be empty"),
 });
 
