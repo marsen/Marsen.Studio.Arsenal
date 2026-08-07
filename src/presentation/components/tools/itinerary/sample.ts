@@ -61,9 +61,9 @@ const zh: Itinerary = {
       note: "待決定台灣先換多少歐元現鈔。25 € 僅夠付活動費（After Party 15 € + 維也納 Party 7 €），未含置物櫃、公廁、市集攤販",
     },
     {
-      text: "行前準備：網路——歐洲多國 eSIM 尚未購買",
-      resolved: false,
-      note: "已選定 KKday #146272 每日 2GB × 15 日，使用日期填 8/13。天數無 12 日選項，10 日會在 8/24 早上到期（班機 11:15）。買前先向客服確認斯洛伐克是否涵蓋（標題清單漏列，規格表有）",
+      text: "行前準備：網路——歐洲多國 eSIM",
+      resolved: true,
+      note: "已購買 KKday #146272（每日 2GB × 15 日，使用日期 8/13）。天數無 12 日選項，10 日會在 8/24 早上到期（班機 11:15），故選 15 日",
     },
     {
       text: "行前準備：eSIM 在台灣先裝好但不啟用",
@@ -387,9 +387,9 @@ const en: Itinerary = {
       note: "Still deciding how many euros to buy in Taiwan. €25 only covers the event fees (After Party €15 + Vienna party €7), not lockers, toilets or market stalls",
     },
     {
-      text: "Prep: connectivity — multi-country Europe eSIM not purchased yet",
-      resolved: false,
-      note: "Settled on KKday #146272, 2GB/day for 15 days, usage date 8/13. There is no 12-day option and 10 days expires on the morning of 8/24 (flight 11:15). Ask support to confirm Slovakia is covered — the headline list omits it, the spec table includes it",
+      text: "Prep: connectivity — multi-country Europe eSIM",
+      resolved: true,
+      note: "Purchased: KKday #146272, 2GB/day for 15 days, usage date 8/13. There is no 12-day option and 10 days would expire on the morning of 8/24 (flight 11:15), hence 15",
     },
     {
       text: "Prep: install the eSIM in Taiwan but leave it switched off",
