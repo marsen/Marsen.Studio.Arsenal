@@ -63,7 +63,22 @@ const zh: Itinerary = {
     {
       text: "行前準備：網路——歐洲多國 eSIM 尚未購買",
       resolved: false,
-      note: "KKday #146272 涵蓋捷克／匈牙利／斯洛伐克／奧地利。天數無 12 日選項，10 日會在 8/24 早上到期（班機 11:15），需選 15 日",
+      note: "已選定 KKday #146272 每日 2GB × 15 日，使用日期填 8/13。天數無 12 日選項，10 日會在 8/24 早上到期（班機 11:15）。買前先向客服確認斯洛伐克是否涵蓋（標題清單漏列，規格表有）",
+    },
+    {
+      text: "行前準備：eSIM 在台灣先裝好但不啟用",
+      resolved: false,
+      note: "安裝需網路、啟用不需要；裝完把該線路關閉，落地布拉格才開。憑證（含 ICCID）與安裝教學先截圖存離線",
+    },
+    {
+      text: "行前準備：台灣門號漫遊設定——關數據漫遊、保留語音簡訊",
+      resolved: false,
+      note: "曾在日本收不到簡訊，務必打客服確認國際漫遊已開通且歐洲可收簡訊。iPhone 另需關閉「允許切換行動數據」，否則 eSIM 訊號差時會自動切回台灣門號上網",
+    },
+    {
+      text: "行前準備：信用卡驗證改用銀行 App 推播為主力",
+      resolved: false,
+      note: "無金融卡、全程靠信用卡，OTP 簡訊不可靠時需要備援；出發前實測一次能否登入 App，避免「要簡訊才能登入 App」的死循環",
     },
     {
       text: "行前準備：置裝——舞鞋兩雙、大量吸汗上衣、清晨落地用薄外套",
@@ -374,7 +389,22 @@ const en: Itinerary = {
     {
       text: "Prep: connectivity — multi-country Europe eSIM not purchased yet",
       resolved: false,
-      note: "KKday #146272 covers Czechia/Hungary/Slovakia/Austria. There is no 12-day option; 10 days expires on the morning of 8/24 (flight 11:15), so pick 15 days",
+      note: "Settled on KKday #146272, 2GB/day for 15 days, usage date 8/13. There is no 12-day option and 10 days expires on the morning of 8/24 (flight 11:15). Ask support to confirm Slovakia is covered — the headline list omits it, the spec table includes it",
+    },
+    {
+      text: "Prep: install the eSIM in Taiwan but leave it switched off",
+      resolved: false,
+      note: "Installing needs a network, activating does not; keep the line disabled until landing in Prague. Screenshot the voucher (with ICCID) and setup guide for offline use",
+    },
+    {
+      text: "Prep: Taiwan SIM roaming — data roaming off, voice and SMS roaming on",
+      resolved: false,
+      note: "SMS failed to arrive on a previous trip to Japan, so confirm with the carrier that roaming is active and SMS works in Europe. On iPhone also disable Cellular Data Switching, or it silently falls back to the Taiwan line when the eSIM signal drops",
+    },
+    {
+      text: "Prep: switch card verification to the bank app's push approval",
+      resolved: false,
+      note: "No debit card and everything rides on credit cards, so SMS OTP needs a backup; test the app login before leaving to avoid the trap of needing an SMS to log in",
     },
     {
       text: "Prep: clothing — two pairs of dance shoes, plenty of sweat-wicking tops, light jacket for the early landing",
