@@ -72,8 +72,8 @@ const zh: Itinerary = {
     },
     {
       text: "行前準備：台灣門號漫遊設定——關數據漫遊、保留語音簡訊",
-      resolved: false,
-      note: "曾在日本收不到簡訊，務必打客服確認國際漫遊已開通且歐洲可收簡訊。iPhone 另需關閉「允許切換行動數據」，否則 eSIM 訊號差時會自動切回台灣門號上網",
+      resolved: true,
+      note: "已向電信商確認國際漫遊開通且歐洲可收簡訊。手機端仍要記得關閉 iPhone 的「允許切換行動數據」，否則 eSIM 訊號差時會自動切回台灣門號上網",
     },
     {
       text: "行前準備：信用卡驗證改用銀行 App 推播為主力",
@@ -398,8 +398,8 @@ const en: Itinerary = {
     },
     {
       text: "Prep: Taiwan SIM roaming — data roaming off, voice and SMS roaming on",
-      resolved: false,
-      note: "SMS failed to arrive on a previous trip to Japan, so confirm with the carrier that roaming is active and SMS works in Europe. On iPhone also disable Cellular Data Switching, or it silently falls back to the Taiwan line when the eSIM signal drops",
+      resolved: true,
+      note: "Carrier confirmed roaming is active and SMS works in Europe. Still to do on the handset: disable Cellular Data Switching on iPhone, or it silently falls back to the Taiwan line when the eSIM signal drops",
     },
     {
       text: "Prep: switch card verification to the bank app's push approval",
