@@ -22,8 +22,8 @@ const zh: Itinerary = {
     },
     {
       text: "8/17 退房後行李是否寄放中央車站置物櫃",
-      resolved: false,
-      note: "改成 After Party 前備妥行李、跳到 23:00 離場前往車站（很近）；是否先寄放車站置物櫃仍待討論",
+      resolved: true,
+      note: "已定案：上午 10:00 退房後直接到中央車站寄放，After Party 可跳到 23:30 才離場。當日空檔由 12h 縮為 11h15，但全程不用扛行李",
     },
     {
       text: "Keep Swinging BP Social — 時間、地點待補",
@@ -44,6 +44,46 @@ const zh: Itinerary = {
       text: "維也納住宿尚未訂（8/21–8/24 共 3 晚）",
       resolved: true,
       note: "已訂：Adina Serviced Apartments Vienna ●●●●；近地鐵 Wien Quartier Belvedere，步行約 250 公尺",
+    },
+    {
+      text: "布拉格住宿（8/14–8/17 共 3 晚）",
+      resolved: true,
+      note: "已訂：新城區 Krakovská ●●；近地鐵 Muzeum 站（A／C 線），步行約 5 分鐘",
+    },
+    {
+      text: "8/14 機場到住宿的交通路線",
+      resolved: true,
+      note: "無軌電車 59（2024 年起取代 119 路公車）至 Nádraží Veleslavín，轉地鐵 A 線至 Muzeum，步行約 5 分鐘；90 分鐘票約 50 CZK",
+    },
+    {
+      text: "行前準備：換錢——3 種貨幣（CZK／HUF／EUR），且無金融卡可在當地 ATM 提領",
+      resolved: false,
+      note: "待決定台灣先換多少歐元現鈔。25 € 僅夠付活動費（After Party 15 € + 維也納 Party 7 €），未含置物櫃、公廁、市集攤販",
+    },
+    {
+      text: "行前準備：網路——歐洲多國 eSIM 尚未購買",
+      resolved: false,
+      note: "KKday #146272 涵蓋捷克／匈牙利／斯洛伐克／奧地利。天數無 12 日選項，10 日會在 8/24 早上到期（班機 11:15），需選 15 日",
+    },
+    {
+      text: "行前準備：置裝——舞鞋兩雙、大量吸汗上衣、清晨落地用薄外套",
+      resolved: false,
+      note: "連續 4 晚 party 加白天 5.5 小時課程，吸汗上衣需求最容易低估",
+    },
+    {
+      text: "行前準備：行李——耳塞、安眠藥、涼感噴霧等待採購",
+      resolved: false,
+      note: "夜車包另備眼罩、濕紙巾、行動電源；歐規 Type C／E／F 轉接頭四國通用",
+    },
+    {
+      text: "市內交通票尚未規劃（布拉格、布達佩斯、維也納多日票）",
+      resolved: false,
+      note: "8/24 07:00 維也納 Hbf → VIE 走 CAT 或 S7 也待確認",
+    },
+    {
+      text: "入境文件：護照效期與 ETIAS 申辦狀態",
+      resolved: false,
+      note: "護照需 2027/02/25 之後到期（離境日起算 6 個月）；ETIAS 是否已上路請查歐盟官方，勿依賴二手資訊",
     },
   ],
   days: [
@@ -75,6 +115,26 @@ const zh: Itinerary = {
       timezone: "Europe/Prague",
       items: [
         { start: "06:45", title: "抵達布拉格 T1", kind: "travel" },
+        {
+          start: "06:45",
+          end: "07:45",
+          title: "EES 生物辨識入境查驗",
+          note: "申根 EES 首次入境需錄指紋與臉部影像，暑假尖峰排隊可能更久，先抓 1 小時",
+          kind: "travel",
+          warn: true,
+        },
+        {
+          start: "07:45",
+          end: "08:30",
+          title: "無軌電車 59 → 地鐵 A 線 → 住宿",
+          note: "T1 外搭 59 至 Nádraží Veleslavín，轉地鐵 A 線至 Muzeum，步行約 5 分鐘；90 分鐘票約 50 CZK，售票機可刷感應信用卡",
+          kind: "travel",
+        },
+        {
+          start: "08:30",
+          title: "抵達 布拉格住宿 ●●●●",
+          note: "新城區 Krakovská ●●；check-in 一般 15:00，可先寄放行李",
+        },
         { start: "14:00", end: "15:00", title: "活動報到", note: "Autoclub of the Czech Republic" },
         { start: "15:00", end: "18:15", title: "Extension Class" },
         {
@@ -126,21 +186,31 @@ const zh: Itinerary = {
       timezone: "Europe/Prague",
       items: [
         {
-          start: "20:00",
-          end: "23:00",
-          title: "After Party（15 €）",
-          note: "Jazz & Cocktail Club U Staré paní ｜ Live Band；行李先收好隨身帶著，不寄放",
+          start: "10:00",
+          end: "10:45",
+          title: "退房、行李寄放中央車站置物櫃",
+          note: "已定案：上午先寄放，白天觀光與 After Party 全程不用扛行李",
+          kind: "travel",
         },
         {
-          start: "23:00",
+          start: "20:00",
+          end: "23:30",
+          title: "After Party（15 €）",
+          note: "Jazz & Cocktail Club U Staré paní ｜ Live Band；行李已寄放，可跳到 23:30 散場",
+        },
+        {
+          start: "23:30",
           end: "23:59",
-          title: "離場、前往中央車站",
-          note: "場地離車站很近；是否改成先把行李寄放車站置物櫃，待討論",
+          title: "離場、中央車站取行李",
+          note: "場地離車站很近，00:36 發車前約有 1 小時緩衝",
           kind: "travel",
-          warn: true,
         },
         { title: "次日 00:36 夜車 EN ●●●● 布拉格 → 布達佩斯", kind: "travel" },
-        { title: "布拉格唯一完整的一整天，適合排城堡區或近郊", kind: "note" },
+        {
+          title: "布拉格唯一完整的一整天，適合排城堡區或近郊",
+          note: "空檔 11h15（原 12h，扣掉上午寄放行李）",
+          kind: "note",
+        },
       ],
     },
     {
@@ -263,8 +333,8 @@ const en: Itinerary = {
     },
     {
       text: "8/17 check out and store luggage at the station?",
-      resolved: false,
-      note: "Changed plan: bags packed before the After Party, leave at 23:00 (venue is close to the station); whether to drop bags at the station first is still undecided",
+      resolved: true,
+      note: "Settled: check out and drop bags at the main station at 10:00, so the After Party can run until 23:30. The free block shrinks from 12h to 11h15, but nothing has to be carried",
     },
     {
       text: "Keep Swinging BP Social — time and venue still missing",
@@ -285,6 +355,46 @@ const en: Itinerary = {
       text: "Vienna accommodation not booked (8/21–8/24, 3 nights)",
       resolved: true,
       note: "Booked: Adina Serviced Apartments Vienna ●●●●; ~250m walk to Wien Quartier Belvedere station",
+    },
+    {
+      text: "Prague accommodation (8/14–8/17, 3 nights)",
+      resolved: true,
+      note: "Booked: Krakovská ●●, Nové Město; ~5 min walk to Muzeum station (metro A/C)",
+    },
+    {
+      text: "8/14 airport-to-accommodation route",
+      resolved: true,
+      note: "Trolleybus 59 (replaced bus 119 in 2024) to Nádraží Veleslavín, then metro A to Muzeum, ~5 min walk; 90-minute ticket ~50 CZK",
+    },
+    {
+      text: "Prep: cash — three currencies (CZK/HUF/EUR) and no debit card for local ATM withdrawals",
+      resolved: false,
+      note: "Still deciding how many euros to buy in Taiwan. €25 only covers the event fees (After Party €15 + Vienna party €7), not lockers, toilets or market stalls",
+    },
+    {
+      text: "Prep: connectivity — multi-country Europe eSIM not purchased yet",
+      resolved: false,
+      note: "KKday #146272 covers Czechia/Hungary/Slovakia/Austria. There is no 12-day option; 10 days expires on the morning of 8/24 (flight 11:15), so pick 15 days",
+    },
+    {
+      text: "Prep: clothing — two pairs of dance shoes, plenty of sweat-wicking tops, light jacket for the early landing",
+      resolved: false,
+      note: "Four consecutive party nights plus 5.5h of daytime classes; the number of tops needed is the easiest thing to underestimate",
+    },
+    {
+      text: "Prep: packing — earplugs, sleep aid, cooling spray still to buy",
+      resolved: false,
+      note: "Night-train kit also needs an eye mask, wet wipes and a power bank; one Type C/E/F adapter works in all four countries",
+    },
+    {
+      text: "City transport passes not planned (Prague, Budapest, Vienna)",
+      resolved: false,
+      note: "8/24 07:00 Wien Hbf → VIE via CAT or S7 also undecided",
+    },
+    {
+      text: "Entry documents: passport validity and ETIAS status",
+      resolved: false,
+      note: "Passport must be valid past 2027-02-25 (6 months from departure); check the official EU source for whether ETIAS applies",
     },
   ],
   days: [
@@ -316,6 +426,26 @@ const en: Itinerary = {
       timezone: "Europe/Prague",
       items: [
         { start: "06:45", title: "Land in Prague T1", kind: "travel" },
+        {
+          start: "06:45",
+          end: "07:45",
+          title: "EES biometric border check",
+          note: "First Schengen entry under EES records fingerprints and a facial image; peak summer queues can run longer — budget an hour",
+          kind: "travel",
+          warn: true,
+        },
+        {
+          start: "07:45",
+          end: "08:30",
+          title: "Trolleybus 59 → metro A → accommodation",
+          note: "Board 59 outside T1 to Nádraží Veleslavín, change to metro A for Muzeum, ~5 min walk; 90-minute ticket ~50 CZK, machines take contactless cards",
+          kind: "travel",
+        },
+        {
+          start: "08:30",
+          title: "Arrive at Prague stay ●●●●",
+          note: "Krakovská ●●, Nové Město; check-in usually 15:00, bags can be dropped earlier",
+        },
         {
           start: "14:00",
           end: "15:00",
@@ -372,21 +502,31 @@ const en: Itinerary = {
       timezone: "Europe/Prague",
       items: [
         {
-          start: "20:00",
-          end: "23:00",
-          title: "After Party (€15)",
-          note: "Jazz & Cocktail Club U Staré paní | Live Band; bags packed and carried, not checked",
+          start: "10:00",
+          end: "10:45",
+          title: "Check out, store bags in the main station lockers",
+          note: "Settled: drop bags in the morning so neither sightseeing nor the After Party involves carrying them",
+          kind: "travel",
         },
         {
-          start: "23:00",
+          start: "20:00",
+          end: "23:30",
+          title: "After Party (€15)",
+          note: "Jazz & Cocktail Club U Staré paní | Live Band; bags already stored, so you can stay until 23:30",
+        },
+        {
+          start: "23:30",
           end: "23:59",
-          title: "Leave, head to the main station",
-          note: "Venue is very close to the station; still deciding whether to drop bags there beforehand instead",
+          title: "Leave, collect bags at the main station",
+          note: "Venue is very close to the station; ~1 hour of buffer before the 00:36 departure",
           kind: "travel",
-          warn: true,
         },
         { title: "00:36 next day: night train EN ●●●● Prague → Budapest", kind: "travel" },
-        { title: "The only full free day in Prague — castle district or a day trip", kind: "note" },
+        {
+          title: "The only full free day in Prague — castle district or a day trip",
+          note: "Free block 11h15 (was 12h, minus the morning bag drop)",
+          kind: "note",
+        },
       ],
     },
     {
