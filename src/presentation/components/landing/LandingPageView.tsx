@@ -20,7 +20,6 @@ export type LandingStaticText = {
   step1: string;
   step2: string;
   step3: string;
-  demosSubtitle: string;
   demosTitle: string;
   demosVisit: string;
 };
@@ -175,19 +174,23 @@ export default function LandingPageView({ content, staticText: s, demosHref, cta
             <h2 className="font-display text-3xl font-bold tracking-tight text-foreground">
               {content.casesTitle}
             </h2>
-            <p className="mt-2 text-sm text-muted-foreground">{s.demosSubtitle}</p>
           </div>
           <a href={demosHref} className="shrink-0 text-sm font-medium text-accent hover:underline">
             {s.demosTitle} →
           </a>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
           {content.projects.map((p, i) => (
             <div
               key={i}
               className="flex flex-col rounded-2xl border border-border bg-background px-6 py-7 transition-colors hover:border-accent"
             >
+              {p.badge && (
+                <span className="mb-2 self-start rounded-full border border-accent/40 px-2.5 py-0.5 text-xs text-accent">
+                  {p.badge}
+                </span>
+              )}
               <h3 className="font-display mb-3 text-lg font-semibold leading-snug text-foreground">
                 {p.name}
               </h3>
@@ -204,14 +207,16 @@ export default function LandingPageView({ content, staticText: s, demosHref, cta
                   </span>
                 ))}
               </div>
-              <a
-                href={p.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm font-medium text-accent hover:underline"
-              >
-                {s.demosVisit}
-              </a>
+              {p.url && (
+                <a
+                  href={p.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-medium text-accent hover:underline"
+                >
+                  {s.demosVisit}
+                </a>
+              )}
             </div>
           ))}
         </div>

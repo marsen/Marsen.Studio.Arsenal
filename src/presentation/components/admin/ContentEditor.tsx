@@ -222,6 +222,15 @@ export function ContentEditor({ initial, staticText }: Props) {
                     update({ ...current, projects });
                   }}
                 />
+                <TextField
+                  label={`案例 ${i + 1} - 狀態標籤（例：每天在用／技術驗證／為真實需求而做）`}
+                  value={project.badge ?? ''}
+                  onChange={(v) => {
+                    const projects = [...current.projects];
+                    projects[i] = { ...projects[i], badge: v.trim() || undefined };
+                    update({ ...current, projects });
+                  }}
+                />
                 <TextAreaField
                   label={`案例 ${i + 1} - 描述`}
                   value={project.description}
@@ -232,11 +241,20 @@ export function ContentEditor({ initial, staticText }: Props) {
                   }}
                 />
                 <TextField
-                  label={`案例 ${i + 1} - 連結網址`}
-                  value={project.url}
+                  label={`案例 ${i + 1} - 連結網址（留空則不顯示前往連結）`}
+                  value={project.url ?? ''}
                   onChange={(v) => {
                     const projects = [...current.projects];
-                    projects[i] = { ...projects[i], url: v };
+                    projects[i] = { ...projects[i], url: v.trim() || undefined };
+                    update({ ...current, projects });
+                  }}
+                />
+                <TextField
+                  label={`案例 ${i + 1} - 預覽圖路徑（例：/images/demos/xxx.png，留空則不顯示圖片）`}
+                  value={project.image ?? ''}
+                  onChange={(v) => {
+                    const projects = [...current.projects];
+                    projects[i] = { ...projects[i], image: v.trim() || undefined };
                     update({ ...current, projects });
                   }}
                 />

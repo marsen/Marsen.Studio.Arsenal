@@ -10,20 +10,6 @@
       "description": "近 20 年工程經驗的軟體工程師，以 AI 為共同開發者陪你打造產品。查看實際上線的作品與免費開發者工具。"
     },
     "heroEyebrow": "AI 開發陪跑",
-    "heroSlides": [
-      {
-        "heading": "你早就知道要做什麼了。",
-        "sub": "只是不知道怎麼開始。"
-      },
-      {
-        "heading": "那個想法你放心裡多久了？",
-        "sub": "是時候讓它變成真的了。"
-      },
-      {
-        "heading": "水不冷。",
-        "sub": "你只是還沒跳進去。"
-      }
-    ],
     "heroCta": "讓我推你一把 →",
     "contactNameLabel": "怎麼稱呼你",
     "contactEmailLabel": "你的 Email",
@@ -40,17 +26,7 @@
     "want4Title": "打造自己的軟體工具？",
     "step1": "說出你的需求",
     "step2": "兩小時，給自己一次機會",
-    "step3": "完整擁有系統的自主權",
-    "casesTitle": "成功案例",
-    "servicesTitle": "我們的服務",
-    "service1Title": "AI 輔助開發陪跑",
-    "service1Desc": "從你的卡點開始，兩小時內用 AI 做出第一個能動的版本。你在場，看著它被造出來。",
-    "service2Title": "技術顧問與架構諮詢",
-    "service2Desc": "系統架構設計審查、新創技術顧問、監控與可觀測性建置——用 20 年的工程經驗，陪你一次把系統做對。",
-    "service3Title": "技術工作坊",
-    "service3Desc": "資料分析、敏捷開發、Web 安全、前端效能——針對團隊需求客製的實作型工作坊，不是照本宣科。",
-    "service4Title": "工程師職涯健檢",
-    "service4Desc": "履歷、作品集、面試準備，一次 30 分鐘，講真話。"
+    "step3": "完整擁有系統的自主權"
   },
   "about": {
     "meta": {
@@ -72,49 +48,13 @@
   },
   "demos": {
     "meta": {
-      "title": "作品集 — 用 AI 打造的實際上線產品 | Marsen",
-      "description": "AI.Did 電商平台、Becca 衝浪教練官網、Amy 蛤蜊選物網站——都是以 AI 為共同開發者、實際上線在跑的產品。"
+      "title": "作品集 — 以 AI 為共同開發者做出來的東西 | Marsen",
+      "description": "AIris 個人祕書、AI.Did 電商平台、Becca 衝浪教練官網、Amy 蛤蜊選物——以 AI 為共同開發者做出來的四個東西，每一個都誠實標明它現在走到哪裡。"
     },
     "title": "作品",
-    "subtitle": "實際跑起來的東西，不只是 side project。",
-    "intro": "這些是真實跑起來的東西。不是展示用的，是有人在用的。",
-    "projects": [
-      {
-        "name": "工程師的品牌電商",
-        "description": "「一個人能蓋出完整的商業場景嗎？」—— 這個問題催生了 AI.Did。以 AI 為共同開發者，從零打造完整的 B2C 電商：前台支援多主題切換、完整購物流程；後台管理商品、訂單與會員；金流串接 TapPay 信用卡付款。底層採 Clean Architecture，每一層都可以被替換。不是為了賣東西，是為了證明一件事。",
-        "tags": [
-          "Next.js",
-          "TypeScript",
-          "Clean Architecture",
-          "TapPay",
-          "Drizzle ORM"
-        ],
-        "url": "https://marsen-ai-did.vercel.app/"
-      },
-      {
-        "name": "衝浪教練的教學網站",
-        "description": "衝浪教練 Becca 不需要複雜的系統，她需要的是讓學員第一眼就想下水的頁面。一頁式前台展示課程方案、教學影片與海外行程；後台讓她自己更新文案與圖片，不用依賴工程師。簡單，但夠用。",
-        "tags": [
-          "Next.js",
-          "TypeScript",
-          "Tailwind CSS"
-        ],
-        "url": "https://becca-surf-app.vercel.app/"
-      },
-      {
-        "name": "蚵蜊攤商下單小工具",
-        "description": "蛤蜊選物電商 MVP，為實體小農品牌打造的第一個數位門市。以 LIFF 深度整合 LINE 生態系：使用者在 LINE 內完成瀏覽、下單到通知，不需另開 App。前台輕量、後台自助更新，目標是讓品牌主自己能跑，不依賴工程師。",
-        "tags": [
-          "Next.js",
-          "TypeScript",
-          "LIFF",
-          "LINE",
-          "Drizzle ORM"
-        ],
-        "url": "https://amy-clam-site.vercel.app/"
-      }
-    ],
-    "visit": "前往網站 →"
+    "visit": "前往網站 →",
+    "noPublicSite": "沒有公開網址——它只在 LINE 上服役",
+    "imagePending": "預覽圖待補"
   },
   "tools": {
     "meta": {
