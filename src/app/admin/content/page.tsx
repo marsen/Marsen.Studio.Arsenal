@@ -26,7 +26,6 @@ async function loadStaticText(locale: 'zh' | 'en'): Promise<LandingStaticText> {
     step1: t('step1'),
     step2: t('step2'),
     step3: t('step3'),
-    demosSubtitle: tDemos('subtitle'),
     demosTitle: tDemos('title'),
     demosVisit: tDemos('visit'),
   };
