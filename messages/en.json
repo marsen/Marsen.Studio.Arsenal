@@ -59,7 +59,7 @@
   "tools": {
     "meta": {
       "title": "Free Online Tools | Marsen",
-      "description": "Free browser-based utilities: batch background removal, HEIC to JPG conversion, Korean phonics practice, an Instagram token generator, and an itinerary gap planner. Nothing gets uploaded."
+      "description": "Free browser-based utilities: batch background removal, HEIC to JPG conversion, Korean phonics practice, an Instagram token generator, and a PDF signer. Nothing gets uploaded."
     },
     "title": "Tools",
     "subtitle": "Small utilities for dev and everyday life.",
@@ -72,9 +72,7 @@
     "igToken": "IG Token Generator",
     "igTokenDesc": "Generate a long-lived Instagram access token via OAuth.",
     "pdfSigner": "PDF Signer",
-    "pdfSignerDesc": "Sign a PDF right in your browser. Nothing gets uploaded.",
-    "itinerary": "Itinerary Gap Planner",
-    "itineraryDesc": "Paste an itinerary as JSON and see the free time left on each day."
+    "pdfSignerDesc": "Sign a PDF right in your browser. Nothing gets uploaded."
   },
   "common": {
     "comingSoon": "Coming soon."
@@ -194,46 +192,5 @@
     "signing": "Processing…",
     "errFormat": "Not a valid PDF file — check the format or whether it's corrupted",
     "errSign": "Signing failed — please try again"
-  },
-  "itinerary": {
-    "title": "Itinerary Gap Planner",
-    "subtitle": "Paste your itinerary and see what free time is left once fixed plans are subtracted.",
-    "privacy": "Data stays in your own browser (localStorage). Nothing is uploaded.",
-    "summaryTitle": "Free time overview",
-    "summaryDays": "{count, plural, one {# day} other {# days}}",
-    "summaryFree": "{duration} free",
-    "warnCount": "{count, plural, one {# item needs} other {# items need}} confirmation",
-    "riskLogSummary": "Risk log ({total} total, {open} open)",
-    "filter": {
-      "all": "All",
-      "free": "Free time only",
-      "fixed": "Fixed plans only"
-    },
-    "view": {
-      "day": "Day",
-      "week": "Week",
-      "biweek": "2 weeks"
-    },
-    "timezoneDiff": "{diff} vs. previous day",
-    "freeSlot": "{duration} free",
-    "freeTotal": "{duration} free",
-    "allDay": "All day",
-    "nothingHere": "Nothing planned for this day.",
-    "openEditor": "Edit data",
-    "closeEditor": "Close editor",
-    "loadSample": "Load sample",
-    "apply": "Apply",
-    "editorHint": "Edit the JSON below and hit apply. Items without a start are treated as all-day and take no time; an end earlier than start means it crosses midnight.",
-    "errJson": "Invalid JSON — check the brackets and quotes.",
-    "errShape": "Some fields are not in the expected shape.",
-    "weekday": {
-      "sun": "Sun",
-      "mon": "Mon",
-      "tue": "Tue",
-      "wed": "Wed",
-      "thu": "Thu",
-      "fri": "Fri",
-      "sat": "Sat"
-    }
   }
 }

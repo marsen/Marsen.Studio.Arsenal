@@ -59,7 +59,7 @@
   "tools": {
     "meta": {
       "title": "免費線上工具 | Marsen",
-      "description": "在瀏覽器本地執行的免費小工具：批次圖片去背、HEIC 轉 JPG、韓文發音學習、Instagram Token 產生器、行程空檔規劃。檔案不會上傳。"
+      "description": "在瀏覽器本地執行的免費小工具：批次圖片去背、HEIC 轉 JPG、韓文發音學習、Instagram Token 產生器、PDF 線上簽名。檔案不會上傳。"
     },
     "title": "小工具",
     "subtitle": "日常開發與生活用的小工具。",
@@ -72,9 +72,7 @@
     "igToken": "IG Token 產生器",
     "igTokenDesc": "透過 OAuth 產生長效 Instagram 存取金鑰。",
     "pdfSigner": "PDF 線上簽名器",
-    "pdfSignerDesc": "在瀏覽器直接簽署 PDF 文件，檔案不會上傳。",
-    "itinerary": "行程空檔規劃",
-    "itineraryDesc": "貼上行程 JSON，自動算出每天剩下哪些空檔。"
+    "pdfSignerDesc": "在瀏覽器直接簽署 PDF 文件，檔案不會上傳。"
   },
   "common": {
     "comingSoon": "敬請期待。"
@@ -194,43 +192,5 @@
     "signing": "處理中…",
     "errFormat": "不是有效的 PDF 檔案，請確認格式或檔案是否損毀",
     "errSign": "簽署失敗，請重新嘗試"
-  },
-  "itinerary": {
-    "title": "行程空檔規劃",
-    "subtitle": "貼上行程資料，自動算出每天扣掉固定行程後還剩哪些空檔。",
-    "privacy": "資料只存在你自己的瀏覽器（localStorage），不會上傳。",
-    "warnCount": "有 {count} 項待確認或有風險的資料",
-    "riskLogSummary": "風險追蹤（共 {total} 項，{open} 項待確認）",
-    "filter": {
-      "all": "全部",
-      "free": "只看空檔",
-      "fixed": "只看固定行程"
-    },
-    "view": {
-      "day": "逐日",
-      "week": "週",
-      "biweek": "兩週"
-    },
-    "timezoneDiff": "與上一天時差 {diff}",
-    "freeSlot": "空檔 {duration}",
-    "freeTotal": "空檔 {duration}",
-    "allDay": "全天",
-    "nothingHere": "這天沒有內容。",
-    "openEditor": "編輯資料",
-    "closeEditor": "收起編輯",
-    "loadSample": "載入範例",
-    "apply": "套用",
-    "editorHint": "直接編輯下方 JSON 後按套用。沒填 start 的項目視為全天、不佔用時段；end 早於 start 視為跨午夜。",
-    "errJson": "JSON 格式錯誤，請檢查括號與引號。",
-    "errShape": "資料欄位不正確。",
-    "weekday": {
-      "sun": "週日",
-      "mon": "週一",
-      "tue": "週二",
-      "wed": "週三",
-      "thu": "週四",
-      "fri": "週五",
-      "sat": "週六"
-    }
   }
 }
