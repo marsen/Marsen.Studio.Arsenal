@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { validateFile } from "../heic-converter";
+import { jpgName, validateFile } from "../heic-converter";
 
 const MB = 1024 * 1024;
 
@@ -63,5 +63,31 @@ describe("validateFile", () => {
       const file = makeFile("large.heic", "image/heic", 30 * MB + 1);
       expect(validateFile(file)).toBe("errSize");
     });
+  });
+});
+
+describe("jpgName", () => {
+  it("應把 .heic 副檔名換成 .jpg", () => {
+    expect(jpgName("photo.heic")).toBe("photo.jpg");
+  });
+
+  it("應把 .heif 副檔名換成 .jpg", () => {
+    expect(jpgName("photo.heif")).toBe("photo.jpg");
+  });
+
+  it("應忽略副檔名大小寫", () => {
+    expect(jpgName("IMG_1234.HEIC")).toBe("IMG_1234.jpg");
+  });
+
+  it("應只換掉最後一段副檔名，保留檔名中的點", () => {
+    expect(jpgName("2026.summer.trip.heic")).toBe("2026.summer.trip.jpg");
+  });
+
+  it("沒有副檔名時應直接補上 .jpg", () => {
+    expect(jpgName("photo")).toBe("photo.jpg");
+  });
+
+  it("非 HEIC 副檔名應保留原副檔名並補上 .jpg（避免誤刪原始資訊）", () => {
+    expect(jpgName("photo.png")).toBe("photo.png.jpg");
   });
 });
