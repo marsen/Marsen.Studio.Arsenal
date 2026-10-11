@@ -115,7 +115,8 @@
     "count": "共 {total} 張，已完成 {done} 張",
     "downloadZip": "打包下載 ZIP（{n}）",
     "clearAll": "清空",
-    "requeued": "已切換品質，重新轉換 {n} 張"
+    "requeued": "已切換品質，重新轉換 {n} 張",
+    "remove": "移除 {name}"
   },
   "korean": {
     "title": "韓文注音學習",

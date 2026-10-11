@@ -115,7 +115,8 @@
     "count": "{total} images · {done} done",
     "downloadZip": "Download ZIP ({n})",
     "clearAll": "Clear all",
-    "requeued": "Quality changed — reconverting {n} images."
+    "requeued": "Quality changed — reconverting {n} images.",
+    "remove": "Remove {name}"
   },
   "korean": {
     "title": "Korean Phonics",

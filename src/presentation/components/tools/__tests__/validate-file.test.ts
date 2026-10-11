@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { jpgName, validateFile } from "../heic-converter";
+import { jpgName, validateFile, zipEntryNames } from "../heic-converter";
 
 const MB = 1024 * 1024;
 
@@ -89,5 +89,35 @@ describe("jpgName", () => {
 
   it("非 HEIC 副檔名應保留原副檔名並補上 .jpg（避免誤刪原始資訊）", () => {
     expect(jpgName("photo.png")).toBe("photo.png.jpg");
+  });
+});
+
+describe("zipEntryNames", () => {
+  it("檔名各不相同時應原樣輸出", () => {
+    expect(zipEntryNames(["a.heic", "b.heic"])).toEqual(["a.jpg", "b.jpg"]);
+  });
+
+  it("同名檔案應從第二個開始補 -1、-2 後綴", () => {
+    expect(zipEntryNames(["IMG_1.heic", "IMG_1.heic", "IMG_1.heic"])).toEqual([
+      "IMG_1.jpg",
+      "IMG_1-1.jpg",
+      "IMG_1-2.jpg",
+    ]);
+  });
+
+  it("不同副檔名但轉換後同名也應視為重複", () => {
+    expect(zipEntryNames(["p.heic", "p.heif"])).toEqual(["p.jpg", "p-1.jpg"]);
+  });
+
+  it("應只對重複者加後綴，不影響其他檔案", () => {
+    expect(zipEntryNames(["a.heic", "b.heic", "a.heic"])).toEqual([
+      "a.jpg",
+      "b.jpg",
+      "a-1.jpg",
+    ]);
+  });
+
+  it("空清單應回傳空陣列", () => {
+    expect(zipEntryNames([])).toEqual([]);
   });
 });

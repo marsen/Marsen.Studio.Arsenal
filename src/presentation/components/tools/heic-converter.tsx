@@ -66,6 +66,21 @@ function isRetryable(item: Item): boolean {
   return item.status !== "error" || item.error === "errConvert";
 }
 
+/**
+ * 產生 ZIP 內的檔名，同名時補 -1、-2 後綴。
+ * 檔名只由來源檔名推導，拖入兩個同名檔（例如從不同資料夾各拖一張 IMG_0001.HEIC）
+ * 會產生重複 entry，解壓縮時會靜默只留一份，使用者以為下載到兩張卻少一張。
+ */
+export function zipEntryNames(fileNames: string[]): string[] {
+  const used = new Map<string, number>();
+  return fileNames.map((fileName) => {
+    const base = jpgName(fileName);
+    const seen = used.get(base) ?? 0;
+    used.set(base, seen + 1);
+    return seen === 0 ? base : base.replace(/\.jpg$/, `-${seen}.jpg`);
+  });
+}
+
 export default function HeicConverter() {
   const t = useTranslations("heic");
   const [items, setItems] = useState<Item[]>([]);
@@ -85,6 +100,9 @@ export default function HeicConverter() {
   });
 
   useEffect(() => {
+    // 同一個 instance 的 effect 若被重複觸發（StrictMode），cleanup 會把旗標留在
+    // true，之後所有轉換結果都會被丟棄。實測目前不會發生，但重設成本只有一行。
+    cancelledRef.current = false;
     return () => {
       cancelledRef.current = true;
       itemsRef.current.forEach(
@@ -140,7 +158,12 @@ export default function HeicConverter() {
     setNotice(null);
 
     const incoming = Array.from(fileList);
-    const room = MAX_FILES - itemsRef.current.length;
+    // 被擋下的檔案（格式／大小不符）不佔用額度——它們不會進轉換佇列，
+    // 不該讓使用者為了補幾張而清空已轉好的結果
+    const occupied = itemsRef.current.filter(
+      (it) => !(it.status === "error" && it.error !== "errConvert"),
+    ).length;
+    const room = MAX_FILES - occupied;
     if (room <= 0) {
       setNotice(t("maxReached", { max: MAX_FILES }));
       return;
@@ -174,6 +197,8 @@ export default function HeicConverter() {
     if (retryable.length === 0) return;
 
     generationRef.current += 1;
+    // 預覽大圖若正開著，它指向的 URL 即將被 revoke，先關掉避免破圖
+    setLightboxUrl(null);
     itemsRef.current.forEach(
       (it) => it.resultUrl && URL.revokeObjectURL(it.resultUrl),
     );
@@ -206,15 +231,17 @@ export default function HeicConverter() {
   async function downloadAllZip() {
     const done = items.filter((it) => it.status === "done" && it.resultBlob);
     if (done.length === 0) return;
+    const names = zipEntryNames(done.map((it) => it.file.name));
     const blob = await downloadZip(
-      done.map((it) => ({ name: jpgName(it.file.name), input: it.resultBlob! })),
+      done.map((it, i) => ({ name: names[i], input: it.resultBlob! })),
     ).blob();
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
     a.download = "converted-jpg.zip";
     a.click();
-    URL.revokeObjectURL(url);
+    // 20 張的 zip 可能數十 MB，同一個 task 內就 revoke 會讓部分瀏覽器取消下載
+    setTimeout(() => URL.revokeObjectURL(url), 60_000);
   }
 
   function clearAll() {
@@ -222,6 +249,19 @@ export default function HeicConverter() {
     generationRef.current += 1;
     queueRef.current = [];
     setItems([]);
+    setNotice(null);
+    setLightboxUrl(null);
+  }
+
+  function removeItem(id: string) {
+    const target = itemsRef.current.find((it) => it.id === id);
+    if (target?.resultUrl) {
+      if (lightboxUrl === target.resultUrl) setLightboxUrl(null);
+      URL.revokeObjectURL(target.resultUrl);
+    }
+    // 還沒轉到的直接從佇列拿掉；正在轉的那張 runQueue 會因為找不到項目而自行丟棄
+    queueRef.current = queueRef.current.filter((it) => it.id !== id);
+    setItems((prev) => prev.filter((it) => it.id !== id));
     setNotice(null);
   }
 
@@ -332,9 +372,22 @@ export default function HeicConverter() {
                     </span>
                   )}
                 </div>
-                <p className="truncate text-xs text-foreground" title={item.file.name}>
-                  {item.file.name}
-                </p>
+                <div className="flex items-center gap-1">
+                  <p
+                    className="min-w-0 flex-1 truncate text-xs text-foreground"
+                    title={item.file.name}
+                  >
+                    {item.file.name}
+                  </p>
+                  <button
+                    onClick={() => removeItem(item.id)}
+                    aria-label={t("remove", { name: item.file.name })}
+                    title={t("remove", { name: item.file.name })}
+                    className="shrink-0 rounded px-1 text-sm leading-none text-muted-foreground transition hover:text-destructive"
+                  >
+                    ×
+                  </button>
+                </div>
                 {item.status === "done" && (
                   <button
                     onClick={() => download(item)}
