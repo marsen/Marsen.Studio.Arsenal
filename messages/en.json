@@ -59,22 +59,20 @@
   "tools": {
     "meta": {
       "title": "Free Online Tools | Marsen",
-      "description": "Free browser-based utilities: batch background removal, HEIC to JPG conversion, Korean phonics practice, an Instagram token generator, and an itinerary gap planner. Nothing gets uploaded."
+      "description": "Free browser-based utilities: batch background removal, HEIC to JPG conversion, Korean phonics practice, an Instagram token generator, and a PDF signer. Nothing gets uploaded."
     },
     "title": "Tools",
     "subtitle": "Small utilities for dev and everyday life.",
     "backgroundRemoval": "Background Removal",
     "backgroundRemovalDesc": "Remove image backgrounds in batch. Supports PNG / JPG / WebP / HEIC.",
     "heicToJpg": "HEIC to JPG",
-    "heicToJpgDesc": "Convert HEIC photos to JPG directly in your browser.",
+    "heicToJpgDesc": "Convert HEIC photos to JPG in batch, entirely in your browser.",
     "koreanPhonics": "Korean Phonics",
     "koreanPhonicsDesc": "Learn Korean syllable structure with pronunciation.",
     "igToken": "IG Token Generator",
     "igTokenDesc": "Generate a long-lived Instagram access token via OAuth.",
     "pdfSigner": "PDF Signer",
-    "pdfSignerDesc": "Sign a PDF right in your browser. Nothing gets uploaded.",
-    "itinerary": "Itinerary Gap Planner",
-    "itineraryDesc": "Paste an itinerary as JSON and see the free time left on each day."
+    "pdfSignerDesc": "Sign a PDF right in your browser. Nothing gets uploaded."
   },
   "common": {
     "comingSoon": "Coming soon."
@@ -103,16 +101,22 @@
     "qualityHigh": "High",
     "qualityBalance": "Balanced",
     "qualityCompress": "Compressed",
-    "upload": "Click or drag & drop a HEIC file",
-    "uploadHint": ".heic / .heif · up to 30 MB",
+    "upload": "Click or drag & drop HEIC files",
+    "uploadHint": ".heic / .heif · up to 30 MB each · 20 files at a time",
     "errFormat": "Please upload a HEIC file.",
     "errSize": "File exceeds 30 MB.",
     "errConvert": "Conversion failed — make sure the file is valid HEIC.",
-    "switching": "Switched to new file",
     "converting": "Converting…",
     "previewAlt": "Converted image preview",
     "downloadJpg": "Download JPG",
-    "another": "Convert another"
+    "waiting": "Waiting…",
+    "maxReached": "Up to {max} images at once — clear the list to add more.",
+    "maxSkipped": "Limited to {max} images, {skipped} skipped.",
+    "count": "{total} images · {done} done",
+    "downloadZip": "Download ZIP ({n})",
+    "clearAll": "Clear all",
+    "requeued": "Quality changed — reconverting {n} images.",
+    "remove": "Remove {name}"
   },
   "korean": {
     "title": "Korean Phonics",
@@ -194,46 +198,5 @@
     "signing": "Processing…",
     "errFormat": "Not a valid PDF file — check the format or whether it's corrupted",
     "errSign": "Signing failed — please try again"
-  },
-  "itinerary": {
-    "title": "Itinerary Gap Planner",
-    "subtitle": "Paste your itinerary and see what free time is left once fixed plans are subtracted.",
-    "privacy": "Data stays in your own browser (localStorage). Nothing is uploaded.",
-    "summaryTitle": "Free time overview",
-    "summaryDays": "{count, plural, one {# day} other {# days}}",
-    "summaryFree": "{duration} free",
-    "warnCount": "{count, plural, one {# item needs} other {# items need}} confirmation",
-    "riskLogSummary": "Risk log ({total} total, {open} open)",
-    "filter": {
-      "all": "All",
-      "free": "Free time only",
-      "fixed": "Fixed plans only"
-    },
-    "view": {
-      "day": "Day",
-      "week": "Week",
-      "biweek": "2 weeks"
-    },
-    "timezoneDiff": "{diff} vs. previous day",
-    "freeSlot": "{duration} free",
-    "freeTotal": "{duration} free",
-    "allDay": "All day",
-    "nothingHere": "Nothing planned for this day.",
-    "openEditor": "Edit data",
-    "closeEditor": "Close editor",
-    "loadSample": "Load sample",
-    "apply": "Apply",
-    "editorHint": "Edit the JSON below and hit apply. Items without a start are treated as all-day and take no time; an end earlier than start means it crosses midnight.",
-    "errJson": "Invalid JSON — check the brackets and quotes.",
-    "errShape": "Some fields are not in the expected shape.",
-    "weekday": {
-      "sun": "Sun",
-      "mon": "Mon",
-      "tue": "Tue",
-      "wed": "Wed",
-      "thu": "Thu",
-      "fri": "Fri",
-      "sat": "Sat"
-    }
   }
 }
