@@ -8,6 +8,13 @@ on:
       - 'fix/**'
       - 'chore/**'
       - 'refactor/**'
+    # 只改文件或本機設定時不跑 CI，也就不會觸發 Deploy
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+      - '.gitignore'
+      - '.vscode/**'
+      - '.claude/**'
   workflow_dispatch:
 
 jobs:
