@@ -11,6 +11,7 @@ const ROUTES = [
   { path: '/tools/heic-to-jpg', priority: 0.5, changeFrequency: 'yearly' as const },
   { path: '/tools/korean-phonics', priority: 0.5, changeFrequency: 'yearly' as const },
   { path: '/tools/ig-token', priority: 0.5, changeFrequency: 'yearly' as const },
+  { path: '/tools/pdf-signer', priority: 0.5, changeFrequency: 'yearly' as const },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
