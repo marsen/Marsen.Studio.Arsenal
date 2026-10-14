@@ -44,3 +44,12 @@ jobs:
 
       - name: Test
         run: pnpm test
+
+      - name: Type check
+        run: pnpm type-check
+
+      - name: Build
+        run: pnpm build
+        env:
+          # sitemap / robots 在 build 時產生，requireBaseUrl() 沒設定會 fail fast
+          NEXT_PUBLIC_BASE_URL: https://demo.marsen.me
