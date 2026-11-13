@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useReducer, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 
 import type { Config } from "@imgly/background-removal";
@@ -49,6 +49,39 @@ function canvasToPngBlob(canvas: HTMLCanvasElement): Promise<Blob> {
   });
 }
 
+export type ModelProgressState = {
+  preload: number | null;
+  queue: number | null;
+  shown: number | null;
+};
+
+export type ModelProgressAction = {
+  source: "preload" | "queue";
+  value: number | null;
+};
+
+export const INITIAL_MODEL_PROGRESS: ModelProgressState = {
+  preload: null,
+  queue: null,
+  shown: null,
+};
+
+// 預載與批次佇列各自回報模型下載進度，畫面只顯示一個值（shown）。
+// 函式庫一次初始化會依序下載多份資源，每份各自從 0 算到 100，而且兩邊各下載一次，
+// 所以單看任一來源或取兩者較大值都會往回掉；這裡記住顯示過的最大值，
+// 同一輪內只增不減，兩個來源都結束（null）才歸零，下一輪可以從低值重新開始。
+export function modelProgressReducer(
+  state: ModelProgressState,
+  action: ModelProgressAction,
+): ModelProgressState {
+  const next = { ...state, [action.source]: action.value };
+  if (next.preload === null && next.queue === null) {
+    return { ...next, shown: null };
+  }
+  const current = Math.max(next.preload ?? 0, next.queue ?? 0);
+  return { ...next, shown: Math.max(state.shown ?? 0, current) };
+}
+
 type ItemStatus = "pending" | "processing" | "done" | "error";
 
 type Item = {
@@ -63,7 +96,10 @@ type Item = {
 export default function BackgroundRemover() {
   const t = useTranslations("bgRemoval");
   const [items, setItems] = useState<Item[]>([]);
-  const [modelProgress, setModelProgress] = useState<number | null>(null);
+  const [progress, dispatchProgress] = useReducer(
+    modelProgressReducer,
+    INITIAL_MODEL_PROGRESS,
+  );
   const [notice, setNotice] = useState<string | null>(null);
   const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
 
@@ -95,14 +131,17 @@ export default function BackgroundRemover() {
           device: "gpu",
           progress: (key, current, total) => {
             if (!cancelled && key.startsWith("fetch")) {
-              setModelProgress(total ? current / total : null);
+              dispatchProgress({
+                source: "preload",
+                value: total ? current / total : null,
+              });
             }
           },
         });
       } catch (err) {
         console.error("[BackgroundRemover] preload failed:", err);
       } finally {
-        if (!cancelled) setModelProgress(null);
+        if (!cancelled) dispatchProgress({ source: "preload", value: null });
       }
     })();
     return () => {
@@ -122,6 +161,20 @@ export default function BackgroundRemover() {
     try {
       const { removeBackground } = await import("@imgly/background-removal");
 
+      const config: Config = {
+        model: "isnet_fp16",
+        device: "gpu",
+        output: { format: "image/png" },
+        progress: (key, current, total) => {
+          if (key.startsWith("fetch")) {
+            dispatchProgress({
+              source: "queue",
+              value: total ? current / total : null,
+            });
+          }
+        },
+      };
+
       while (queueRef.current.length > 0) {
         const item = queueRef.current.shift()!;
         updateItem(item.id, { status: "processing" });
@@ -131,17 +184,6 @@ export default function BackgroundRemover() {
             const canvas = await decodeHeicToCanvas(item.file);
             input = await canvasToPngBlob(canvas);
           }
-
-          const config: Config = {
-            model: "isnet_fp16",
-            device: "gpu",
-            output: { format: "image/png" },
-            progress: (key, current, total) => {
-              if (key.startsWith("fetch")) {
-                setModelProgress(total ? current / total : null);
-              }
-            },
-          };
 
           const result = await removeBackground(input, config);
           const url = URL.createObjectURL(result);
@@ -153,7 +195,7 @@ export default function BackgroundRemover() {
             URL.revokeObjectURL(url);
             continue;
           }
-          setModelProgress(null);
+          dispatchProgress({ source: "queue", value: null });
           updateItem(item.id, {
             status: "done",
             resultBlob: result,
@@ -166,7 +208,7 @@ export default function BackgroundRemover() {
       }
     } finally {
       runningRef.current = false;
-      setModelProgress(null);
+      dispatchProgress({ source: "queue", value: null });
     }
   }
 
@@ -210,17 +252,25 @@ export default function BackgroundRemover() {
   }
 
   async function downloadAllZip() {
-    const done = items.filter((it) => it.status === "done" && it.resultBlob);
-    if (done.length === 0) return;
-    const blob = await downloadZip(
-      done.map((it) => ({ name: outName(it.file), input: it.resultBlob! })),
-    ).blob();
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "removed-bg.zip";
-    a.click();
-    URL.revokeObjectURL(url);
+    const zipError = t("errZip");
+    try {
+      const done = items.filter((it) => it.status === "done" && it.resultBlob);
+      if (done.length === 0) return;
+      const blob = await downloadZip(
+        done.map((it) => ({ name: outName(it.file), input: it.resultBlob! })),
+      ).blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "removed-bg.zip";
+      a.click();
+      URL.revokeObjectURL(url);
+      // 重試成功後收掉上一次的打包失敗提示（其他提示不動）
+      setNotice((prev) => (prev === zipError ? null : prev));
+    } catch (err) {
+      console.error("[BackgroundRemover] zip failed:", err);
+      setNotice(zipError);
+    }
   }
 
   function clearAll() {
@@ -232,6 +282,7 @@ export default function BackgroundRemover() {
 
   const inputId = "bg-remover-input";
   const doneCount = items.filter((it) => it.status === "done").length;
+  const modelProgress = progress.shown;
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-12">
@@ -363,7 +414,8 @@ export default function BackgroundRemover() {
           style={{ cursor: "zoom-out" }}
         >
           <div
-            className="overflow-auto rounded-lg"
+            onClick={(e) => e.stopPropagation()}
+            className="cursor-default overflow-auto rounded-lg"
             style={{
               backgroundImage:
                 "repeating-conic-gradient(#d4d4d4 0% 25%, #ffffff 0% 50%)",
