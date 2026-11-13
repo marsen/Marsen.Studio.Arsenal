@@ -134,6 +134,17 @@ export default function BackgroundRemover() {
     try {
       const { removeBackground } = await import("@imgly/background-removal");
 
+      const config: Config = {
+        model: "isnet_fp16",
+        device: "gpu",
+        output: { format: "image/png" },
+        progress: (key, current, total) => {
+          if (key.startsWith("fetch")) {
+            setQueueProgress(total ? current / total : null);
+          }
+        },
+      };
+
       while (queueRef.current.length > 0) {
         const item = queueRef.current.shift()!;
         updateItem(item.id, { status: "processing" });
@@ -143,17 +154,6 @@ export default function BackgroundRemover() {
             const canvas = await decodeHeicToCanvas(item.file);
             input = await canvasToPngBlob(canvas);
           }
-
-          const config: Config = {
-            model: "isnet_fp16",
-            device: "gpu",
-            output: { format: "image/png" },
-            progress: (key, current, total) => {
-              if (key.startsWith("fetch")) {
-                setQueueProgress(total ? current / total : null);
-              }
-            },
-          };
 
           const result = await removeBackground(input, config);
           const url = URL.createObjectURL(result);
