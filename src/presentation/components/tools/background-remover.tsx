@@ -49,6 +49,17 @@ function canvasToPngBlob(canvas: HTMLCanvasElement): Promise<Blob> {
   });
 }
 
+// 預載與批次佇列各自回報模型下載進度，畫面只顯示一個合併值：
+// 兩個都沒有就隱藏，否則取較大者，避免兩邊交錯回報時數字來回跳動
+export function combineModelProgress(
+  preload: number | null,
+  queue: number | null,
+): number | null {
+  if (preload === null) return queue;
+  if (queue === null) return preload;
+  return Math.max(preload, queue);
+}
+
 type ItemStatus = "pending" | "processing" | "done" | "error";
 
 type Item = {
@@ -63,7 +74,8 @@ type Item = {
 export default function BackgroundRemover() {
   const t = useTranslations("bgRemoval");
   const [items, setItems] = useState<Item[]>([]);
-  const [modelProgress, setModelProgress] = useState<number | null>(null);
+  const [preloadProgress, setPreloadProgress] = useState<number | null>(null);
+  const [queueProgress, setQueueProgress] = useState<number | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
 
@@ -95,14 +107,14 @@ export default function BackgroundRemover() {
           device: "gpu",
           progress: (key, current, total) => {
             if (!cancelled && key.startsWith("fetch")) {
-              setModelProgress(total ? current / total : null);
+              setPreloadProgress(total ? current / total : null);
             }
           },
         });
       } catch (err) {
         console.error("[BackgroundRemover] preload failed:", err);
       } finally {
-        if (!cancelled) setModelProgress(null);
+        if (!cancelled) setPreloadProgress(null);
       }
     })();
     return () => {
@@ -138,7 +150,7 @@ export default function BackgroundRemover() {
             output: { format: "image/png" },
             progress: (key, current, total) => {
               if (key.startsWith("fetch")) {
-                setModelProgress(total ? current / total : null);
+                setQueueProgress(total ? current / total : null);
               }
             },
           };
@@ -153,7 +165,7 @@ export default function BackgroundRemover() {
             URL.revokeObjectURL(url);
             continue;
           }
-          setModelProgress(null);
+          setQueueProgress(null);
           updateItem(item.id, {
             status: "done",
             resultBlob: result,
@@ -166,7 +178,7 @@ export default function BackgroundRemover() {
       }
     } finally {
       runningRef.current = false;
-      setModelProgress(null);
+      setQueueProgress(null);
     }
   }
 
@@ -232,6 +244,7 @@ export default function BackgroundRemover() {
 
   const inputId = "bg-remover-input";
   const doneCount = items.filter((it) => it.status === "done").length;
+  const modelProgress = combineModelProgress(preloadProgress, queueProgress);
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-12">
