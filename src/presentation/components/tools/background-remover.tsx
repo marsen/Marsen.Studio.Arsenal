@@ -49,6 +49,25 @@ function canvasToPngBlob(canvas: HTMLCanvasElement): Promise<Blob> {
   });
 }
 
+export function outName(fileName: string): string {
+  return fileName.replace(/\.[^.]+$/, "") + "-removed.png";
+}
+
+// ZIP 內同名會互相覆蓋或被解壓軟體改名，這裡先把重複的加上 -1、-2…
+// 比對不分大小寫：macOS / Windows 解壓時 a.png 與 A.png 會撞在一起
+export function zipEntryNames(fileNames: string[]): string[] {
+  const used = new Set<string>();
+  return fileNames.map((fileName) => {
+    const base = outName(fileName);
+    let name = base;
+    for (let n = 1; used.has(name.toLowerCase()); n++) {
+      name = base.replace(/\.png$/, `-${n}.png`);
+    }
+    used.add(name.toLowerCase());
+    return name;
+  });
+}
+
 type ItemStatus = "pending" | "processing" | "done" | "error";
 
 type Item = {
@@ -122,6 +141,18 @@ export default function BackgroundRemover() {
     try {
       const { removeBackground } = await import("@imgly/background-removal");
 
+      // 設定每張都一樣，迴圈外建立一次
+      const config: Config = {
+        model: "isnet_fp16",
+        device: "gpu",
+        output: { format: "image/png" },
+        progress: (key, current, total) => {
+          if (key.startsWith("fetch")) {
+            setModelProgress(total ? current / total : null);
+          }
+        },
+      };
+
       while (queueRef.current.length > 0) {
         const item = queueRef.current.shift()!;
         updateItem(item.id, { status: "processing" });
@@ -131,17 +162,6 @@ export default function BackgroundRemover() {
             const canvas = await decodeHeicToCanvas(item.file);
             input = await canvasToPngBlob(canvas);
           }
-
-          const config: Config = {
-            model: "isnet_fp16",
-            device: "gpu",
-            output: { format: "image/png" },
-            progress: (key, current, total) => {
-              if (key.startsWith("fetch")) {
-                setModelProgress(total ? current / total : null);
-              }
-            },
-          };
 
           const result = await removeBackground(input, config);
           const url = URL.createObjectURL(result);
@@ -197,30 +217,36 @@ export default function BackgroundRemover() {
     void runQueue();
   }
 
-  function outName(file: File) {
-    return file.name.replace(/\.[^.]+$/, "") + "-removed.png";
-  }
-
   function download(item: Item) {
     if (!item.resultUrl) return;
     const a = document.createElement("a");
     a.href = item.resultUrl;
-    a.download = outName(item.file);
+    a.download = outName(item.file.name);
     a.click();
   }
 
   async function downloadAllZip() {
     const done = items.filter((it) => it.status === "done" && it.resultBlob);
     if (done.length === 0) return;
-    const blob = await downloadZip(
-      done.map((it) => ({ name: outName(it.file), input: it.resultBlob! })),
-    ).blob();
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "removed-bg.zip";
-    a.click();
-    URL.revokeObjectURL(url);
+    const errMsg = t("errZip");
+    // 上一次打包失敗的訊息，重按時先收掉；其他提示（如超過張數）保留
+    setNotice((prev) => (prev === errMsg ? null : prev));
+    try {
+      const names = zipEntryNames(done.map((it) => it.file.name));
+      const blob = await downloadZip(
+        done.map((it, i) => ({ name: names[i], input: it.resultBlob! })),
+      ).blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "removed-bg.zip";
+      a.click();
+      // 20 張的 zip 可能數十 MB，同一個 task 內就 revoke 會讓部分瀏覽器取消下載
+      setTimeout(() => URL.revokeObjectURL(url), 60_000);
+    } catch (err) {
+      console.error("[BackgroundRemover] zip failed:", err);
+      setNotice(errMsg);
+    }
   }
 
   function clearAll() {
@@ -228,6 +254,7 @@ export default function BackgroundRemover() {
     queueRef.current = [];
     setItems([]);
     setNotice(null);
+    setLightboxUrl(null);
   }
 
   const inputId = "bg-remover-input";
@@ -363,8 +390,11 @@ export default function BackgroundRemover() {
           style={{ cursor: "zoom-out" }}
         >
           <div
+            // 點圖片本身（含方格底）不關閉，只有點遮罩才關
+            onClick={(e) => e.stopPropagation()}
             className="overflow-auto rounded-lg"
             style={{
+              cursor: "default",
               backgroundImage:
                 "repeating-conic-gradient(#d4d4d4 0% 25%, #ffffff 0% 50%)",
               backgroundSize: "24px 24px",

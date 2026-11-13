@@ -92,7 +92,8 @@
     "waiting": "等待中…",
     "downloadPng": "下載 PNG",
     "errFormat": "不支援的格式（僅限 PNG / JPG / WebP / HEIC）",
-    "errSize": "檔案大小不可超過 15MB"
+    "errSize": "檔案大小不可超過 15MB",
+    "errZip": "打包 ZIP 失敗，請再試一次，或改用單張下載"
   },
   "heic": {
     "title": "HEIC 轉 JPG",
