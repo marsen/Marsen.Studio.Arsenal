@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useReducer, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 
 import type { Config } from "@imgly/background-removal";
@@ -49,15 +49,37 @@ function canvasToPngBlob(canvas: HTMLCanvasElement): Promise<Blob> {
   });
 }
 
-// 預載與批次佇列各自回報模型下載進度，畫面只顯示一個合併值：
-// 兩個都沒有就隱藏，否則取較大者，避免兩邊交錯回報時數字來回跳動
-export function combineModelProgress(
-  preload: number | null,
-  queue: number | null,
-): number | null {
-  if (preload === null) return queue;
-  if (queue === null) return preload;
-  return Math.max(preload, queue);
+export type ModelProgressState = {
+  preload: number | null;
+  queue: number | null;
+  shown: number | null;
+};
+
+export type ModelProgressAction = {
+  source: "preload" | "queue";
+  value: number | null;
+};
+
+export const INITIAL_MODEL_PROGRESS: ModelProgressState = {
+  preload: null,
+  queue: null,
+  shown: null,
+};
+
+// 預載與批次佇列各自回報模型下載進度，畫面只顯示一個值（shown）。
+// 函式庫一次初始化會依序下載多份資源，每份各自從 0 算到 100，而且兩邊各下載一次，
+// 所以單看任一來源或取兩者較大值都會往回掉；這裡記住顯示過的最大值，
+// 同一輪內只增不減，兩個來源都結束（null）才歸零，下一輪可以從低值重新開始。
+export function modelProgressReducer(
+  state: ModelProgressState,
+  action: ModelProgressAction,
+): ModelProgressState {
+  const next = { ...state, [action.source]: action.value };
+  if (next.preload === null && next.queue === null) {
+    return { ...next, shown: null };
+  }
+  const current = Math.max(next.preload ?? 0, next.queue ?? 0);
+  return { ...next, shown: Math.max(state.shown ?? 0, current) };
 }
 
 type ItemStatus = "pending" | "processing" | "done" | "error";
@@ -74,8 +96,10 @@ type Item = {
 export default function BackgroundRemover() {
   const t = useTranslations("bgRemoval");
   const [items, setItems] = useState<Item[]>([]);
-  const [preloadProgress, setPreloadProgress] = useState<number | null>(null);
-  const [queueProgress, setQueueProgress] = useState<number | null>(null);
+  const [progress, dispatchProgress] = useReducer(
+    modelProgressReducer,
+    INITIAL_MODEL_PROGRESS,
+  );
   const [notice, setNotice] = useState<string | null>(null);
   const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
 
@@ -107,14 +131,17 @@ export default function BackgroundRemover() {
           device: "gpu",
           progress: (key, current, total) => {
             if (!cancelled && key.startsWith("fetch")) {
-              setPreloadProgress(total ? current / total : null);
+              dispatchProgress({
+                source: "preload",
+                value: total ? current / total : null,
+              });
             }
           },
         });
       } catch (err) {
         console.error("[BackgroundRemover] preload failed:", err);
       } finally {
-        if (!cancelled) setPreloadProgress(null);
+        if (!cancelled) dispatchProgress({ source: "preload", value: null });
       }
     })();
     return () => {
@@ -140,7 +167,10 @@ export default function BackgroundRemover() {
         output: { format: "image/png" },
         progress: (key, current, total) => {
           if (key.startsWith("fetch")) {
-            setQueueProgress(total ? current / total : null);
+            dispatchProgress({
+              source: "queue",
+              value: total ? current / total : null,
+            });
           }
         },
       };
@@ -165,7 +195,7 @@ export default function BackgroundRemover() {
             URL.revokeObjectURL(url);
             continue;
           }
-          setQueueProgress(null);
+          dispatchProgress({ source: "queue", value: null });
           updateItem(item.id, {
             status: "done",
             resultBlob: result,
@@ -178,7 +208,7 @@ export default function BackgroundRemover() {
       }
     } finally {
       runningRef.current = false;
-      setQueueProgress(null);
+      dispatchProgress({ source: "queue", value: null });
     }
   }
 
@@ -252,7 +282,7 @@ export default function BackgroundRemover() {
 
   const inputId = "bg-remover-input";
   const doneCount = items.filter((it) => it.status === "done").length;
-  const modelProgress = combineModelProgress(preloadProgress, queueProgress);
+  const modelProgress = progress.shown;
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-12">
