@@ -384,7 +384,8 @@ export default function BackgroundRemover() {
           style={{ cursor: "zoom-out" }}
         >
           <div
-            className="overflow-auto rounded-lg"
+            onClick={(e) => e.stopPropagation()}
+            className="cursor-default overflow-auto rounded-lg"
             style={{
               backgroundImage:
                 "repeating-conic-gradient(#d4d4d4 0% 25%, #ffffff 0% 50%)",
