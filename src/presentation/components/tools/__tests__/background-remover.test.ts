@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { outName, zipEntryNames } from "../background-remover";
+import {
+  modelFetchProgress,
+  outName,
+  zipEntryNames,
+} from "../background-remover";
 
 describe("outName", () => {
   it("應該把副檔名換成 -removed.png", () => {
@@ -45,5 +49,37 @@ describe("zipEntryNames", () => {
 
   it("應該在空清單時回傳空陣列", () => {
     expect(zipEntryNames([])).toEqual([]);
+  });
+});
+
+describe("modelFetchProgress", () => {
+  it("應該對模型檔的 key 回傳下載比例", () => {
+    expect(modelFetchProgress("fetch:/models/isnet_fp16", 25, 100)).toBe(0.25);
+    expect(modelFetchProgress("fetch:/models/isnet_fp16", 100, 100)).toBe(1);
+  });
+
+  it("應該對 onnxruntime 的 wasm、mjs key 回傳 null", () => {
+    expect(
+      modelFetchProgress(
+        "fetch:/onnxruntime-web/ort-wasm-simd-threaded.wasm",
+        50,
+        100,
+      ),
+    ).toBeNull();
+    expect(
+      modelFetchProgress(
+        "fetch:/onnxruntime-web/ort-wasm-simd-threaded.jsep.mjs",
+        50,
+        100,
+      ),
+    ).toBeNull();
+  });
+
+  it("應該對去背運算階段的 key 回傳 null", () => {
+    expect(modelFetchProgress("compute:inference", 1, 4)).toBeNull();
+  });
+
+  it("應該在 total 為 0 時回傳 null", () => {
+    expect(modelFetchProgress("fetch:/models/isnet_fp16", 0, 0)).toBeNull();
   });
 });

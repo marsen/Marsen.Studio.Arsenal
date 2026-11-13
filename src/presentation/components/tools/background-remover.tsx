@@ -68,6 +68,33 @@ export function zipEntryNames(fileNames: string[]): string[] {
   });
 }
 
+// imgly 一次初始化會依序下載模型、onnxruntime 的 wasm、mjs，每個檔案各自從 0 報到 100%。
+// 只取模型檔的進度，其他回傳 null（呼叫端不更新畫面），避免數字跑完一輪又從頭開始
+export function modelFetchProgress(
+  key: string,
+  current: number,
+  total: number,
+): number | null {
+  if (!key.startsWith("fetch:/models/") || !total) return null;
+  return current / total;
+}
+
+// 預載與去背必須用欄位完全相同的設定：imgly 以 JSON.stringify(config) 當快取 key，
+// 欄位不同就會再初始化一次（再下載一輪模型）
+function buildRemovalConfig(
+  onProgress: (ratio: number) => void,
+): Config {
+  return {
+    model: "isnet_fp16",
+    device: "gpu",
+    output: { format: "image/png" },
+    progress: (key, current, total) => {
+      const ratio = modelFetchProgress(key, current, total);
+      if (ratio !== null) onProgress(ratio);
+    },
+  };
+}
+
 type ItemStatus = "pending" | "processing" | "done" | "error";
 
 type Item = {
@@ -90,6 +117,7 @@ export default function BackgroundRemover() {
   const runningRef = useRef(false);
   const cancelledRef = useRef(false);
   const itemsRef = useRef<Item[]>([]);
+  const preloadRef = useRef<Promise<void> | null>(null);
   useLayoutEffect(() => {
     itemsRef.current = items;
   });
@@ -106,18 +134,15 @@ export default function BackgroundRemover() {
   // 頁面載入即在背景預載去背模型，讓首次上傳免等待（模型走 CDN + 快取，只下一次）
   useEffect(() => {
     let cancelled = false;
-    (async () => {
+    // 存起來讓 runQueue 先等預載完成，同一時間只有一方在寫 modelProgress
+    preloadRef.current = (async () => {
       try {
         const { preload } = await import("@imgly/background-removal");
-        await preload({
-          model: "isnet_fp16",
-          device: "gpu",
-          progress: (key, current, total) => {
-            if (!cancelled && key.startsWith("fetch")) {
-              setModelProgress(total ? current / total : null);
-            }
-          },
-        });
+        await preload(
+          buildRemovalConfig((ratio) => {
+            if (!cancelled) setModelProgress(ratio);
+          }),
+        );
       } catch (err) {
         console.error("[BackgroundRemover] preload failed:", err);
       } finally {
@@ -141,17 +166,13 @@ export default function BackgroundRemover() {
     try {
       const { removeBackground } = await import("@imgly/background-removal");
 
+      // 預載失敗也繼續，removeBackground 會自己再初始化一次
+      await preloadRef.current?.catch(() => {});
+
       // 設定每張都一樣，迴圈外建立一次
-      const config: Config = {
-        model: "isnet_fp16",
-        device: "gpu",
-        output: { format: "image/png" },
-        progress: (key, current, total) => {
-          if (key.startsWith("fetch")) {
-            setModelProgress(total ? current / total : null);
-          }
-        },
-      };
+      const config = buildRemovalConfig((ratio) => {
+        if (!cancelledRef.current) setModelProgress(ratio);
+      });
 
       while (queueRef.current.length > 0) {
         const item = queueRef.current.shift()!;
@@ -173,7 +194,6 @@ export default function BackgroundRemover() {
             URL.revokeObjectURL(url);
             continue;
           }
-          setModelProgress(null);
           updateItem(item.id, {
             status: "done",
             resultBlob: result,
