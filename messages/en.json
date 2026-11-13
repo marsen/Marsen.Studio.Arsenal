@@ -92,7 +92,8 @@
     "waiting": "Waiting…",
     "downloadPng": "Download PNG",
     "errFormat": "Unsupported format — PNG / JPG / WebP / HEIC only.",
-    "errSize": "File exceeds 15 MB."
+    "errSize": "File exceeds 15 MB.",
+    "errZip": "Failed to create the ZIP. Please try again."
   },
   "heic": {
     "title": "HEIC to JPG",

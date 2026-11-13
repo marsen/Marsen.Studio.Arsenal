@@ -222,17 +222,25 @@ export default function BackgroundRemover() {
   }
 
   async function downloadAllZip() {
-    const done = items.filter((it) => it.status === "done" && it.resultBlob);
-    if (done.length === 0) return;
-    const blob = await downloadZip(
-      done.map((it) => ({ name: outName(it.file), input: it.resultBlob! })),
-    ).blob();
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "removed-bg.zip";
-    a.click();
-    URL.revokeObjectURL(url);
+    const zipError = t("errZip");
+    try {
+      const done = items.filter((it) => it.status === "done" && it.resultBlob);
+      if (done.length === 0) return;
+      const blob = await downloadZip(
+        done.map((it) => ({ name: outName(it.file), input: it.resultBlob! })),
+      ).blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "removed-bg.zip";
+      a.click();
+      URL.revokeObjectURL(url);
+      // 重試成功後收掉上一次的打包失敗提示（其他提示不動）
+      setNotice((prev) => (prev === zipError ? null : prev));
+    } catch (err) {
+      console.error("[BackgroundRemover] zip failed:", err);
+      setNotice(zipError);
+    }
   }
 
   function clearAll() {
